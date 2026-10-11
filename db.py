@@ -146,6 +146,21 @@ def is_reviewed(title, artist, keys=None):
     return False
 
 
+def match_review(title, artist, tracks=None):
+    """Return the full dataset track matching (title, artist) via fuzzy matching,
+    or None. Pass `tracks` to avoid re-fetching the table per track."""
+    if tracks is None:
+        tracks = fetch_tracks()
+    tn = _norm_title(title)
+    an = _norm(artist)
+    for t in tracks:
+        if _norm_title(t.get("title")) == tn:
+            ta = _norm(t.get("artist") or "")
+            if ta == an or (ta and an and (ta in an or an in ta)):
+                return t
+    return None
+
+
 def add_pending_review(review):
     title = (review.get("title") or "").strip()
     artist = (review.get("artist") or "").strip()

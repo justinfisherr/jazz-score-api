@@ -264,6 +264,7 @@ class handler(BaseHTTPRequestHandler):
         recco = fetch_reccobeats(track["id"])
         candidate = genre_bridge.apply(build_candidate(track, sfa, recco), genre)
         score = predict_track(candidate)
+        existing = db.match_review(candidate["title"], candidate["artist"]) or {}
         self._json(200, {
             "title": candidate["title"],
             "artist": candidate["artist"],
@@ -276,6 +277,9 @@ class handler(BaseHTTPRequestHandler):
             "spotify_id": track["id"],
             "audio_only": True,
             "genre": genre or None,
+            "reviewed": bool(existing),
+            "rating": existing.get("rating"),
+            "notes": existing.get("notes"),
         })
 
     def _playlist(self, params):
@@ -318,25 +322,29 @@ class handler(BaseHTTPRequestHandler):
 
         candidates = [build_candidate(t, sfa.get(t["id"], {}), recco.get(t["id"])) for t in tracks]
         scores = predict_tracks(candidates)
-        keys = db.reviewed_keys()
+        all_tracks = db.fetch_tracks()
+
+        track_rows = []
+        for t, c, s in zip(tracks, candidates, scores):
+            existing = db.match_review(c["title"], c["artist"], all_tracks) or {}
+            track_rows.append({
+                "title": c["title"],
+                "artist": c["artist"],
+                "score": s,
+                "image": track_image(t),
+                "url": track_url(t),
+                "spotify_id": t["id"],
+                "reviewed": bool(existing),
+                "rating": existing.get("rating"),
+                "notes": existing.get("notes"),
+            })
 
         self._json(200, {
             "name": meta.get("name"),
             "owner": (meta.get("owner") or {}).get("display_name"),
             "image": (meta.get("images") or [{}])[0].get("url") if meta.get("images") else None,
             "url": (meta.get("external_urls") or {}).get("spotify"),
-            "tracks": [
-                {
-                    "title": c["title"],
-                    "artist": c["artist"],
-                    "score": s,
-                    "image": track_image(t),
-                    "url": track_url(t),
-                    "spotify_id": t["id"],
-                    "reviewed": db.is_reviewed(c["title"], c["artist"], keys),
-                }
-                for t, c, s in zip(tracks, candidates, scores)
-            ],
+            "tracks": track_rows,
         })
 
     def _album(self, params):
@@ -382,7 +390,22 @@ class handler(BaseHTTPRequestHandler):
 
         candidates = [build_candidate(t, sfa.get(t["id"], {}), recco.get(t["id"])) for t in tracks]
         scores = predict_tracks(candidates)
-        keys = db.reviewed_keys()
+        all_tracks = db.fetch_tracks()
+
+        track_rows = []
+        for t, c, s in zip(tracks, candidates, scores):
+            existing = db.match_review(c["title"], c["artist"], all_tracks) or {}
+            track_rows.append({
+                "title": c["title"],
+                "artist": c["artist"],
+                "score": s,
+                "image": album_image,
+                "url": track_url(t),
+                "spotify_id": t["id"],
+                "reviewed": bool(existing),
+                "rating": existing.get("rating"),
+                "notes": existing.get("notes"),
+            })
 
         self._json(200, {
             "name": meta.get("name"),
@@ -392,18 +415,7 @@ class handler(BaseHTTPRequestHandler):
             "url": (meta.get("external_urls") or {}).get("spotify"),
             "album_id": aid,
             "reviewed": db.is_reviewed(meta.get("name"), album_artist),
-            "tracks": [
-                {
-                    "title": c["title"],
-                    "artist": c["artist"],
-                    "score": s,
-                    "image": album_image,
-                    "url": track_url(t),
-                    "spotify_id": t["id"],
-                    "reviewed": db.is_reviewed(c["title"], c["artist"], keys),
-                }
-                for t, c, s in zip(tracks, candidates, scores)
-            ],
+            "tracks": track_rows,
         })
 
     def _json(self, status, obj):
