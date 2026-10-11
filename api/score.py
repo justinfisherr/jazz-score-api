@@ -1,7 +1,9 @@
-"""Vercel serverless function: search Spotify + score a track against the taste model.
+"""Vercel function: Spotify search + taste-model scoring.
 
-GET /api/score?q=moanin%20art%20blakey
+GET /api/score?q=moanin%20art%20blakey        -> score one track
 GET /api/score?title=So%20What&artist=Miles%20Davis
+GET /api/playlist?q=jazz                      -> search playlists
+GET /api/playlist?id=<playlist_id>            -> score every track in the playlist
 """
 
 import json
@@ -10,51 +12,188 @@ from http.server import BaseHTTPRequestHandler
 from pathlib import Path
 from urllib.parse import parse_qs, urlparse
 
+import requests
+
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
 
+from predict import predict_track, predict_tracks  # noqa: E402
 from score import (  # noqa: E402
     build_candidate,
     fetch_reccobeats,
     fetch_spotify_audio,
     get_token,
     search_track,
+    track_image,
+    track_url,
 )
-from predict import predict_track  # noqa: E402
+
+SPOTIFY_API = "https://api.spotify.com/v1"
+RECCOBEATS_URL = "https://api.reccobeats.com/v1/audio-features"
+
+
+def search_playlists(token, q):
+    resp = requests.get(
+        f"{SPOTIFY_API}/search",
+        headers={"Authorization": f"Bearer {token}"},
+        params={"q": q, "type": "playlist", "limit": 6},
+        timeout=30,
+    )
+    resp.raise_for_status()
+    return [p for p in resp.json().get("playlists", {}).get("items", []) if p]
+
+
+def get_playlist_tracks(token, pid):
+    items = []
+    url = f"{SPOTIFY_API}/playlists/{pid}/tracks"
+    params = {
+        "limit": 50,
+        "fields": "items(track(id,name,artists,album(name,images),duration_ms,popularity,external_urls)),next",
+    }
+    while url and len(items) < 100:
+        resp = requests.get(url, headers={"Authorization": f"Bearer {token}"}, params=params, timeout=30)
+        resp.raise_for_status()
+        data = resp.json()
+        items.extend(i["track"] for i in data.get("items", []) if i.get("track"))
+        url = data.get("next")
+        params = {}
+    return items
+
+
+def fetch_reccobeats_batch(ids):
+    resp = requests.get(RECCOBEATS_URL, params={"ids": ",".join(ids)}, timeout=30)
+    if resp.status_code != 200:
+        return {}
+    out = {}
+    for item in resp.json().get("content", []):
+        href = item.get("href", "")
+        sid = href.rstrip("/").split("/")[-1] if href else None
+        if sid:
+            out[sid] = {
+                "acousticness": item.get("acousticness"),
+                "danceability": item.get("danceability"),
+                "spotify_energy": item.get("energy"),
+                "instrumentalness": item.get("instrumentalness"),
+                "liveness": item.get("liveness"),
+                "loudness": item.get("loudness"),
+                "speechiness": item.get("speechiness"),
+                "spotify_valence": item.get("valence"),
+            }
+    return out
+
+
+def fetch_spotify_audio_batch(token, ids):
+    if not ids:
+        return {}
+    resp = requests.get(
+        f"{SPOTIFY_API}/audio-features",
+        headers={"Authorization": f"Bearer {token}"},
+        params={"ids": ",".join(ids)},
+        timeout=30,
+    )
+    if resp.status_code != 200:
+        return {}
+    return {a["id"]: a for a in resp.json().get("audio_features", []) if a}
 
 
 class handler(BaseHTTPRequestHandler):
     def do_GET(self):  # noqa: N802
+        path = urlparse(self.path).path
         params = parse_qs(urlparse(self.path).query)
+        try:
+            if path.startswith("/api/playlist"):
+                self._playlist(params)
+            else:
+                self._score(params)
+        except Exception as exc:  # noqa: BLE001
+            self._json(500, {"error": str(exc)})
+
+    def _score(self, params):
         q = (params.get("q") or [""])[0].strip()
         title = (params.get("title") or [""])[0].strip()
         artist = (params.get("artist") or [""])[0].strip()
-
         if not q and not (title and artist):
             self._json(400, {"error": "provide q or title+artist"})
             return
+        token = get_token()
+        track = search_track(token, q, title or None, artist or None)
+        if not track:
+            self._json(404, {"error": "no track found"})
+            return
+        sfa = fetch_spotify_audio(token, track["id"])
+        recco = fetch_reccobeats(track["id"])
+        candidate = build_candidate(track, sfa, recco)
+        score = predict_track(candidate)
+        self._json(200, {
+            "title": candidate["title"],
+            "artist": candidate["artist"],
+            "year": candidate["year"],
+            "score": score,
+            "tempo": candidate["tempo"],
+            "popularity": candidate["audio_features"].get("popularity"),
+            "image": track_image(track),
+            "url": track_url(track),
+            "spotify_id": track["id"],
+            "audio_only": True,
+        })
 
-        try:
-            token = get_token()
-            track = search_track(token, q, title or None, artist or None)
-            if not track:
-                self._json(404, {"error": "no track found"})
-                return
-            sfa = fetch_spotify_audio(token, track["id"])
-            recco = fetch_reccobeats(track["id"])
-            candidate = build_candidate(track, sfa, recco)
-            score = predict_track(candidate)
-            self._json(200, {
-                "title": candidate["title"],
-                "artist": candidate["artist"],
-                "year": candidate["year"],
-                "score": score,
-                "tempo": candidate["tempo"],
-                "popularity": candidate["audio_features"].get("popularity"),
-                "audio_only": True,
-            })
-        except Exception as exc:  # noqa: BLE001
-            self._json(500, {"error": str(exc)})
+    def _playlist(self, params):
+        q = (params.get("q") or [""])[0].strip()
+        pid = (params.get("id") or [""])[0].strip()
+        token = get_token()
+
+        if q and not pid:
+            playlists = search_playlists(token, q)
+            self._json(200, {"playlists": [
+                {
+                    "id": p["id"],
+                    "name": p["name"],
+                    "owner": (p.get("owner") or {}).get("display_name"),
+                    "image": (p.get("images") or [{}])[0].get("url") if p.get("images") else None,
+                    "track_count": (p.get("tracks") or {}).get("total"),
+                    "url": (p.get("external_urls") or {}).get("spotify"),
+                }
+                for p in playlists
+            ]})
+            return
+
+        if not pid:
+            self._json(400, {"error": "provide q (search) or id (playlist id)"})
+            return
+
+        meta_resp = requests.get(
+            f"{SPOTIFY_API}/playlists/{pid}",
+            headers={"Authorization": f"Bearer {token}"},
+            params={"fields": "name,owner(display_name),images,tracks(total),external_urls"},
+            timeout=30,
+        )
+        meta_resp.raise_for_status()
+        meta = meta_resp.json()
+
+        tracks = get_playlist_tracks(token, pid)
+        ids = [t["id"] for t in tracks]
+        recco = fetch_reccobeats_batch(ids)
+        sfa = fetch_spotify_audio_batch(token, ids)
+
+        candidates = [build_candidate(t, sfa.get(t["id"], {}), recco.get(t["id"])) for t in tracks]
+        scores = predict_tracks(candidates)
+
+        self._json(200, {
+            "name": meta.get("name"),
+            "owner": (meta.get("owner") or {}).get("display_name"),
+            "image": (meta.get("images") or [{}])[0].get("url") if meta.get("images") else None,
+            "url": (meta.get("external_urls") or {}).get("spotify"),
+            "tracks": [
+                {
+                    "title": c["title"],
+                    "artist": c["artist"],
+                    "score": s,
+                    "image": track_image(t),
+                    "url": track_url(t),
+                }
+                for t, c, s in zip(tracks, candidates, scores)
+            ],
+        })
 
     def _json(self, status, obj):
         body = json.dumps(obj).encode()

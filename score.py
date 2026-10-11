@@ -122,6 +122,21 @@ def clean_title(name):
     return re.sub(r"\s*[\(\[].*?(?:feat\.|ft\.|with ).*?[\)\]]", "", name, flags=re.IGNORECASE).strip()
 
 
+def track_image(track):
+    """Best album-art URL from a Spotify track object (prefer ~300-640px)."""
+    images = track.get("album", {}).get("images", [])
+    if not images:
+        return None
+    for img in images:
+        if img.get("width") and img["width"] <= 640:
+            return img["url"]
+    return images[0]["url"]
+
+
+def track_url(track):
+    return track.get("external_urls", {}).get("spotify")
+
+
 def build_candidate(track, sfa, recco):
     title = clean_title(track["name"])
     artist = track["artists"][0]["name"] if track.get("artists") else "Unknown"
