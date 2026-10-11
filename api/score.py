@@ -174,11 +174,14 @@ class handler(BaseHTTPRequestHandler):
             return
         token = get_token()
         tracks = search_tracks(token, q, limit=10)
-        keys = db.reviewed_keys()
+        all_tracks = db.fetch_tracks()
         results = []
         for t in tracks:
             summary = track_summary(t)
-            summary["reviewed"] = db.is_reviewed(summary["title"], summary["artist"], keys)
+            existing = db.match_review(summary["title"], summary["artist"], all_tracks) or {}
+            summary["reviewed"] = bool(existing)
+            summary["rating"] = existing.get("rating")
+            summary["notes"] = existing.get("notes")
             results.append(summary)
         self._json(200, {"results": results})
 
@@ -354,11 +357,13 @@ class handler(BaseHTTPRequestHandler):
 
         if q and not aid:
             albums = search_albums(token, q)
-            keys = db.reviewed_keys()
+            all_tracks = db.fetch_tracks()
             out = []
             for a in albums:
                 summary = album_summary(a)
-                summary["reviewed"] = db.is_reviewed(summary["name"], summary["artist"], keys)
+                existing = db.match_review(summary["name"], summary["artist"], all_tracks) or {}
+                summary["reviewed"] = bool(existing)
+                summary["rating"] = existing.get("rating")
                 out.append(summary)
             self._json(200, {"albums": out})
             return
