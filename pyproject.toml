@@ -9,6 +9,7 @@ dependencies = [
   "scipy",
   "joblib",
   "requests",
+  "psycopg2-binary",
 ]
 
 [tool.vercel]

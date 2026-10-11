@@ -42,11 +42,25 @@ def load_model(version=None):
 
 
 def _load_training_tracks():
+    # Prefer the live Postgres dataset (when DATABASE_URL is set), else fall back
+    # to the local JSON snapshot. Mirrors the album filter used at train time.
+    tracks = _load_from_db() or _load_from_json()
+    return [t for t in tracks if t.get("entity_type") != "album"]
+
+
+def _load_from_db():
+    try:
+        import db  # noqa: PLC0415
+
+        return db.fetch_tracks() or None
+    except Exception:  # noqa: BLE001
+        return None
+
+
+def _load_from_json():
     data = json.loads(TRAINING_PATH.read_text())
     data = data if isinstance(data, list) else data.get("tracks", data.get("data", []))
-    # Exclude album entities — they carry null era/energy and are not part of the model
-    # (mirrors train.load_data). Without this, feature engineering crashes on their nulls.
-    return [t for t in data if t.get("entity_type") != "album"]
+    return data
 
 
 def _norm(s):

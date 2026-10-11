@@ -17,6 +17,7 @@ import requests
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
 
+import db  # noqa: E402
 from predict import predict_track, predict_tracks  # noqa: E402
 from score import (  # noqa: E402
     build_candidate,
@@ -107,6 +108,41 @@ class handler(BaseHTTPRequestHandler):
                 self._score(params)
         except Exception as exc:  # noqa: BLE001
             self._json(500, {"error": str(exc)})
+
+    def do_OPTIONS(self):  # noqa: N802
+        self.send_response(204)
+        self.send_header("Access-Control-Allow-Origin", "*")
+        self.send_header("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
+        self.send_header("Access-Control-Allow-Headers", "Content-Type")
+        self.end_headers()
+
+    def do_POST(self):  # noqa: N802
+        path = urlparse(self.path).path
+        if path.startswith("/api/rate"):
+            self._rate()
+        else:
+            self._json(404, {"error": "not found"})
+
+    def _rate(self):
+        length = int(self.headers.get("Content-Length", 0) or 0)
+        try:
+            track = json.loads(self.rfile.read(length) or b"{}")
+        except json.JSONDecodeError:
+            self._json(400, {"error": "invalid JSON"})
+            return
+        title = (track.get("title") or "").strip()
+        artist = (track.get("artist") or "").strip()
+        rating = track.get("rating")
+        if not title or not artist or rating is None:
+            self._json(400, {"error": "title, artist, and rating are required"})
+            return
+        existing = db.get_track(title, artist) or {}
+        merged = {**existing, **{k: v for k, v in track.items() if v is not None}}
+        merged["title"] = title
+        merged["artist"] = artist
+        merged["rating"] = rating
+        db.upsert_track(merged)
+        self._json(200, {"ok": True, "title": title, "artist": artist, "rating": rating})
 
     def _score(self, params):
         q = (params.get("q") or [""])[0].strip()
