@@ -24,6 +24,14 @@ CREATE TABLE IF NOT EXISTS tracks (
     updated_at TIMESTAMPTZ DEFAULT now(),
     UNIQUE (title, artist)
 );
+
+CREATE TABLE IF NOT EXISTS pending_reviews (
+    id SERIAL PRIMARY KEY,
+    title TEXT NOT NULL,
+    artist TEXT NOT NULL,
+    data JSONB NOT NULL,
+    created_at TIMESTAMPTZ DEFAULT now()
+);
 """
 
 
@@ -136,3 +144,31 @@ def is_reviewed(title, artist, keys=None):
         if ra == an or (ra and an and (ra in an or an in ra)):
             return True
     return False
+
+
+def add_pending_review(review):
+    title = (review.get("title") or "").strip()
+    artist = (review.get("artist") or "").strip()
+    if not title or not artist:
+        return None
+    with get_conn() as conn, conn.cursor() as cur:
+        cur.execute(
+            "INSERT INTO pending_reviews (title, artist, data) VALUES (%s, %s, %s) RETURNING id",
+            (title, artist, Json(review)),
+        )
+        return cur.fetchone()[0]
+
+
+def get_pending_reviews():
+    with get_conn() as conn, conn.cursor() as cur:
+        cur.execute("SELECT id, data FROM pending_reviews ORDER BY id")
+        return [{"id": r[0], **r[1]} for r in cur.fetchall()]
+
+
+def clear_pending_reviews(ids=None):
+    with get_conn() as conn, conn.cursor() as cur:
+        if ids:
+            cur.execute("DELETE FROM pending_reviews WHERE id = ANY(%s)", (list(ids),))
+        else:
+            cur.execute("DELETE FROM pending_reviews")
+        return cur.rowcount

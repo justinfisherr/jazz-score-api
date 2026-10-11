@@ -19,6 +19,8 @@ sys.path.insert(0, str(ROOT))
 
 import db  # noqa: E402
 import genre_bridge  # noqa: E402
+
+db.init_schema()
 from predict import predict_track, predict_tracks  # noqa: E402
 from score import (  # noqa: E402
     build_candidate,
@@ -156,6 +158,8 @@ class handler(BaseHTTPRequestHandler):
                 self._album(params)
             elif path.startswith("/api/playlist"):
                 self._playlist(params)
+            elif path.startswith("/api/pending"):
+                self._json(200, {"pending": db.get_pending_reviews()})
             elif path.startswith("/api/genres"):
                 self._json(200, {"genres": genre_bridge.genres()})
             else:
@@ -187,10 +191,39 @@ class handler(BaseHTTPRequestHandler):
 
     def do_POST(self):  # noqa: N802
         path = urlparse(self.path).path
-        if path.startswith("/api/rate"):
+        if path.startswith("/api/pending/clear"):
+            self._clear_pending()
+        elif path.startswith("/api/pending"):
+            self._add_pending()
+        elif path.startswith("/api/rate"):
             self._rate()
         else:
             self._json(404, {"error": "not found"})
+
+    def _add_pending(self):
+        length = int(self.headers.get("Content-Length", 0) or 0)
+        try:
+            review = json.loads(self.rfile.read(length) or b"{}")
+        except json.JSONDecodeError:
+            self._json(400, {"error": "invalid JSON"})
+            return
+        if not (review.get("title") or "").strip() or not (review.get("artist") or "").strip():
+            self._json(400, {"error": "title and artist are required"})
+            return
+        pid = db.add_pending_review(review)
+        self._json(200, {"ok": True, "id": pid})
+
+    def _clear_pending(self):
+        length = int(self.headers.get("Content-Length", 0) or 0)
+        body = {}
+        if length:
+            try:
+                body = json.loads(self.rfile.read(length) or b"{}")
+            except json.JSONDecodeError:
+                body = {}
+        ids = body.get("ids") or None
+        n = db.clear_pending_reviews(ids)
+        self._json(200, {"ok": True, "cleared": n})
 
     def _rate(self):
         length = int(self.headers.get("Content-Length", 0) or 0)
