@@ -194,7 +194,9 @@ class handler(BaseHTTPRequestHandler):
 
     def do_POST(self):  # noqa: N802
         path = urlparse(self.path).path
-        if path.startswith("/api/pending/clear"):
+        if path.startswith("/api/rate/delete"):
+            self._unrate()
+        elif path.startswith("/api/pending/clear"):
             self._clear_pending()
         elif path.startswith("/api/pending"):
             self._add_pending()
@@ -202,6 +204,21 @@ class handler(BaseHTTPRequestHandler):
             self._rate()
         else:
             self._json(404, {"error": "not found"})
+
+    def _unrate(self):
+        length = int(self.headers.get("Content-Length", 0) or 0)
+        try:
+            body = json.loads(self.rfile.read(length) or b"{}")
+        except json.JSONDecodeError:
+            self._json(400, {"error": "invalid JSON"})
+            return
+        title = (body.get("title") or "").strip()
+        artist = (body.get("artist") or "").strip()
+        if not title or not artist:
+            self._json(400, {"error": "title and artist are required"})
+            return
+        n = db.delete_track(title, artist)
+        self._json(200, {"ok": True, "deleted": n})
 
     def _add_pending(self):
         length = int(self.headers.get("Content-Length", 0) or 0)

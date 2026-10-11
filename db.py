@@ -161,6 +161,12 @@ def match_review(title, artist, tracks=None):
     return None
 
 
+def delete_track(title, artist):
+    with get_conn() as conn, conn.cursor() as cur:
+        cur.execute("DELETE FROM tracks WHERE title = %s AND artist = %s", (title, artist))
+        return cur.rowcount
+
+
 def add_pending_review(review):
     title = (review.get("title") or "").strip()
     artist = (review.get("artist") or "").strip()
