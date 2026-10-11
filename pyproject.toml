@@ -1,0 +1,15 @@
+[project]
+name = "jazz-score-api"
+version = "0.1.0"
+requires-python = ">=3.12"
+dependencies = [
+  "scikit-learn==1.8.0",
+  "numpy==2.5.0",
+  "pandas==3.0.3",
+  "scipy",
+  "joblib",
+  "requests",
+]
+
+[tool.vercel]
+entrypoint = "api.score:handler"
