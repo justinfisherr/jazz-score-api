@@ -285,6 +285,7 @@ class handler(BaseHTTPRequestHandler):
 
         candidates = [build_candidate(t, sfa.get(t["id"], {}), recco.get(t["id"])) for t in tracks]
         scores = predict_tracks(candidates)
+        keys = db.reviewed_keys()
 
         self._json(200, {
             "name": meta.get("name"),
@@ -298,6 +299,8 @@ class handler(BaseHTTPRequestHandler):
                     "score": s,
                     "image": track_image(t),
                     "url": track_url(t),
+                    "spotify_id": t["id"],
+                    "reviewed": db.is_reviewed(c["title"], c["artist"], keys),
                 }
                 for t, c, s in zip(tracks, candidates, scores)
             ],
@@ -346,6 +349,7 @@ class handler(BaseHTTPRequestHandler):
 
         candidates = [build_candidate(t, sfa.get(t["id"], {}), recco.get(t["id"])) for t in tracks]
         scores = predict_tracks(candidates)
+        keys = db.reviewed_keys()
 
         self._json(200, {
             "name": meta.get("name"),
@@ -363,6 +367,7 @@ class handler(BaseHTTPRequestHandler):
                     "image": album_image,
                     "url": track_url(t),
                     "spotify_id": t["id"],
+                    "reviewed": db.is_reviewed(c["title"], c["artist"], keys),
                 }
                 for t, c, s in zip(tracks, candidates, scores)
             ],
