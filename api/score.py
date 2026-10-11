@@ -18,6 +18,7 @@ ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
 
 import db  # noqa: E402
+import genre_bridge  # noqa: E402
 from predict import predict_track, predict_tracks  # noqa: E402
 from score import (  # noqa: E402
     build_candidate,
@@ -45,6 +46,50 @@ def search_playlists(token, q):
     )
     resp.raise_for_status()
     return [p for p in resp.json().get("playlists", {}).get("items", []) if p]
+
+
+def search_albums(token, q):
+    resp = requests.get(
+        f"{SPOTIFY_API}/search",
+        headers={"Authorization": f"Bearer {token}"},
+        params={"q": q, "type": "album", "limit": 10},
+        timeout=30,
+    )
+    resp.raise_for_status()
+    return [a for a in resp.json().get("albums", {}).get("items", []) if a]
+
+
+def album_summary(album):
+    artists = album.get("artists") or []
+    year = None
+    if album.get("release_date"):
+        try:
+            year = int(album["release_date"][:4])
+        except ValueError:
+            year = None
+    return {
+        "id": album["id"],
+        "name": album["name"],
+        "artist": ", ".join(a["name"] for a in artists),
+        "image": (album.get("images") or [{}])[0].get("url") if album.get("images") else None,
+        "year": year,
+        "track_count": album.get("total_tracks"),
+        "url": (album.get("external_urls") or {}).get("spotify"),
+    }
+
+
+def get_album_tracks(token, album_id):
+    items = []
+    url = f"{SPOTIFY_API}/albums/{album_id}/tracks"
+    params = {"limit": 50}
+    while url and len(items) < 100:
+        resp = requests.get(url, headers={"Authorization": f"Bearer {token}"}, params=params, timeout=30)
+        resp.raise_for_status()
+        data = resp.json()
+        items.extend(data.get("items", []))
+        url = data.get("next")
+        params = {}
+    return items
 
 
 def get_playlist_tracks(token, pid):
@@ -107,8 +152,12 @@ class handler(BaseHTTPRequestHandler):
         try:
             if path.startswith("/api/search"):
                 self._search_results(params)
+            elif path.startswith("/api/album"):
+                self._album(params)
             elif path.startswith("/api/playlist"):
                 self._playlist(params)
+            elif path.startswith("/api/genres"):
+                self._json(200, {"genres": genre_bridge.genres()})
             else:
                 self._score(params)
         except Exception as exc:  # noqa: BLE001
@@ -121,7 +170,13 @@ class handler(BaseHTTPRequestHandler):
             return
         token = get_token()
         tracks = search_tracks(token, q, limit=10)
-        self._json(200, {"results": [track_summary(t) for t in tracks]})
+        keys = db.reviewed_keys()
+        results = []
+        for t in tracks:
+            summary = track_summary(t)
+            summary["reviewed"] = db.is_reviewed(summary["title"], summary["artist"], keys)
+            results.append(summary)
+        self._json(200, {"results": results})
 
     def do_OPTIONS(self):  # noqa: N802
         self.send_response(204)
@@ -163,6 +218,7 @@ class handler(BaseHTTPRequestHandler):
         sid = (params.get("id") or [""])[0].strip()
         title = (params.get("title") or [""])[0].strip()
         artist = (params.get("artist") or [""])[0].strip()
+        genre = (params.get("genre") or [""])[0].strip()
         if not q and not sid and not (title and artist):
             self._json(400, {"error": "provide q, id, or title+artist"})
             return
@@ -173,7 +229,7 @@ class handler(BaseHTTPRequestHandler):
             return
         sfa = fetch_spotify_audio(token, track["id"])
         recco = fetch_reccobeats(track["id"])
-        candidate = build_candidate(track, sfa, recco)
+        candidate = genre_bridge.apply(build_candidate(track, sfa, recco), genre)
         score = predict_track(candidate)
         self._json(200, {
             "title": candidate["title"],
@@ -186,6 +242,7 @@ class handler(BaseHTTPRequestHandler):
             "url": track_url(track),
             "spotify_id": track["id"],
             "audio_only": True,
+            "genre": genre or None,
         })
 
     def _playlist(self, params):
@@ -241,6 +298,71 @@ class handler(BaseHTTPRequestHandler):
                     "score": s,
                     "image": track_image(t),
                     "url": track_url(t),
+                }
+                for t, c, s in zip(tracks, candidates, scores)
+            ],
+        })
+
+    def _album(self, params):
+        q = (params.get("q") or [""])[0].strip()
+        aid = (params.get("id") or [""])[0].strip()
+        token = get_token()
+
+        if q and not aid:
+            albums = search_albums(token, q)
+            keys = db.reviewed_keys()
+            out = []
+            for a in albums:
+                summary = album_summary(a)
+                summary["reviewed"] = db.is_reviewed(summary["name"], summary["artist"], keys)
+                out.append(summary)
+            self._json(200, {"albums": out})
+            return
+
+        if not aid:
+            self._json(400, {"error": "provide q (search) or id (album id)"})
+            return
+
+        meta_resp = requests.get(
+            f"{SPOTIFY_API}/albums/{aid}",
+            headers={"Authorization": f"Bearer {token}"},
+            timeout=30,
+        )
+        meta_resp.raise_for_status()
+        meta = meta_resp.json()
+        album_artist = ", ".join(a["name"] for a in meta.get("artists", []))
+        album_image = (meta.get("images") or [{}])[0].get("url") if meta.get("images") else None
+        year = None
+        if meta.get("release_date"):
+            try:
+                year = int(meta["release_date"][:4])
+            except ValueError:
+                year = None
+
+        tracks = get_album_tracks(token, aid)
+        ids = [t["id"] for t in tracks]
+        recco = fetch_reccobeats_batch(ids)
+        sfa = fetch_spotify_audio_batch(token, ids)
+
+        candidates = [build_candidate(t, sfa.get(t["id"], {}), recco.get(t["id"])) for t in tracks]
+        scores = predict_tracks(candidates)
+
+        self._json(200, {
+            "name": meta.get("name"),
+            "artist": album_artist,
+            "year": year,
+            "image": album_image,
+            "url": (meta.get("external_urls") or {}).get("spotify"),
+            "album_id": aid,
+            "reviewed": db.is_reviewed(meta.get("name"), album_artist),
+            "tracks": [
+                {
+                    "title": c["title"],
+                    "artist": c["artist"],
+                    "score": s,
+                    "image": album_image,
+                    "url": track_url(t),
+                    "spotify_id": t["id"],
                 }
                 for t, c, s in zip(tracks, candidates, scores)
             ],

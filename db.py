@@ -8,6 +8,7 @@ POSTGRES_URL) from the environment.
 
 import json
 import os
+import re
 
 import psycopg2
 from psycopg2.extras import Json
@@ -101,3 +102,37 @@ def bulk_upsert(tracks):
             rows,
         )
     return len(rows)
+
+
+def _norm(s):
+    return re.sub(r"\s+", " ", (s or "").strip().lower())
+
+
+def _norm_title(s):
+    s = _norm(s)
+    s = re.sub(r"\s*[-–]\s*(19|20)\d\d\s+.*$", "", s)
+    s = re.sub(r"\s*[\(\[].*?(?:remaster|mono|take \d|alternate|live|version).*?[\)\]]", "", s)
+    return s.strip()
+
+
+def reviewed_keys():
+    """Return normalized (title, artist) tuples for every reviewed track/album."""
+    with get_conn() as conn, conn.cursor() as cur:
+        cur.execute("SELECT title, artist FROM tracks")
+        return [(_norm_title(r[0]), _norm(r[1])) for r in cur.fetchall()]
+
+
+def is_reviewed(title, artist, keys=None):
+    """True if the dataset already contains this (title, artist) — fuzzy on
+    version suffixes and artist strings so 'Giant Steps - 2020 Remaster' matches
+    an already-reviewed 'Giant Steps'."""
+    if keys is None:
+        keys = reviewed_keys()
+    tn = _norm_title(title)
+    an = _norm(artist)
+    for rt, ra in keys:
+        if rt != tn:
+            continue
+        if ra == an or (ra and an and (ra in an or an in ra)):
+            return True
+    return False
