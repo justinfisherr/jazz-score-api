@@ -73,6 +73,46 @@ def search_track(token, query, title=None, artist=None):
     return items[0] if items else None
 
 
+def search_tracks(token, query, limit=10):
+    resp = requests.get(
+        f"{SPOTIFY_API}/search",
+        headers={"Authorization": f"Bearer {token}"},
+        params={"q": query, "type": "track", "limit": limit},
+        timeout=30,
+    )
+    resp.raise_for_status()
+    return [t for t in resp.json().get("tracks", {}).get("items", []) if t]
+
+
+def get_track_by_id(token, sid):
+    resp = requests.get(
+        f"{SPOTIFY_API}/tracks/{sid}",
+        headers={"Authorization": f"Bearer {token}"},
+        timeout=30,
+    )
+    resp.raise_for_status()
+    return resp.json()
+
+
+def track_summary(track):
+    album = track.get("album") or {}
+    year = None
+    if album.get("release_date"):
+        try:
+            year = int(album["release_date"][:4])
+        except ValueError:
+            year = None
+    return {
+        "id": track["id"],
+        "title": clean_title(track["name"]),
+        "artist": ", ".join(a["name"] for a in track.get("artists", [])),
+        "image": track_image(track),
+        "year": year,
+        "popularity": track.get("popularity"),
+        "url": track_url(track),
+    }
+
+
 def fetch_spotify_audio(token, sid):
     resp = requests.get(
         f"{SPOTIFY_API}/audio-features/{sid}",

@@ -24,8 +24,11 @@ from score import (  # noqa: E402
     fetch_reccobeats,
     fetch_spotify_audio,
     get_token,
+    get_track_by_id,
     search_track,
+    search_tracks,
     track_image,
+    track_summary,
     track_url,
 )
 
@@ -102,12 +105,23 @@ class handler(BaseHTTPRequestHandler):
         path = urlparse(self.path).path
         params = parse_qs(urlparse(self.path).query)
         try:
-            if path.startswith("/api/playlist"):
+            if path.startswith("/api/search"):
+                self._search_results(params)
+            elif path.startswith("/api/playlist"):
                 self._playlist(params)
             else:
                 self._score(params)
         except Exception as exc:  # noqa: BLE001
             self._json(500, {"error": str(exc)})
+
+    def _search_results(self, params):
+        q = (params.get("q") or [""])[0].strip()
+        if not q:
+            self._json(400, {"error": "provide q"})
+            return
+        token = get_token()
+        tracks = search_tracks(token, q, limit=10)
+        self._json(200, {"results": [track_summary(t) for t in tracks]})
 
     def do_OPTIONS(self):  # noqa: N802
         self.send_response(204)
@@ -146,13 +160,14 @@ class handler(BaseHTTPRequestHandler):
 
     def _score(self, params):
         q = (params.get("q") or [""])[0].strip()
+        sid = (params.get("id") or [""])[0].strip()
         title = (params.get("title") or [""])[0].strip()
         artist = (params.get("artist") or [""])[0].strip()
-        if not q and not (title and artist):
-            self._json(400, {"error": "provide q or title+artist"})
+        if not q and not sid and not (title and artist):
+            self._json(400, {"error": "provide q, id, or title+artist"})
             return
         token = get_token()
-        track = search_track(token, q, title or None, artist or None)
+        track = get_track_by_id(token, sid) if sid else search_track(token, q, title or None, artist or None)
         if not track:
             self._json(404, {"error": "no track found"})
             return
