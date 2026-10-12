@@ -22376,7 +22376,7 @@
     "subgenres": [],
     "spotify_id": "01HQIKjcODJCBRFoETqngE",
     "instrumentation": [],
-    "date_added": "2026-10-11"
+    "date_added": "2026-10-12"
   },
   {
     "year": 1964,
@@ -22394,7 +22394,7 @@
       "speechiness": 0.0394,
       "spotify_valence": 0.562
     },
-    "date_added": "2026-10-11"
+    "date_added": "2026-10-12"
   },
   {
     "title": "Theme For Ernie",
@@ -22411,7 +22411,7 @@
       "speechiness": 0.0384,
       "spotify_valence": 0.164
     },
-    "date_added": "2026-10-11"
+    "date_added": "2026-10-12"
   },
   {
     "notes": "Just special.",
@@ -22429,14 +22429,14 @@
       "speechiness": 0.0399,
       "spotify_valence": 0.497
     },
-    "date_added": "2026-10-11"
+    "date_added": "2026-10-12"
   },
   {
     "title": "Cry Me A River",
     "artist": "Dexter Gordon All Stars",
     "rating": 7,
     "spotify_id": "0t5BOVFZXX3sTbmmHRQyYV",
-    "date_added": "2026-10-11"
+    "date_added": "2026-10-12"
   },
   {
     "notes": "Feel I just don’t get this jazz yet",
@@ -22454,7 +22454,7 @@
       "speechiness": 0.0594,
       "spotify_valence": 0.57
     },
-    "date_added": "2026-10-11"
+    "date_added": "2026-10-12"
   },
   {
     "title": "Miss Understanding",
@@ -22471,14 +22471,14 @@
       "speechiness": 0.157,
       "spotify_valence": 0.553
     },
-    "date_added": "2026-10-11"
+    "date_added": "2026-10-12"
   },
   {
     "title": "Gettin' On Way",
     "artist": "Elvin Jones",
     "rating": 3.5,
     "spotify_id": "218XzbaRy0IIwRivZDkkgM",
-    "date_added": "2026-10-11"
+    "date_added": "2026-10-12"
   },
   {
     "title": "My Little Brown Book",
@@ -22495,21 +22495,21 @@
       "speechiness": 0.0322,
       "spotify_valence": 0.215
     },
-    "date_added": "2026-10-11"
+    "date_added": "2026-10-12"
   },
   {
     "title": "Turiya & Ramakrishna",
     "artist": "Alice Coltrane",
     "rating": 7.5,
     "spotify_id": "7tQ7e28gdQNhLcIbqc1PXY",
-    "date_added": "2026-10-11"
+    "date_added": "2026-10-12"
   },
   {
     "title": "I Love You",
     "artist": "John Coltrane",
     "rating": 4,
     "spotify_id": "08ztWQOa86b4VVXPZtJsqT",
-    "date_added": "2026-10-11"
+    "date_added": "2026-10-12"
   },
   {
     "title": "Summertime",
@@ -22526,7 +22526,7 @@
       "speechiness": 0.0313,
       "spotify_valence": 0.393
     },
-    "date_added": "2026-10-11"
+    "date_added": "2026-10-12"
   },
   {
     "year": 2008,
@@ -22535,7 +22535,7 @@
     "rating": 8,
     "spotify_id": "4vuijqNCK71JTiACBmdCTo",
     "entity_type": "album",
-    "date_added": "2026-10-11"
+    "date_added": "2026-10-12"
   },
   {
     "year": 2008,
@@ -22553,7 +22553,7 @@
       "speechiness": 0.0834,
       "spotify_valence": 0.405
     },
-    "date_added": "2026-10-11"
+    "date_added": "2026-10-12"
   },
   {
     "year": 2008,
@@ -22571,7 +22571,7 @@
       "speechiness": 0.0301,
       "spotify_valence": 0.14
     },
-    "date_added": "2026-10-11"
+    "date_added": "2026-10-12"
   },
   {
     "year": 2008,
@@ -22589,6 +22589,320 @@
       "speechiness": 0.0327,
       "spotify_valence": 0.155
     },
-    "date_added": "2026-10-11"
+    "date_added": "2026-10-12"
+  },
+  {
+    "year": 1957,
+    "title": "But Not For Me - Take 1 / RVG Remastered 2008",
+    "artist": "Miles Davis",
+    "rating": 7.5,
+    "spotify_id": "16xrvoly0kWh4Rruc73XlL",
+    "audio_features": {
+      "acousticness": 0.865,
+      "danceability": 0.587,
+      "spotify_energy": 0.43,
+      "instrumentalness": 0.00847,
+      "liveness": 0.134,
+      "loudness": -10.952,
+      "speechiness": 0.0343,
+      "spotify_valence": 0.825
+    },
+    "date_added": "2026-10-12"
+  },
+  {
+    "title": "Summertime",
+    "artist": "Miles Davis",
+    "rating": 3,
+    "spotify_id": "0AMye8ukFtoSi4qmYJkFu1",
+    "date_added": "2026-10-12"
+  },
+  {
+    "title": "But Not for Me",
+    "artist": "Miles Davis",
+    "rating": 5,
+    "spotify_id": "7841hHRDFkpQBGLlXb3pGl",
+    "date_added": "2026-10-12"
+  },
+  {
+    "title": "Human Nature (2022 Remaster)",
+    "artist": "Miles Davis",
+    "rating": 4,
+    "spotify_id": "25e6EHX8YyC5hsaipxdHCz",
+    "audio_features": {
+      "acousticness": 0.357,
+      "danceability": 0.658,
+      "spotify_energy": 0.501,
+      "instrumentalness": 0.0211,
+      "liveness": 0.0727,
+      "loudness": -8.174,
+      "speechiness": 0.0333,
+      "spotify_valence": 0.528
+    },
+    "date_added": "2026-10-12"
+  },
+  {
+    "title": "Godchild",
+    "artist": "Miles Davis",
+    "rating": 7.5,
+    "spotify_id": "3rWBDik1VBZWkEJrAMB1x3",
+    "date_added": "2026-10-12"
+  },
+  {
+    "title": "Little One (2022 Remaster)",
+    "artist": "Miles Davis",
+    "rating": 5,
+    "spotify_id": "4uKU7v10V2AxdQzqVCrJzQ",
+    "audio_features": {
+      "acousticness": 0.979,
+      "danceability": 0.524,
+      "spotify_energy": 0.123,
+      "instrumentalness": 0.676,
+      "liveness": 0.103,
+      "loudness": -15.183,
+      "speechiness": 0.0513,
+      "spotify_valence": 0.238
+    },
+    "date_added": "2026-10-12"
+  },
+  {
+    "title": "Iris (2022 Remaster)",
+    "artist": "Miles Davis",
+    "rating": 3.5,
+    "spotify_id": "7lozo9YHY2tmpYaX4l9h43",
+    "audio_features": {
+      "acousticness": 0.96,
+      "danceability": 0.488,
+      "spotify_energy": 0.125,
+      "instrumentalness": 0.775,
+      "liveness": 0.129,
+      "loudness": -15.265,
+      "speechiness": 0.0425,
+      "spotify_valence": 0.313
+    },
+    "date_added": "2026-10-12"
+  },
+  {
+    "notes": "Piano killed it herbie",
+    "title": "Fall (2023 Remaster)",
+    "artist": "Miles Davis",
+    "rating": 6,
+    "spotify_id": "7JgFV8uxZNpB0zz6zlwkDj",
+    "audio_features": {
+      "acousticness": 0.862,
+      "danceability": 0.443,
+      "spotify_energy": 0.18,
+      "instrumentalness": 0.0383,
+      "liveness": 0.102,
+      "loudness": -16.562,
+      "speechiness": 0.0389,
+      "spotify_valence": 0.131
+    },
+    "date_added": "2026-10-12"
+  },
+  {
+    "title": "Maiden Voyage - Remastered 1999/Rudy Van Gelder Edition",
+    "artist": "Herbie Hancock",
+    "rating": 7,
+    "spotify_id": "0T1EaGm6b9eM7xBf4F1hlc",
+    "audio_features": {
+      "acousticness": 0.719,
+      "danceability": 0.467,
+      "spotify_energy": 0.459,
+      "instrumentalness": 0.00312,
+      "liveness": 0.0944,
+      "loudness": -9.706,
+      "speechiness": 0.0305,
+      "spotify_valence": 0.178
+    },
+    "date_added": "2026-10-12"
+  },
+  {
+    "title": "Toys",
+    "artist": "Herbie Hancock",
+    "rating": 6,
+    "spotify_id": "0GeGIfL8CsPec8Z2bMhttW",
+    "audio_features": {
+      "acousticness": 0.91,
+      "danceability": 0.513,
+      "spotify_energy": 0.395,
+      "instrumentalness": 0.427,
+      "liveness": 0.103,
+      "loudness": -13.088,
+      "speechiness": 0.0305,
+      "spotify_valence": 0.322
+    },
+    "date_added": "2026-10-12"
+  },
+  {
+    "title": "Tell Me a Bedtime Story",
+    "artist": "Herbie Hancock",
+    "rating": 7,
+    "spotify_id": "6eimz6jvlZaPwtflDWCTa0",
+    "audio_features": {
+      "acousticness": 0.713,
+      "danceability": 0.398,
+      "spotify_energy": 0.527,
+      "instrumentalness": 0.934,
+      "liveness": 0.119,
+      "loudness": -16.591,
+      "speechiness": 0.0297,
+      "spotify_valence": 0.353
+    },
+    "date_added": "2026-10-12"
+  },
+  {
+    "title": "Fee-Fi-Fo-Fum - Remastered1998/Rudy Van Gelder Edition",
+    "artist": "Wayne Shorter",
+    "rating": 4.5,
+    "spotify_id": "6lgkhf5XLGA2wvgFeTy2cq",
+    "audio_features": {
+      "acousticness": 0.76,
+      "danceability": 0.454,
+      "spotify_energy": 0.498,
+      "instrumentalness": 0.000625,
+      "liveness": 0.0858,
+      "loudness": -7.74,
+      "speechiness": 0.0373,
+      "spotify_valence": 0.367
+    },
+    "date_added": "2026-10-12"
+  },
+  {
+    "title": "Footprints - Remastered",
+    "artist": "Wayne Shorter",
+    "rating": 5,
+    "spotify_id": "2JITVZu8o6ls9k8SoMRy7w",
+    "audio_features": {
+      "acousticness": 0.768,
+      "danceability": 0.53,
+      "spotify_energy": 0.454,
+      "instrumentalness": 0.116,
+      "liveness": 0.113,
+      "loudness": -11.19,
+      "speechiness": 0.028,
+      "spotify_valence": 0.492
+    },
+    "date_added": "2026-10-12"
+  },
+  {
+    "title": "Pee Wee",
+    "artist": "Miles Davis",
+    "rating": 4,
+    "spotify_id": "4x4Y3DVb5L9Ym7kPc1VQIj",
+    "audio_features": {
+      "acousticness": 0.93,
+      "danceability": 0.423,
+      "spotify_energy": 0.119,
+      "instrumentalness": 0.482,
+      "liveness": 0.18,
+      "loudness": -20.354,
+      "speechiness": 0.0334,
+      "spotify_valence": 0.122
+    },
+    "date_added": "2026-10-12"
+  },
+  {
+    "title": "Syeeda's Song Flute - 2020 Remaster",
+    "artist": "John Coltrane",
+    "rating": 7.5,
+    "spotify_id": "7JsINk6Y1eUgqA7KdCX8Q3",
+    "audio_features": {
+      "acousticness": 0.45,
+      "danceability": 0.578,
+      "spotify_energy": 0.18,
+      "instrumentalness": 0.0328,
+      "liveness": 0.0918,
+      "loudness": -17.671,
+      "speechiness": 0.0535,
+      "spotify_valence": 0.367
+    },
+    "date_added": "2026-10-12"
+  },
+  {
+    "title": "Fleurette Africaine (African Flower) - 2002 Remaster",
+    "artist": "Duke Ellington",
+    "rating": 7,
+    "spotify_id": "4Keh41jYFaVPP5C82DxmTG",
+    "audio_features": {
+      "acousticness": 0.937,
+      "danceability": 0.431,
+      "spotify_energy": 0.21,
+      "instrumentalness": 0.921,
+      "liveness": 0.108,
+      "loudness": -19.24,
+      "speechiness": 0.0299,
+      "spotify_valence": 0.493
+    },
+    "date_added": "2026-10-12"
+  },
+  {
+    "title": "Isfahan",
+    "artist": "Duke Ellington",
+    "rating": 7.5,
+    "spotify_id": "1qHrF4XOI6Pliy7atNjLds",
+    "audio_features": {
+      "acousticness": 0.975,
+      "danceability": 0.247,
+      "spotify_energy": 0.072,
+      "instrumentalness": 0.631,
+      "liveness": 0.101,
+      "loudness": -13.544,
+      "speechiness": 0.032,
+      "spotify_valence": 0.0872
+    },
+    "date_added": "2026-10-12"
+  },
+  {
+    "notes": "So warm",
+    "title": "Remember - 1999/ Remastered",
+    "artist": "Hank Mobley",
+    "rating": 8.5,
+    "spotify_id": "2BhU0Hl5OatWiCW93pE2b8",
+    "audio_features": {
+      "acousticness": 0.794,
+      "danceability": 0.539,
+      "spotify_energy": 0.403,
+      "instrumentalness": 0.000613,
+      "liveness": 0.278,
+      "loudness": -9.168,
+      "speechiness": 0.0531,
+      "spotify_valence": 0.699
+    },
+    "date_added": "2026-10-12"
+  },
+  {
+    "notes": "Freaky player but not super satisfying for my ear yet",
+    "title": "Wave",
+    "artist": "Ahmad Jamal Trio",
+    "rating": 6.5,
+    "spotify_id": "5XThWom9GPyAzKdZMN0Bxh",
+    "audio_features": {
+      "acousticness": 0.93,
+      "danceability": 0.501,
+      "spotify_energy": 0.301,
+      "instrumentalness": 0.937,
+      "liveness": 0.11,
+      "loudness": -14.938,
+      "speechiness": 0.0285,
+      "spotify_valence": 0.36
+    },
+    "date_added": "2026-10-12"
+  },
+  {
+    "title": "Moon Dreams",
+    "artist": "Miles Davis",
+    "rating": 6.5,
+    "spotify_id": "3GRRmV65lSUxQ82GHyVAZO",
+    "audio_features": {
+      "acousticness": 0.983,
+      "danceability": 0.186,
+      "spotify_energy": 0.0367,
+      "instrumentalness": 0.231,
+      "liveness": 0.103,
+      "loudness": -19.738,
+      "speechiness": 0.0371,
+      "spotify_valence": 0.0731
+    },
+    "date_added": "2026-10-12"
   }
 ]
