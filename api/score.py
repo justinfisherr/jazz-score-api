@@ -565,7 +565,7 @@ class handler(BaseHTTPRequestHandler):
             # Let the taste model rank the AI's candidates instead of trusting
             # the first three the language model happened to name.
             out.sort(key=lambda r: r.get("score") or 0, reverse=True)
-            out = out[:count]
+        out = out[:count]
         self._json(200, {
             "kind": kind,
             "prompt": prompt,
