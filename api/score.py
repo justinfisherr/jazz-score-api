@@ -76,7 +76,7 @@ def get_user_token():
 
 def is_jazz_playlist(name):
     n = (name or "").strip().lower()
-    return "jazz" in n or "bop" in n or n in JAZZ_EXTRA
+    return "jazz" in n or "bop" in n or n in JAZZ_EXTRA or "liked" in n or n == "likes"
 
 
 def playlist_summary(p):
@@ -612,10 +612,33 @@ class handler(BaseHTTPRequestHandler):
         try:
             token = get_user_token()
             playlists = [p for p in fetch_owned_playlists(token) if p["jazz"]]
+            try:
+                saved = requests.get(
+                    f"{SPOTIFY_API}/me/tracks",
+                    headers={"Authorization": f"Bearer {token}"},
+                    params={"limit": 1},
+                    timeout=20,
+                ).json()
+                liked_count = saved.get("total")
+            except Exception:  # noqa: BLE001
+                liked_count = None
+            playlists = [{
+                "id": "__liked__",
+                "name": "Liked Songs",
+                "owner": "You",
+                "image": None,
+                "track_count": liked_count,
+                "public": False,
+                "url": "https://open.spotify.com/collection/tracks",
+                "jazz": True,
+                "special": "liked",
+            }] + playlists
             if (params.get("analyze") or ["0"])[0] == "1":
                 all_tracks = db.fetch_tracks()
+                real = [p for p in playlists if p.get("special") != "liked"]
                 with ThreadPoolExecutor(max_workers=6) as pool:
-                    playlists = list(pool.map(lambda p: analyze_playlist(p, token, all_tracks), playlists))
+                    real = list(pool.map(lambda p: analyze_playlist(p, token, all_tracks), real))
+                playlists = [p for p in playlists if p.get("special") == "liked"] + real
             self._json(200, {"playlists": playlists})
         except Exception as exc:  # noqa: BLE001
             self._json(502, {"error": f"playlists unavailable: {exc}"})
@@ -636,14 +659,24 @@ class handler(BaseHTTPRequestHandler):
             return
         try:
             token = get_user_token()
-            resp = requests.post(
-                f"{SPOTIFY_API}/playlists/{playlist_id}/tracks",
-                headers={"Authorization": f"Bearer {token}", "Content-Type": "application/json"},
-                json={"uris": [f"spotify:track:{spotify_id}"]},
-                timeout=30,
-            )
-            if resp.status_code not in (200, 201):
-                raise RuntimeError(f"spotify add failed ({resp.status_code}): {resp.text[:200]}")
+            if playlist_id == "__liked__":
+                resp = requests.put(
+                    f"{SPOTIFY_API}/me/tracks",
+                    headers={"Authorization": f"Bearer {token}", "Content-Type": "application/json"},
+                    json={"ids": [spotify_id]},
+                    timeout=30,
+                )
+                if resp.status_code not in (200, 201, 204):
+                    raise RuntimeError(f"spotify like failed ({resp.status_code}): {resp.text[:200]}")
+            else:
+                resp = requests.post(
+                    f"{SPOTIFY_API}/playlists/{playlist_id}/tracks",
+                    headers={"Authorization": f"Bearer {token}", "Content-Type": "application/json"},
+                    json={"uris": [f"spotify:track:{spotify_id}"]},
+                    timeout=30,
+                )
+                if resp.status_code not in (200, 201):
+                    raise RuntimeError(f"spotify add failed ({resp.status_code}): {resp.text[:200]}")
             existing = db.get_track(title, artist) or {}
             merged = {
                 **existing,
