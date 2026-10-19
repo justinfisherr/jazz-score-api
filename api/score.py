@@ -231,7 +231,7 @@ def build_taste_profile(tracks):
     }
 
 
-def ask_openrouter(kind, prompt, count, profile):
+def ask_openrouter(kind, prompt, count, profile, reject=None):
     shape = '{"recommendations":[{"title":"...","artist":"...","reason":"...","confidence":"high|medium|low","spotify_query":"..."}]}'
     kind_rule = {
         "track": "Every recommendation must be ONE TRACK. title is the track title, artist is the performing artist. Never return an album or playlist.",
@@ -253,8 +253,9 @@ def ask_openrouter(kind, prompt, count, profile):
         "request": prompt or "Recommend something that fits my taste right now.",
         "count": count,
         "taste_profile": profile,
+        "do_not_return": reject or [],
         "rules": [
-            "Never recommend a track/album already represented in avoid_recent or top_rated.",
+            "Never recommend a track/album already represented in avoid_recent, top_rated, or do_not_return.",
             "Use known real recordings only; do not invent titles or personnel.",
             "The reason should be one or two specific sentences, not hype.",
         ],
@@ -464,33 +465,50 @@ class handler(BaseHTTPRequestHandler):
         token = get_token()
         out = []
         seen = set()
-        for rec in recs:
-            if len(out) >= count:
-                break
+        rejected = []
+
+        def consume(candidates):
+            for rec in candidates:
+                if len(out) >= count:
+                    return
+                try:
+                    if kind == "track":
+                        item = resolve_track_recommendation(rec, token)
+                        if item and not item.get("reviewed"):
+                            key = (item["title"].lower(), item["artist"].lower())
+                            if key not in seen:
+                                seen.add(key)
+                                out.append(item)
+                        else:
+                            rejected.append(f"{rec.get('title')} — {rec.get('artist')}")
+                    elif kind == "album":
+                        item = resolve_album_recommendation(rec, token)
+                        if item and not item.get("reviewed"):
+                            key = (item["name"].lower(), item["artist"].lower())
+                            if key not in seen:
+                                seen.add(key)
+                                out.append(item)
+                        else:
+                            rejected.append(f"{rec.get('title')} — {rec.get('artist')}")
+                    else:
+                        item = resolve_playlist_recommendation(rec, token)
+                        if item:
+                            key = (item["title"] or "").lower()
+                            if key not in seen:
+                                seen.add(key)
+                                out.append(item)
+                        else:
+                            rejected.append(f"{rec.get('title')} — {rec.get('artist')}")
+                except Exception:  # noqa: BLE001
+                    continue
+
+        consume(recs)
+        if len(out) < count and rejected:
             try:
-                if kind == "track":
-                    item = resolve_track_recommendation(rec, token)
-                    if item and not item.get("reviewed"):
-                        key = (item["title"].lower(), item["artist"].lower())
-                        if key not in seen:
-                            seen.add(key)
-                            out.append(item)
-                elif kind == "album":
-                    item = resolve_album_recommendation(rec, token)
-                    if item and not item.get("reviewed"):
-                        key = (item["name"].lower(), item["artist"].lower())
-                        if key not in seen:
-                            seen.add(key)
-                            out.append(item)
-                else:
-                    item = resolve_playlist_recommendation(rec, token)
-                    if item:
-                        key = (item["title"] or "").lower()
-                        if key not in seen:
-                            seen.add(key)
-                            out.append(item)
+                retry = ask_openrouter(kind, prompt, count + 3, profile, reject=rejected[:20])
+                consume(retry)
             except Exception:  # noqa: BLE001
-                continue
+                pass
         self._json(200, {
             "kind": kind,
             "prompt": prompt,
