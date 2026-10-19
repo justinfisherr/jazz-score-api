@@ -218,12 +218,28 @@ def build_taste_profile(tracks):
         for a, v in artists.items() if v["n"] >= 2
     ]
     top_artists.sort(key=lambda x: (-x["avg"], -x["n"]))
+    low_artists = [a for a in top_artists if a["avg"] <= 4.5]
+    album_stats = {}
+    for t in rated:
+        if not t.get("album"):
+            continue
+        key = (t.get("album"), t.get("artist"))
+        stats = album_stats.setdefault(key, {"n": 0, "sum": 0.0})
+        stats["n"] += 1
+        stats["sum"] += t.get("rating", 0)
+    top_albums = [
+        {"album": k[0], "artist": k[1], "avg": round(v["sum"] / v["n"], 2), "n": v["n"]}
+        for k, v in album_stats.items()
+    ]
+    top_albums.sort(key=lambda x: (-x["avg"], -x["n"]))
     return {
         "top_rated": [{"title": t.get("title"), "artist": t.get("artist"), "rating": t.get("rating")} for t in top],
         "misses": [{"title": t.get("title"), "artist": t.get("artist"), "rating": t.get("rating")} for t in low],
         "avoid_recent": [{"title": t.get("title"), "artist": t.get("artist")} for t in recent],
         "rated_catalog": [{"title": t.get("title"), "artist": t.get("artist")} for t in rated],
         "top_artists": top_artists[:12],
+        "low_artists": low_artists[:8],
+        "top_albums": top_albums[:10],
         "top_eras": [{"era": k, "n": n} for k, n in mode("era")],
         "top_subgenres": [{"subgenre": k, "n": n} for k, n in mode("subgenres")],
         "top_moods": [{"mood": k, "n": n} for k, n in mode("moods")],
@@ -243,7 +259,8 @@ def ask_openrouter(kind, prompt, count, profile, reject=None):
         "Recommend jazz recordings only unless the request explicitly asks for another genre. "
         f"Return exactly {count + 3} distinct recommendations. "
         "Recommend music he has not already rated. Be specific and lean into gaps, but balance about "
-        "70% fit to his highest-rated eras, instruments, artists, and collaborators with 30% exploration. "
+        "70% fit to his highest-rated eras, instruments, artists, collaborators, and albums with 30% exploration. "
+        "Favor artists one or two degrees away from his top artists (same scene, sidemen, or label) and avoid low_artists. "
         "A pick that clearly sits outside his taste is a failed recommendation. "
         f"{kind_rule} "
         "spotify_query must be the exact search phrase that will find that item on Spotify. "
