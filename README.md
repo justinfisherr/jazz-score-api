@@ -11,3 +11,13 @@ After retraining there, refresh them:
     cp ~/claude-metrics/model.joblib ~/claude-metrics/training-data.json ~/Projects/jazz-score-api/
 
 Requires `SPOTIFY_CLIENT_ID` and `SPOTIFY_CLIENT_SECRET` env vars (set on Vercel).
+
+## AI recommendations
+
+`POST /api/recommend` (requires `x-app-password`) asks OpenRouter for jazz
+recommendations grounded in the current Postgres ratings, then resolves and
+scores tracks with the live model.
+
+Env:
+- `OPENROUTER_API_KEY` — OpenRouter key (stored in Vercel; local copy at `~/.openrouter_key`)
+- `OPENROUTER_MODEL` — optional, defaults to `openai/gpt-4o-mini`
