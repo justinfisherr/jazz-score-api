@@ -20,4 +20,4 @@ scores tracks with the live model.
 
 Env:
 - `OPENROUTER_API_KEY` — OpenRouter key (stored in Vercel; local copy at `~/.openrouter_key`)
-- `OPENROUTER_MODEL` — optional, defaults to `openai/gpt-4o-mini`
+- `OPENROUTER_MODEL` — optional, defaults to `deepseek/deepseek-v4.1-flash`

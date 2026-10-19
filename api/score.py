@@ -49,7 +49,7 @@ GH_WORKFLOW = os.environ.get("GH_WORKFLOW", "train.yml")
 GH_API = "https://api.github.com"
 OPENROUTER_URL = "https://openrouter.ai/api/v1/chat/completions"
 OPENROUTER_API_KEY = os.environ.get("OPENROUTER_API_KEY", "")
-OPENROUTER_MODEL = os.environ.get("OPENROUTER_MODEL", "openai/gpt-4o-mini")
+OPENROUTER_MODEL = os.environ.get("OPENROUTER_MODEL", "deepseek/deepseek-v4.1-flash")
 
 
 def gh_headers():
