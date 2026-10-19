@@ -291,7 +291,7 @@ def ask_openrouter(kind, prompt, count, profile, reject=None):
             "model": OPENROUTER_MODEL,
             "messages": [{"role": "system", "content": system}, {"role": "user", "content": user}],
             "temperature": 0.7,
-            "max_tokens": 3000,
+            "max_tokens": 4000,
             "reasoning": {"effort": "low"},
         },
         timeout=60,
@@ -304,12 +304,43 @@ def ask_openrouter(kind, prompt, count, profile, reject=None):
     content = re.sub(r"^```(?:json)?\s*|\s*```$", "", content.strip(), flags=re.S)
     try:
         data = json.loads(content)
+        recs = data.get("recommendations") or []
     except json.JSONDecodeError:
-        match = re.search(r"\{.*\}", content, flags=re.S)
-        if not match:
-            raise RuntimeError("model did not return JSON")
-        data = json.loads(match.group(0))
-    recs = data.get("recommendations") or []
+        # Reasoning models occasionally truncate the final object. Recover every
+        # complete object we can and drop the unfinished tail.
+        recs = []
+        depth = 0
+        start = None
+        in_string = False
+        escaped = False
+        for i, ch in enumerate(content):
+            if in_string:
+                if escaped:
+                    escaped = False
+                elif ch == "\\":
+                    escaped = True
+                elif ch == '"':
+                    in_string = False
+                continue
+            if ch == '"':
+                in_string = True
+            elif ch == "{":
+                if depth == 0:
+                    start = i
+                depth += 1
+            elif ch == "}":
+                if depth:
+                    depth -= 1
+                if depth == 0 and start is not None:
+                    try:
+                        obj = json.loads(content[start:i + 1])
+                        if isinstance(obj, dict) and obj.get("title"):
+                            recs.append(obj)
+                    except json.JSONDecodeError:
+                        pass
+                    start = None
+        if not recs:
+            raise RuntimeError("model did not return valid JSON")
     return [r for r in recs if isinstance(r, dict) and r.get("title")]
 
 
