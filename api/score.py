@@ -45,6 +45,9 @@ GH_TOKEN = os.environ.get("GH_WORKFLOW_TOKEN", "")
 GH_REPO = os.environ.get("GH_REPO", "justinfisherr/claude-metrics")
 GH_WORKFLOW = os.environ.get("GH_WORKFLOW", "train.yml")
 GH_API = "https://api.github.com"
+OPENROUTER_URL = "https://openrouter.ai/api/v1/chat/completions"
+OPENROUTER_API_KEY = os.environ.get("OPENROUTER_API_KEY", "")
+OPENROUTER_MODEL = os.environ.get("OPENROUTER_MODEL", "openai/gpt-4o-mini")
 
 
 def gh_headers():
@@ -191,6 +194,161 @@ def fetch_spotify_audio_batch(token, ids):
     return {a["id"]: a for a in resp.json().get("audio_features", []) if a}
 
 
+def build_taste_profile(tracks):
+    rated = [t for t in tracks if t.get("entity_type") != "album" and t.get("rating") is not None]
+    top = sorted(rated, key=lambda t: t.get("rating", 0), reverse=True)[:14]
+    low = sorted(rated, key=lambda t: t.get("rating", 0))[:8]
+    recent = sorted(rated, key=lambda t: (t.get("date_added") or ""), reverse=True)[:45]
+
+    def mode(field):
+        return Counter(v for t in rated for v in ([t.get(field)] if isinstance(t.get(field), str) else (t.get(field) or []))).most_common(8)
+
+    artists = {}
+    for t in rated:
+        a = t.get("artist")
+        if not a:
+            continue
+        stats = artists.setdefault(a, {"n": 0, "sum": 0.0})
+        stats["n"] += 1
+        stats["sum"] += t.get("rating", 0)
+    top_artists = [
+        {"artist": a, "avg": round(v["sum"] / v["n"], 2), "n": v["n"]}
+        for a, v in artists.items() if v["n"] >= 2
+    ]
+    top_artists.sort(key=lambda x: (-x["avg"], -x["n"]))
+    return {
+        "top_rated": [{"title": t.get("title"), "artist": t.get("artist"), "rating": t.get("rating")} for t in top],
+        "misses": [{"title": t.get("title"), "artist": t.get("artist"), "rating": t.get("rating")} for t in low],
+        "avoid_recent": [{"title": t.get("title"), "artist": t.get("artist")} for t in recent],
+        "top_artists": top_artists[:12],
+        "top_eras": [{"era": k, "n": n} for k, n in mode("era")],
+        "top_subgenres": [{"subgenre": k, "n": n} for k, n in mode("subgenres")],
+        "top_moods": [{"mood": k, "n": n} for k, n in mode("moods")],
+        "top_instruments": [{"instrument": k, "n": n} for k, n in mode("primary_instrument")],
+    }
+
+
+def ask_openrouter(kind, prompt, count, profile):
+    shape = '{"recommendations":[{"title":"...","artist":"...","reason":"...","confidence":"high|medium|low","spotify_query":"..."}]}'
+    system = (
+        "You are Justin's jazz concierge. You know his taste model and his library. "
+        "Recommend music he has not already rated. Be specific, avoid obvious greatest-hits picks "
+        "unless they genuinely fit the request, and lean into the gaps in his listening. "
+        "For an album recommendation, title is the album and artist is the album artist. "
+        "For a playlist, title is a short playlist name and artist is the curator or vibe, "
+        "and spotify_query must be a Spotify playlist search phrase. "
+        f"Return JSON only, exactly this shape: {shape}"
+    )
+    user = json.dumps({
+        "kind": kind,
+        "request": prompt or "Recommend something that fits my taste right now.",
+        "count": count,
+        "taste_profile": profile,
+        "rules": [
+            "Never recommend a track/album already represented in avoid_recent or top_rated.",
+            "Use known real recordings only; do not invent titles or personnel.",
+            "The reason should be one or two specific sentences, not hype.",
+        ],
+    }, ensure_ascii=False)
+    resp = requests.post(
+        OPENROUTER_URL,
+        headers={
+            "Authorization": f"Bearer {OPENROUTER_API_KEY}",
+            "Content-Type": "application/json",
+            "HTTP-Referer": "https://claude-metrics-five.vercel.app",
+            "X-Title": "Jazz Taste Analysis",
+        },
+        json={
+            "model": OPENROUTER_MODEL,
+            "messages": [{"role": "system", "content": system}, {"role": "user", "content": user}],
+            "temperature": 0.7,
+            "max_tokens": 900,
+            "response_format": {"type": "json_object"},
+        },
+        timeout=60,
+    )
+    if resp.status_code >= 400:
+        raise RuntimeError(f"{resp.status_code}: {resp.text[:300]}")
+    content = resp.json()["choices"][0]["message"]["content"]
+    content = re.sub(r"^```(?:json)?\s*|\s*```$", "", content.strip(), flags=re.S)
+    try:
+        data = json.loads(content)
+    except json.JSONDecodeError:
+        match = re.search(r"\{.*\}", content, flags=re.S)
+        if not match:
+            raise RuntimeError("model did not return JSON")
+        data = json.loads(match.group(0))
+    recs = data.get("recommendations") or []
+    return [r for r in recs if isinstance(r, dict) and r.get("title")]
+
+
+def resolve_track_recommendation(rec, token):
+    title = str(rec.get("title") or "").strip()
+    artist = str(rec.get("artist") or "").strip()
+    query = str(rec.get("spotify_query") or f"{title} {artist}").strip()
+    track = search_track(token, query, title or None, artist or None)
+    if not track:
+        return None
+    sfa = fetch_spotify_audio(token, track["id"])
+    recco = fetch_reccobeats(track["id"])
+    candidate = build_candidate(track, sfa, recco)
+    score = predict_track(candidate)
+    existing = db.match_review(candidate["title"], candidate["artist"]) or {}
+    return {
+        "kind": "track",
+        "title": candidate["title"],
+        "artist": candidate["artist"],
+        "album": (track.get("album") or {}).get("name"),
+        "year": candidate["year"],
+        "image": track_image(track),
+        "url": track_url(track),
+        "spotify_id": track["id"],
+        "score": score,
+        "reason": rec.get("reason"),
+        "confidence": rec.get("confidence"),
+        "reviewed": bool(existing),
+        "rating": existing.get("rating"),
+        "notes": existing.get("notes"),
+    }
+
+
+def resolve_album_recommendation(rec, token):
+    title = str(rec.get("title") or "").strip()
+    artist = str(rec.get("artist") or "").strip()
+    query = str(rec.get("spotify_query") or f"{title} {artist}").strip()
+    albums = search_albums(token, query)
+    if not albums:
+        return None
+    album = albums[0]
+    summary = album_summary(album)
+    summary.update({
+        "kind": "album",
+        "reason": rec.get("reason"),
+        "confidence": rec.get("confidence"),
+        "reviewed": db.is_reviewed(summary["name"], summary["artist"]),
+    })
+    return summary
+
+
+def resolve_playlist_recommendation(rec, token):
+    query = str(rec.get("spotify_query") or rec.get("title") or "").strip()
+    playlists = search_playlists(token, query)
+    if not playlists:
+        return None
+    p = playlists[0]
+    return {
+        "kind": "playlist",
+        "title": p.get("name"),
+        "artist": (p.get("owner") or {}).get("display_name"),
+        "image": (p.get("images") or [{}])[0].get("url") if p.get("images") else None,
+        "track_count": (p.get("tracks") or {}).get("total"),
+        "url": (p.get("external_urls") or {}).get("spotify"),
+        "spotify_id": p.get("id"),
+        "reason": rec.get("reason"),
+        "confidence": rec.get("confidence"),
+    }
+
+
 class handler(BaseHTTPRequestHandler):
     def do_GET(self):  # noqa: N802
         path = urlparse(self.path).path
@@ -246,7 +404,9 @@ class handler(BaseHTTPRequestHandler):
         if self.headers.get("x-app-password") != APP_PASSWORD:
             self._json(401, {"error": "unauthorized"})
             return
-        if path.startswith("/api/enrich"):
+        if path.startswith("/api/recommend"):
+            self._recommend()
+        elif path.startswith("/api/enrich"):
             self._enrich()
         elif path.startswith("/api/train"):
             self._trigger_train()
@@ -271,6 +431,56 @@ class handler(BaseHTTPRequestHandler):
             self._json(200, {"ok": True})
         else:
             self._json(401, {"error": "wrong password"})
+
+    def _recommend(self):
+        if not OPENROUTER_API_KEY:
+            self._json(503, {"error": "AI recommendations are not configured (OPENROUTER_API_KEY missing)"})
+            return
+        length = int(self.headers.get("Content-Length", 0) or 0)
+        try:
+            body = json.loads(self.rfile.read(length) or b"{}")
+        except json.JSONDecodeError:
+            self._json(400, {"error": "invalid JSON"})
+            return
+        kind = body.get("kind") if body.get("kind") in ("track", "album", "playlist") else "track"
+        prompt = str(body.get("prompt") or "").strip()
+        count = max(1, min(5, int(body.get("count") or (3 if kind == "track" else 2))))
+        tracks = db.fetch_tracks()
+        profile = build_taste_profile(tracks)
+        try:
+            recs = ask_openrouter(kind, prompt, count, profile)
+        except Exception as exc:  # noqa: BLE001
+            self._json(502, {"error": f"openrouter: {exc}"})
+            return
+        token = get_token()
+        out = []
+        for rec in recs[:count]:
+            try:
+                if kind == "track":
+                    item = resolve_track_recommendation(rec, token)
+                    if item:
+                        out.append(item)
+                elif kind == "album":
+                    item = resolve_album_recommendation(rec, token)
+                    if item:
+                        out.append(item)
+                else:
+                    item = resolve_playlist_recommendation(rec, token)
+                    if item:
+                        out.append(item)
+            except Exception:  # noqa: BLE001
+                continue
+        self._json(200, {
+            "kind": kind,
+            "prompt": prompt,
+            "model": OPENROUTER_MODEL,
+            "recommendations": out,
+            "profile": {
+                "tracks": len([t for t in tracks if t.get("entity_type") != "album"]),
+                "top_eras": profile["top_eras"][:4],
+                "top_artists": profile["top_artists"][:6],
+            },
+        })
 
     def _enrich(self):
         length = int(self.headers.get("Content-Length", 0) or 0)
