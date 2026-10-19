@@ -538,8 +538,9 @@ class handler(BaseHTTPRequestHandler):
         count = max(1, min(10, int(body.get("count") or (10 if kind == "track" else 2))))
         tracks = db.fetch_tracks()
         profile = build_taste_profile(tracks)
+        initial_reject = [str(x)[:140] for x in (body.get("exclude") or [])][:30]
         try:
-            recs = ask_openrouter(kind, prompt, min(count, 6) if kind == "track" else count + 3, profile)
+            recs = ask_openrouter(kind, prompt, min(count, 6) if kind == "track" else count + 3, profile, reject=initial_reject)
         except Exception as exc:  # noqa: BLE001
             self._json(502, {"error": f"openrouter: {exc}"})
             return
@@ -547,7 +548,7 @@ class handler(BaseHTTPRequestHandler):
         existing_tracks = db.fetch_tracks()
         out = []
         seen = set()
-        rejected = []
+        rejected = list(initial_reject)
 
         def consume(candidates):
             for rec in candidates:
