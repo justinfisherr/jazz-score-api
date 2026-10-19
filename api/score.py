@@ -7,6 +7,8 @@ GET /api/playlist?id=<playlist_id>            -> score every track in the playli
 """
 
 import json
+import os
+import time
 import sys
 from http.server import BaseHTTPRequestHandler
 from pathlib import Path
@@ -37,6 +39,47 @@ from score import (  # noqa: E402
 
 SPOTIFY_API = "https://api.spotify.com/v1"
 RECCOBEATS_URL = "https://api.reccobeats.com/v1/audio-features"
+APP_PASSWORD = os.environ.get("APP_PASSWORD", "4416")
+GH_TOKEN = os.environ.get("GH_WORKFLOW_TOKEN", "")
+GH_REPO = os.environ.get("GH_REPO", "justinfisherr/claude-metrics")
+GH_WORKFLOW = os.environ.get("GH_WORKFLOW", "train.yml")
+GH_API = "https://api.github.com"
+
+
+def gh_headers():
+    return {
+        "Authorization": f"Bearer {GH_TOKEN}",
+        "Accept": "application/vnd.github+json",
+        "X-GitHub-Api-Version": "2022-11-28",
+    }
+
+
+def latest_train_run():
+    resp = requests.get(
+        f"{GH_API}/repos/{GH_REPO}/actions/workflows/{GH_WORKFLOW}/runs",
+        headers=gh_headers(),
+        params={"per_page": 1},
+        timeout=20,
+    )
+    if resp.status_code == 404:
+        return None
+    resp.raise_for_status()
+    runs = resp.json().get("workflow_runs", [])
+    return runs[0] if runs else None
+
+
+def run_summary(run):
+    if not run:
+        return {"status": "idle", "conclusion": None, "url": None}
+    return {
+        "status": run.get("status"),
+        "conclusion": run.get("conclusion"),
+        "url": run.get("html_url"),
+        "created_at": run.get("created_at"),
+        "updated_at": run.get("updated_at"),
+        "run_number": run.get("run_number"),
+        "display_title": run.get("display_title"),
+    }
 
 
 def search_playlists(token, q):
@@ -162,6 +205,8 @@ class handler(BaseHTTPRequestHandler):
                 self._json(200, {"pending": db.get_pending_reviews()})
             elif path.startswith("/api/genres"):
                 self._json(200, {"genres": genre_bridge.genres()})
+            elif path.startswith("/api/train"):
+                self._train_status()
             else:
                 self._score(params)
         except Exception as exc:  # noqa: BLE001
@@ -189,12 +234,20 @@ class handler(BaseHTTPRequestHandler):
         self.send_response(204)
         self.send_header("Access-Control-Allow-Origin", "*")
         self.send_header("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
-        self.send_header("Access-Control-Allow-Headers", "Content-Type")
+        self.send_header("Access-Control-Allow-Headers", "Content-Type, x-app-password")
         self.end_headers()
 
     def do_POST(self):  # noqa: N802
         path = urlparse(self.path).path
-        if path.startswith("/api/rate/delete"):
+        if path.startswith("/api/auth"):
+            self._auth_check()
+            return
+        if self.headers.get("x-app-password") != APP_PASSWORD:
+            self._json(401, {"error": "unauthorized"})
+            return
+        if path.startswith("/api/train"):
+            self._trigger_train()
+        elif path.startswith("/api/rate/delete"):
             self._unrate()
         elif path.startswith("/api/pending/clear"):
             self._clear_pending()
@@ -204,6 +257,63 @@ class handler(BaseHTTPRequestHandler):
             self._rate()
         else:
             self._json(404, {"error": "not found"})
+
+    def _auth_check(self):
+        length = int(self.headers.get("Content-Length", 0) or 0)
+        try:
+            body = json.loads(self.rfile.read(length) or b"{}")
+        except json.JSONDecodeError:
+            body = {}
+        if body.get("password") == APP_PASSWORD:
+            self._json(200, {"ok": True})
+        else:
+            self._json(401, {"error": "wrong password"})
+
+    def _train_status(self):
+        if not GH_TOKEN:
+            self._json(503, {"error": "training is not configured (GH_WORKFLOW_TOKEN missing)"})
+            return
+        try:
+            run = latest_train_run()
+        except Exception as exc:  # noqa: BLE001
+            self._json(502, {"error": f"github: {exc}"})
+            return
+        self._json(200, {"run": run_summary(run)})
+
+    def _trigger_train(self):
+        if not GH_TOKEN:
+            self._json(503, {"error": "training is not configured (GH_WORKFLOW_TOKEN missing)"})
+            return
+        length = int(self.headers.get("Content-Length", 0) or 0)
+        try:
+            body = json.loads(self.rfile.read(length) or b"{}")
+        except json.JSONDecodeError:
+            body = {}
+        try:
+            run = latest_train_run()
+            if run and run.get("status") in ("queued", "in_progress", "waiting", "requested", "pending"):
+                self._json(409, {"error": "a training run is already in progress", "run": run_summary(run)})
+                return
+            inputs = {
+                "name": str(body.get("name") or "")[:80],
+                "major": "true" if body.get("major") else "false",
+                "notes": str(body.get("notes") or "")[:500],
+            }
+            resp = requests.post(
+                f"{GH_API}/repos/{GH_REPO}/actions/workflows/{GH_WORKFLOW}/dispatches",
+                headers=gh_headers(),
+                json={"ref": "main", "inputs": inputs},
+                timeout=20,
+            )
+            if resp.status_code not in (201, 204):
+                self._json(502, {"error": f"github dispatch failed ({resp.status_code}): {resp.text[:200]}"})
+                return
+            # Give GitHub a moment, then report the queued run.
+            time.sleep(1.5)
+            run = latest_train_run()
+            self._json(202, {"ok": True, "run": run_summary(run)})
+        except Exception as exc:  # noqa: BLE001
+            self._json(502, {"error": f"github: {exc}"})
 
     def _unrate(self):
         length = int(self.headers.get("Content-Length", 0) or 0)
