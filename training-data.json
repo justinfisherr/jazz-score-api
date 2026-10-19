@@ -1846,7 +1846,7 @@
     "title": "Naima",
     "artist": "John Coltrane",
     "energy": 2,
-    "rating": 8,
+    "rating": 8.0,
     "subgenres": [
       "hard bop",
       "ballad"
@@ -1887,7 +1887,20 @@
       "bass",
       "drums"
     ],
+    "rating_variants": [
+      {
+        "title": "Naima",
+        "rating": 8
+      },
+      {
+        "title": "Naima - Mono",
+        "rating": 8
+      }
+    ],
     "favorite_moments": null,
+    "merged_duplicates": [
+      "Naima - Mono"
+    ],
     "notable_qualities": [
       "beautiful and tender",
       "written for Coltrane's first wife",
@@ -4657,7 +4670,7 @@
     "title": "Cantaloupe Island",
     "artist": "Herbie Hancock",
     "energy": 7,
-    "rating": 9,
+    "rating": 8.0,
     "subgenres": [
       "hard bop",
       "soul jazz",
@@ -4699,7 +4712,20 @@
       "bass",
       "drums"
     ],
+    "rating_variants": [
+      {
+        "title": "Cantaloupe Island",
+        "rating": 9
+      },
+      {
+        "title": "Cantaloupe Island - Remastered 1999/Rudy Van Gelder Edition",
+        "rating": 7
+      }
+    ],
     "favorite_moments": "The intro",
+    "merged_duplicates": [
+      "Cantaloupe Island - Remastered 1999/Rudy Van Gelder Edition"
+    ],
     "notable_qualities": [
       "knew right away he liked it",
       "sexy, smooth, and captivating",
@@ -5170,7 +5196,7 @@
     "title": "Fleurette Africaine",
     "artist": "Duke Ellington",
     "energy": 2,
-    "rating": 9,
+    "rating": 8.0,
     "subgenres": [
       "post-bop",
       "piano trio"
@@ -5209,7 +5235,20 @@
       "bass",
       "drums"
     ],
+    "rating_variants": [
+      {
+        "title": "Fleurette Africaine",
+        "rating": 9
+      },
+      {
+        "title": "Fleurette Africaine (African Flower) - 2002 Remaster",
+        "rating": 7
+      }
+    ],
     "favorite_moments": null,
+    "merged_duplicates": [
+      "Fleurette Africaine (African Flower) - 2002 Remaster"
+    ],
     "notable_qualities": [
       "just beautiful",
       "immediate connection",
@@ -7686,139 +7725,6 @@
     "primary_instrument": "tenor saxophone"
   },
   {
-    "era": "Hard Bop",
-    "year": 1959,
-    "album": "But Not for Me",
-    "liked": true,
-    "moods": [
-      "cool",
-      "sexy",
-      "restless",
-      "fun",
-      "repetitive"
-    ],
-    "tempo": "medium",
-    "title": "But Not for Me",
-    "artist": "Ahmad Jamal",
-    "energy": 5,
-    "rating": 7.5,
-    "subgenres": [
-      "hard bop",
-      "piano"
-    ],
-    "date_added": "2026-06-26",
-    "spotify_id": "5iWKFIAbqS8btb6jquMusM",
-    "key_players": [
-      "Ahmad Jamal - piano",
-      "Israel Crosby - bass",
-      "Vernel Fournier - drums"
-    ],
-    "playthrough": 1.0,
-    "replayability": 5,
-    "audio_features": {
-      "source": "reccobeats",
-      "liveness": 0.97,
-      "loudness": -14.071,
-      "speechiness": 0.0944,
-      "acousticness": 0.392,
-      "danceability": 0.591,
-      "spotify_energy": 0.554,
-      "spotify_valence": 0.561,
-      "instrumentalness": 0.666
-    },
-    "discovered_from": "claude-recommendation",
-    "primary_instrument": "piano"
-  },
-  {
-    "era": "Hard Bop",
-    "year": 1959,
-    "album": "But Not for Me",
-    "liked": false,
-    "moods": [
-      "experimental",
-      "restless",
-      "fun"
-    ],
-    "tempo": "medium-fast",
-    "title": "Surrey with the Fringe on Top",
-    "artist": "Ahmad Jamal",
-    "energy": 6,
-    "rating": 3,
-    "subgenres": [
-      "hard bop",
-      "piano"
-    ],
-    "date_added": "2026-06-26",
-    "spotify_id": "2G91ddDq9RzO8lujn2X2oH",
-    "key_players": [
-      "Ahmad Jamal - piano",
-      "Israel Crosby - bass",
-      "Vernel Fournier - drums"
-    ],
-    "playthrough": 0.5,
-    "replayability": 3,
-    "audio_features": {
-      "source": "reccobeats",
-      "liveness": 0.698,
-      "loudness": -15.647,
-      "speechiness": 0.0626,
-      "acousticness": 0.428,
-      "danceability": 0.465,
-      "spotify_energy": 0.519,
-      "spotify_valence": 0.717,
-      "instrumentalness": 0.58
-    },
-    "discovered_from": "claude-recommendation",
-    "primary_instrument": "piano"
-  },
-  {
-    "era": "Hard Bop",
-    "year": 1959,
-    "album": "But Not for Me",
-    "liked": null,
-    "moods": [
-      "sexy",
-      "pretty",
-      "bluesy",
-      "melancholic",
-      "hopeful",
-      "bittersweet",
-      "elegant",
-      "sparse"
-    ],
-    "tempo": "slow",
-    "title": "Moonlight in Vermont",
-    "artist": "Ahmad Jamal",
-    "energy": 2,
-    "rating": 5,
-    "subgenres": [
-      "hard bop",
-      "piano ballad"
-    ],
-    "date_added": "2026-06-26",
-    "spotify_id": "68oYY9hUduyqbKZpOUi4Iq",
-    "key_players": [
-      "Ahmad Jamal - piano",
-      "Israel Crosby - bass",
-      "Vernel Fournier - drums"
-    ],
-    "playthrough": 0.5,
-    "replayability": 2,
-    "audio_features": {
-      "source": "reccobeats",
-      "liveness": 0.966,
-      "loudness": -18.124,
-      "speechiness": 0.105,
-      "acousticness": 0.658,
-      "danceability": 0.427,
-      "spotify_energy": 0.379,
-      "spotify_valence": 0.329,
-      "instrumentalness": 0.0667
-    },
-    "discovered_from": "claude-recommendation",
-    "primary_instrument": "piano"
-  },
-  {
     "era": "Cool Jazz",
     "year": 1963,
     "album": "Soulmates",
@@ -8280,7 +8186,7 @@
     "title": "Maiden Voyage",
     "artist": "Herbie Hancock",
     "energy": 4,
-    "rating": 6,
+    "rating": 6.5,
     "subgenres": [
       "post-bop",
       "modal jazz"
@@ -8311,6 +8217,19 @@
       "tenor saxophone",
       "bass",
       "drums"
+    ],
+    "rating_variants": [
+      {
+        "title": "Maiden Voyage",
+        "rating": 6
+      },
+      {
+        "title": "Maiden Voyage - Remastered 1999/Rudy Van Gelder Edition",
+        "rating": 7
+      }
+    ],
+    "merged_duplicates": [
+      "Maiden Voyage - Remastered 1999/Rudy Van Gelder Edition"
     ],
     "primary_instrument": "piano",
     "harmonic_complexity": "medium",
@@ -15763,7 +15682,7 @@
     "tempo": "medium",
     "title": "Fee-Fi-Fo-Fum",
     "artist": "Wayne Shorter",
-    "rating": 4,
+    "rating": 4.25,
     "subgenres": [
       "post-bop",
       "hard bop"
@@ -15792,7 +15711,20 @@
     },
     "discovered_from": "self",
     "instrumentation": [],
+    "rating_variants": [
+      {
+        "title": "Fee-Fi-Fo-Fum",
+        "rating": 4
+      },
+      {
+        "title": "Fee-Fi-Fo-Fum - Remastered1998/Rudy Van Gelder Edition",
+        "rating": 4.5
+      }
+    ],
     "favorite_moments": null,
+    "merged_duplicates": [
+      "Fee-Fi-Fo-Fum - Remastered1998/Rudy Van Gelder Edition"
+    ],
     "notable_qualities": [
       "Speak No Evil album review 2026-07-21"
     ],
@@ -22369,21 +22301,88 @@
     "recommendation_version": "2026-07-20-strengthen-explore"
   },
   {
-    "moods": [],
+    "era": "Post-Bop",
+    "year": 1964,
+    "album": "Today And Tomorrow",
+    "apply": true,
+    "label": "Impulse!",
+    "moods": [
+      "moody",
+      "dark"
+    ],
     "title": "When Sunny Gets Blue",
     "artist": "McCoy Tyner",
     "rating": 8,
-    "subgenres": [],
+    "subgenres": [
+      "piano trio",
+      "ballad",
+      "standard"
+    ],
+    "date_added": "2026-10-11",
+    "era_source": "curated-album",
     "spotify_id": "01HQIKjcODJCBRFoETqngE",
+    "key_players": [
+      "McCoy Tyner - piano",
+      "Steve Davis - bass",
+      "Lex Humphries - drums"
+    ],
+    "year_source": "curated-album",
+    "album_source": "spotify",
+    "label_source": "curated-album",
     "instrumentation": [],
-    "date_added": "2026-10-19"
+    "metadata_sources": [
+      "era:dataset",
+      "instrument:artist",
+      "moods:artist",
+      "subgenres:artist"
+    ],
+    "needs_enrichment": false,
+    "date_added_source": "db_updated_at",
+    "metadata_complete": true,
+    "key_players_source": "curated-album",
+    "primary_instrument": "piano"
   },
   {
+    "era": "Post-Bop",
     "year": 1964,
+    "album": "Illumination!",
+    "apply": true,
+    "label": "Impulse!",
+    "moods": [
+      "cool"
+    ],
     "title": "Half And Half",
     "artist": "Elvin Jones",
     "rating": 5,
+    "subgenres": [
+      "post-bop",
+      "blues"
+    ],
+    "date_added": "2026-10-11",
+    "era_source": "curated-album",
     "spotify_id": "43HfhwCGlQSQX38zxXdVaR",
+    "key_players": [
+      "Elvin Jones - drums",
+      "McCoy Tyner - piano",
+      "Jimmy Garrison - bass",
+      "Sonny Simmons - alto saxophone",
+      "Prince Lasha - flute"
+    ],
+    "year_source": "curated-album",
+    "album_source": "spotify",
+    "label_source": "curated-album",
+    "instrumentation": [],
+    "metadata_sources": [
+      "era:dataset",
+      "instrument:artist",
+      "moods:artist",
+      "subgenres:artist"
+    ],
+    "needs_enrichment": false,
+    "date_added_source": "db_updated_at",
+    "metadata_complete": true,
+    "key_players_source": "curated-album",
+    "primary_instrument": "drums",
     "audio_features": {
       "acousticness": 0.78,
       "danceability": 0.308,
@@ -22393,14 +22392,49 @@
       "loudness": -14.835,
       "speechiness": 0.0394,
       "spotify_valence": 0.562
-    },
-    "date_added": "2026-10-19"
+    }
   },
   {
+    "era": "Hard Bop",
+    "year": 1958,
+    "album": "Soultrane",
+    "apply": true,
+    "label": "Prestige",
+    "moods": [
+      "tender",
+      "romantic"
+    ],
     "title": "Theme For Ernie",
     "artist": "John Coltrane",
     "rating": 6,
+    "subgenres": [
+      "modal jazz",
+      "spiritual jazz"
+    ],
+    "date_added": "2026-10-11",
+    "era_source": "curated-album",
     "spotify_id": "0H2iAE7Y1ivCZ5YzEf3NMT",
+    "key_players": [
+      "John Coltrane - tenor saxophone",
+      "Red Garland - piano",
+      "Paul Chambers - bass",
+      "Art Taylor - drums"
+    ],
+    "year_source": "curated-album",
+    "album_source": "spotify",
+    "label_source": "curated-album",
+    "instrumentation": [],
+    "metadata_sources": [
+      "era:dataset",
+      "instrument:artist",
+      "moods:artist",
+      "subgenres:artist"
+    ],
+    "needs_enrichment": false,
+    "date_added_source": "db_updated_at",
+    "metadata_complete": true,
+    "key_players_source": "curated-album",
+    "primary_instrument": "tenor saxophone",
     "audio_features": {
       "acousticness": 0.985,
       "danceability": 0.479,
@@ -22410,15 +22444,56 @@
       "loudness": -10.319,
       "speechiness": 0.0384,
       "spotify_valence": 0.164
-    },
-    "date_added": "2026-10-19"
+    }
   },
   {
+    "era": "Cool Jazz",
+    "year": 1957,
+    "album": "Birth Of The Cool",
+    "apply": true,
+    "label": "Capitol",
+    "moods": [
+      "reflective",
+      "spacious",
+      "contemplative"
+    ],
     "notes": "Just special.",
     "title": "Boplicity",
     "artist": "Miles Davis",
     "rating": 8,
+    "subgenres": [
+      "modal jazz",
+      "cool jazz"
+    ],
+    "date_added": "2026-10-11",
+    "era_source": "curated-album",
     "spotify_id": "0Wz6DLq8NBoi1viEqrdH9B",
+    "key_players": [
+      "Miles Davis - trumpet",
+      "Lee Konitz - alto saxophone",
+      "Gerry Mulligan - baritone saxophone",
+      "Kai Winding - trombone",
+      "J.J. Johnson - trombone",
+      "Gunther Schuller - French horn",
+      "Al Haig - piano",
+      "Joe Shulman - bass",
+      "Max Roach - drums"
+    ],
+    "year_source": "curated-album",
+    "album_source": "spotify",
+    "label_source": "curated-album",
+    "instrumentation": [],
+    "metadata_sources": [
+      "era:dataset",
+      "instrument:artist",
+      "moods:artist",
+      "subgenres:artist"
+    ],
+    "needs_enrichment": false,
+    "date_added_source": "db_updated_at",
+    "metadata_complete": true,
+    "key_players_source": "curated-album",
+    "primary_instrument": "trumpet",
     "audio_features": {
       "acousticness": 0.932,
       "danceability": 0.488,
@@ -22428,22 +22503,101 @@
       "loudness": -15.979,
       "speechiness": 0.0399,
       "spotify_valence": 0.497
-    },
-    "date_added": "2026-10-19"
+    }
   },
   {
+    "era": "Hard Bop",
+    "year": 1955,
+    "album": "Dexter Blows Hot & Cool",
+    "apply": true,
+    "label": "Dootone",
+    "moods": [
+      "interesting",
+      "fun",
+      "joyful",
+      "restless"
+    ],
     "title": "Cry Me A River",
     "artist": "Dexter Gordon All Stars",
     "rating": 7,
+    "subgenres": [
+      "hard bop",
+      "tenor ballad"
+    ],
+    "date_added": "2026-10-11",
+    "era_source": "curated-album",
     "spotify_id": "0t5BOVFZXX3sTbmmHRQyYV",
-    "date_added": "2026-10-19"
+    "key_players": [
+      "Dexter Gordon - tenor saxophone",
+      "Jimmy Robinson - trumpet",
+      "Carl Perkins - piano",
+      "Curtis Counce - bass",
+      "Chuck Thompson - drums"
+    ],
+    "year_source": "curated-album",
+    "album_source": "spotify",
+    "label_source": "curated-album",
+    "instrumentation": [],
+    "metadata_sources": [
+      "era:dataset",
+      "instrument:artist",
+      "moods:artist",
+      "subgenres:artist"
+    ],
+    "needs_enrichment": false,
+    "date_added_source": "db_updated_at",
+    "metadata_complete": true,
+    "key_players_source": "curated-album",
+    "primary_instrument": "tenor saxophone"
   },
   {
+    "era": "Free Jazz",
+    "year": 1959,
+    "album": "The Shape Of Jazz To Come",
+    "apply": true,
+    "label": "Atlantic",
+    "moods": [
+      "flat",
+      "experimental"
+    ],
     "notes": "Feel I just don’t get this jazz yet",
     "title": "Chronology",
     "artist": "Ornette Coleman",
     "rating": 4,
+    "subgenres": [
+      "free jazz",
+      "avant-garde jazz"
+    ],
+    "date_added": "2026-10-11",
     "spotify_id": "14FkDSrkQPko4YMhx6dLI2",
+    "key_players": [
+      "Ornette Coleman - alto saxophone",
+      "Don Cherry - trumpet",
+      "Charlie Haden - bass",
+      "Billy Higgins - drums"
+    ],
+    "year_source": "dataset-album",
+    "album_source": "spotify",
+    "instrumentation": [
+      "alto saxophone",
+      "trumpet",
+      "bass",
+      "drums"
+    ],
+    "metadata_sources": [
+      "era:dataset",
+      "instrument:album",
+      "instrumentation:album",
+      "label:album",
+      "moods:album",
+      "players:album",
+      "subgenres:album",
+      "year:album"
+    ],
+    "needs_enrichment": false,
+    "date_added_source": "db_updated_at",
+    "metadata_complete": true,
+    "primary_instrument": "alto saxophone",
     "audio_features": {
       "acousticness": 0.185,
       "danceability": 0.576,
@@ -22453,14 +22607,66 @@
       "loudness": -11.277,
       "speechiness": 0.0594,
       "spotify_valence": 0.57
-    },
-    "date_added": "2026-10-19"
+    }
   },
   {
+    "era": "Contemporary",
+    "year": 2015,
+    "album": "The Epic",
+    "apply": true,
+    "label": "Brainfeeder",
+    "moods": [
+      "spiritual",
+      "cinematic",
+      "triumphant",
+      "expansive",
+      "uplifting"
+    ],
     "title": "Miss Understanding",
     "artist": "Kamasi Washington",
     "rating": 3,
+    "subgenres": [
+      "spiritual jazz",
+      "modern jazz"
+    ],
+    "date_added": "2026-10-11",
     "spotify_id": "6dZojGTd9QNpAulk8WUoeW",
+    "key_players": [
+      "Kamasi Washington - tenor saxophone",
+      "Cameron Graves - piano",
+      "Brandon Coleman - keyboards",
+      "Miles Mosley - bass",
+      "Ronald Bruner Jr. - drums",
+      "Tony Austin - drums",
+      "Ryan Porter - trombone",
+      "Patrice Quinn - vocals"
+    ],
+    "year_source": "dataset-album",
+    "album_source": "spotify",
+    "instrumentation": [
+      "tenor saxophone",
+      "piano",
+      "keyboards",
+      "bass",
+      "drums",
+      "strings",
+      "choir",
+      "trombone"
+    ],
+    "metadata_sources": [
+      "era:dataset",
+      "instrument:album",
+      "instrumentation:album",
+      "label:album",
+      "moods:album",
+      "players:album",
+      "subgenres:album",
+      "year:album"
+    ],
+    "needs_enrichment": false,
+    "date_added_source": "db_updated_at",
+    "metadata_complete": true,
+    "primary_instrument": "tenor saxophone",
     "audio_features": {
       "acousticness": 0.0829,
       "danceability": 0.312,
@@ -22470,21 +22676,103 @@
       "loudness": -7.514,
       "speechiness": 0.157,
       "spotify_valence": 0.553
-    },
-    "date_added": "2026-10-19"
+    }
   },
   {
+    "era": "Post-Bop",
+    "year": 1964,
+    "album": "Illumination! / Dear John C.",
+    "apply": true,
+    "label": "Impulse!",
+    "moods": [
+      "cool"
+    ],
     "title": "Gettin' On Way",
     "artist": "Elvin Jones",
     "rating": 3.5,
+    "subgenres": [
+      "post-bop",
+      "blues"
+    ],
+    "date_added": "2026-10-11",
+    "era_source": "curated-album",
     "spotify_id": "218XzbaRy0IIwRivZDkkgM",
-    "date_added": "2026-10-19"
+    "key_players": [
+      "Elvin Jones - drums",
+      "McCoy Tyner - piano",
+      "Jimmy Garrison - bass",
+      "Sonny Simmons - alto saxophone",
+      "Prince Lasha - flute"
+    ],
+    "year_source": "curated-album",
+    "album_source": "spotify",
+    "label_source": "curated-album",
+    "instrumentation": [],
+    "metadata_sources": [
+      "era:dataset",
+      "instrument:artist",
+      "moods:artist",
+      "subgenres:artist"
+    ],
+    "needs_enrichment": false,
+    "date_added_source": "db_updated_at",
+    "metadata_complete": true,
+    "key_players_source": "curated-album",
+    "primary_instrument": "drums"
   },
   {
+    "era": "Post-Bop",
+    "year": 1963,
+    "album": "Duke Ellington & John Coltrane",
+    "apply": true,
+    "label": "Impulse!",
+    "moods": [
+      "romantic",
+      "pretty",
+      "lovely",
+      "captivating",
+      "bittersweet",
+      "longing",
+      "lush",
+      "background"
+    ],
     "title": "My Little Brown Book",
     "artist": "Duke Ellington",
     "rating": 8.5,
+    "subgenres": [
+      "post-bop",
+      "ballad"
+    ],
+    "date_added": "2026-10-11",
     "spotify_id": "4rmCI9VWrwrJTJ8XQ80BMN",
+    "key_players": [
+      "Duke Ellington - piano",
+      "John Coltrane - tenor sax",
+      "Aaron Bell - bass",
+      "Sam Woodyard - drums"
+    ],
+    "year_source": "dataset-album",
+    "album_source": "spotify",
+    "instrumentation": [
+      "piano",
+      "tenor sax",
+      "bass",
+      "drums"
+    ],
+    "metadata_sources": [
+      "era:dataset",
+      "instrument:album",
+      "instrumentation:album",
+      "label:album",
+      "moods:album",
+      "players:album",
+      "subgenres:album",
+      "year:album"
+    ],
+    "needs_enrichment": false,
+    "date_added_source": "db_updated_at",
+    "metadata_complete": true,
+    "primary_instrument": "piano",
     "audio_features": {
       "acousticness": 0.942,
       "danceability": 0.381,
@@ -22494,28 +22782,134 @@
       "loudness": -13.497,
       "speechiness": 0.0322,
       "spotify_valence": 0.215
-    },
-    "date_added": "2026-10-19"
+    }
   },
   {
+    "era": "Spiritual Jazz",
+    "year": 1970,
+    "album": "Ptah The El Daoud",
+    "apply": true,
+    "label": "Impulse!",
+    "moods": [
+      "spiritual",
+      "hypnotic"
+    ],
     "title": "Turiya & Ramakrishna",
     "artist": "Alice Coltrane",
     "rating": 7.5,
+    "subgenres": [
+      "spiritual jazz",
+      "modal jazz"
+    ],
+    "date_added": "2026-10-11",
+    "era_source": "curated-album",
     "spotify_id": "7tQ7e28gdQNhLcIbqc1PXY",
-    "date_added": "2026-10-19"
+    "key_players": [
+      "Alice Coltrane - piano, harp",
+      "Pharoah Sanders - tenor saxophone, alto flute",
+      "Joe Henderson - tenor saxophone, alto flute",
+      "Ron Carter - bass",
+      "Ben Riley - drums"
+    ],
+    "year_source": "curated-album",
+    "album_source": "spotify",
+    "label_source": "curated-album",
+    "instrumentation": [],
+    "metadata_sources": [
+      "era:dataset",
+      "instrument:artist",
+      "moods:artist",
+      "subgenres:artist"
+    ],
+    "needs_enrichment": false,
+    "date_added_source": "db_updated_at",
+    "metadata_complete": true,
+    "key_players_source": "curated-album",
+    "primary_instrument": "harp"
   },
   {
+    "era": "Hard Bop",
+    "year": 1961,
+    "album": "Lush Life (Rudy Van Gelder Remaster)",
+    "apply": true,
+    "label": "Prestige",
+    "moods": [
+      "tender",
+      "romantic"
+    ],
     "title": "I Love You",
     "artist": "John Coltrane",
     "rating": 4,
+    "subgenres": [
+      "modal jazz",
+      "spiritual jazz"
+    ],
+    "date_added": "2026-10-11",
+    "era_source": "curated-album",
     "spotify_id": "08ztWQOa86b4VVXPZtJsqT",
-    "date_added": "2026-10-19"
+    "key_players": [
+      "John Coltrane - tenor saxophone",
+      "Donald Byrd - trumpet",
+      "Red Garland - piano",
+      "Paul Chambers - bass",
+      "Louis Hayes - drums",
+      "Earl May - bass",
+      "Art Taylor - drums"
+    ],
+    "year_source": "curated-album",
+    "album_source": "spotify",
+    "label_source": "curated-album",
+    "instrumentation": [],
+    "metadata_sources": [
+      "era:dataset",
+      "instrument:artist",
+      "moods:artist",
+      "subgenres:artist"
+    ],
+    "needs_enrichment": false,
+    "date_added_source": "db_updated_at",
+    "metadata_complete": true,
+    "key_players_source": "curated-album",
+    "primary_instrument": "tenor saxophone"
   },
   {
+    "era": "Bebop",
+    "year": 1957,
+    "album": "April In Paris: The Genius Of Charlie Parker #2",
+    "apply": true,
+    "label": "Verve",
+    "moods": [
+      "haunting",
+      "melancholic",
+      "languid"
+    ],
     "title": "Summertime",
     "artist": "Charlie Parker",
     "rating": 6,
+    "subgenres": [
+      "bebop"
+    ],
+    "date_added": "2026-10-11",
+    "era_source": "curated-album",
     "spotify_id": "6cU4urQRUieTBH08yKHAqj",
+    "key_players": [
+      "Charlie Parker - alto saxophone"
+    ],
+    "year_source": "curated-album",
+    "album_source": "spotify",
+    "label_source": "curated-album",
+    "instrumentation": [],
+    "metadata_sources": [
+      "era:dataset",
+      "instrument:artist",
+      "moods:artist",
+      "subgenres:artist"
+    ],
+    "needs_enrichment": false,
+    "date_added_source": "db_updated_at",
+    "metadata_complete": true,
+    "key_players_source": "curated-album",
+    "primary_instrument": "alto saxophone",
     "audio_features": {
       "acousticness": 0.962,
       "danceability": 0.339,
@@ -22525,8 +22919,7 @@
       "loudness": -7.596,
       "speechiness": 0.0313,
       "spotify_valence": 0.393
-    },
-    "date_added": "2026-10-19"
+    }
   },
   {
     "year": 2008,
@@ -22535,14 +22928,49 @@
     "rating": 8,
     "spotify_id": "4vuijqNCK71JTiACBmdCTo",
     "entity_type": "album",
-    "date_added": "2026-10-19"
+    "date_added": "2026-10-11",
+    "date_added_source": "db_updated_at"
   },
   {
+    "era": "Contemporary",
     "year": 2008,
+    "album": "Earfood",
+    "apply": true,
+    "label": "EmArcy",
+    "moods": [
+      "warm",
+      "sophisticated",
+      "uplifting"
+    ],
     "title": "Strasbourg / St. Denis",
     "artist": "Roy Hargrove",
     "rating": 8.5,
+    "subgenres": [
+      "post-bop",
+      "modern jazz"
+    ],
+    "date_added": "2026-10-11",
+    "era_source": "curated-album",
     "spotify_id": "62VWmsNoDmqT0Mj9oHHFVh",
+    "key_players": [
+      "Roy Hargrove - trumpet, flugelhorn",
+      "Justin Robinson - alto saxophone",
+      "Gerald Clayton - piano",
+      "Danton Boller - bass",
+      "Montez Coleman - drums"
+    ],
+    "year_source": "curated-album",
+    "album_source": "spotify",
+    "label_source": "curated-album",
+    "instrumentation": [],
+    "metadata_sources": [
+      "era:year-neighbours"
+    ],
+    "needs_enrichment": false,
+    "date_added_source": "db_updated_at",
+    "metadata_complete": true,
+    "key_players_source": "curated-album",
+    "primary_instrument": "trumpet",
     "audio_features": {
       "acousticness": 0.149,
       "danceability": 0.701,
@@ -22552,15 +22980,48 @@
       "loudness": -10.583,
       "speechiness": 0.0834,
       "spotify_valence": 0.405
-    },
-    "date_added": "2026-10-19"
+    }
   },
   {
+    "era": "Contemporary",
     "year": 2008,
+    "album": "Earfood",
+    "apply": true,
+    "label": "EmArcy",
+    "moods": [
+      "warm",
+      "sophisticated",
+      "uplifting"
+    ],
     "title": "Starmaker",
     "artist": "Roy Hargrove",
     "rating": 6.5,
+    "subgenres": [
+      "post-bop",
+      "modern jazz"
+    ],
+    "date_added": "2026-10-11",
+    "era_source": "curated-album",
     "spotify_id": "3n185KVwKp9hsdLYm5VCyY",
+    "key_players": [
+      "Roy Hargrove - trumpet, flugelhorn",
+      "Justin Robinson - alto saxophone",
+      "Gerald Clayton - piano",
+      "Danton Boller - bass",
+      "Montez Coleman - drums"
+    ],
+    "year_source": "curated-album",
+    "album_source": "spotify",
+    "label_source": "curated-album",
+    "instrumentation": [],
+    "metadata_sources": [
+      "era:dataset"
+    ],
+    "needs_enrichment": false,
+    "date_added_source": "db_updated_at",
+    "metadata_complete": true,
+    "key_players_source": "curated-album",
+    "primary_instrument": "trumpet",
     "audio_features": {
       "acousticness": 0.802,
       "danceability": 0.457,
@@ -22570,15 +23031,48 @@
       "loudness": -13.703,
       "speechiness": 0.0301,
       "spotify_valence": 0.14
-    },
-    "date_added": "2026-10-19"
+    }
   },
   {
+    "era": "Contemporary",
     "year": 2008,
+    "album": "Earfood",
+    "apply": true,
+    "label": "EmArcy",
+    "moods": [
+      "warm",
+      "sophisticated",
+      "uplifting"
+    ],
     "title": "Joy Is Sorrow Unmasked",
     "artist": "Roy Hargrove",
     "rating": 6,
+    "subgenres": [
+      "post-bop",
+      "modern jazz"
+    ],
+    "date_added": "2026-10-11",
+    "era_source": "curated-album",
     "spotify_id": "1no5aBlOtuHcBeY6fWU0Oc",
+    "key_players": [
+      "Roy Hargrove - trumpet, flugelhorn",
+      "Justin Robinson - alto saxophone",
+      "Gerald Clayton - piano",
+      "Danton Boller - bass",
+      "Montez Coleman - drums"
+    ],
+    "year_source": "curated-album",
+    "album_source": "spotify",
+    "label_source": "curated-album",
+    "instrumentation": [],
+    "metadata_sources": [
+      "era:dataset"
+    ],
+    "needs_enrichment": false,
+    "date_added_source": "db_updated_at",
+    "metadata_complete": true,
+    "key_players_source": "curated-album",
+    "primary_instrument": "trumpet",
     "audio_features": {
       "acousticness": 0.955,
       "danceability": 0.416,
@@ -22588,15 +23082,52 @@
       "loudness": -14.572,
       "speechiness": 0.0327,
       "spotify_valence": 0.155
-    },
-    "date_added": "2026-10-19"
+    }
   },
   {
+    "era": "Hard Bop",
     "year": 1957,
+    "album": "Bags' Groove (Rudy Van Gelder 2008 Remaster)",
+    "apply": true,
+    "label": "Prestige",
+    "moods": [
+      "reflective",
+      "spacious",
+      "contemplative"
+    ],
     "title": "But Not For Me - Take 1 / RVG Remastered 2008",
     "artist": "Miles Davis",
     "rating": 7.5,
+    "subgenres": [
+      "modal jazz",
+      "cool jazz"
+    ],
+    "date_added": "2026-10-12",
+    "era_source": "curated-album",
     "spotify_id": "16xrvoly0kWh4Rruc73XlL",
+    "key_players": [
+      "Miles Davis - trumpet",
+      "Sonny Rollins - tenor saxophone",
+      "Thelonious Monk - piano",
+      "Horace Silver - piano",
+      "Percy Heath - bass",
+      "Kenny Clarke - drums"
+    ],
+    "year_source": "curated-album",
+    "album_source": "spotify",
+    "label_source": "curated-album",
+    "instrumentation": [],
+    "metadata_sources": [
+      "era:dataset",
+      "instrument:artist",
+      "moods:artist",
+      "subgenres:artist"
+    ],
+    "needs_enrichment": false,
+    "date_added_source": "db_updated_at",
+    "metadata_complete": true,
+    "key_players_source": "curated-album",
+    "primary_instrument": "trumpet",
     "audio_features": {
       "acousticness": 0.865,
       "danceability": 0.587,
@@ -22606,28 +23137,140 @@
       "loudness": -10.952,
       "speechiness": 0.0343,
       "spotify_valence": 0.825
-    },
-    "date_added": "2026-10-19"
+    }
   },
   {
+    "era": "Cool Jazz",
+    "year": 1958,
+    "album": "Classic Miles Davis",
+    "apply": true,
+    "label": "Columbia",
+    "moods": [
+      "reflective",
+      "spacious",
+      "contemplative"
+    ],
     "title": "Summertime",
     "artist": "Miles Davis",
     "rating": 3,
+    "subgenres": [
+      "modal jazz",
+      "cool jazz"
+    ],
+    "date_added": "2026-10-12",
+    "era_source": "curated-album",
     "spotify_id": "0AMye8ukFtoSi4qmYJkFu1",
-    "date_added": "2026-10-19"
+    "key_players": [
+      "Miles Davis - trumpet",
+      "Gil Evans - arranger, conductor"
+    ],
+    "year_source": "curated-album",
+    "album_source": "spotify",
+    "label_source": "curated-album",
+    "instrumentation": [],
+    "metadata_sources": [
+      "era:dataset",
+      "instrument:artist",
+      "moods:artist",
+      "subgenres:artist"
+    ],
+    "needs_enrichment": false,
+    "date_added_source": "db_updated_at",
+    "metadata_complete": true,
+    "key_players_source": "curated-album",
+    "primary_instrument": "trumpet"
   },
   {
+    "era": "Cool Jazz",
+    "year": 1957,
+    "album": "Godchild",
+    "apply": true,
+    "label": "Capitol",
+    "moods": [
+      "reflective",
+      "spacious",
+      "contemplative"
+    ],
     "title": "But Not for Me",
     "artist": "Miles Davis",
     "rating": 5,
+    "subgenres": [
+      "modal jazz",
+      "cool jazz"
+    ],
+    "date_added": "2026-10-12",
+    "era_source": "curated-album",
     "spotify_id": "7841hHRDFkpQBGLlXb3pGl",
-    "date_added": "2026-10-19"
+    "key_players": [
+      "Miles Davis - trumpet",
+      "Lee Konitz - alto saxophone",
+      "Gerry Mulligan - baritone saxophone",
+      "Kai Winding - trombone",
+      "Al Haig - piano",
+      "Joe Shulman - bass",
+      "Max Roach - drums"
+    ],
+    "year_source": "curated-album",
+    "album_source": "spotify",
+    "label_source": "curated-album",
+    "instrumentation": [],
+    "metadata_sources": [
+      "era:dataset",
+      "instrument:artist",
+      "moods:artist",
+      "subgenres:artist"
+    ],
+    "needs_enrichment": false,
+    "date_added_source": "db_updated_at",
+    "metadata_complete": true,
+    "key_players_source": "curated-album",
+    "primary_instrument": "trumpet"
   },
   {
+    "era": "Contemporary",
+    "year": 1985,
+    "album": "You're Under Arrest (2022 Remaster)",
+    "apply": true,
+    "label": "Columbia",
+    "moods": [
+      "reflective",
+      "spacious",
+      "contemplative"
+    ],
     "title": "Human Nature (2022 Remaster)",
     "artist": "Miles Davis",
     "rating": 4,
+    "subgenres": [
+      "modal jazz",
+      "cool jazz"
+    ],
+    "date_added": "2026-10-12",
+    "era_source": "curated-album",
     "spotify_id": "25e6EHX8YyC5hsaipxdHCz",
+    "key_players": [
+      "Miles Davis - trumpet",
+      "John Scofield - guitar",
+      "Bob Berg - saxophone",
+      "Robert Irving III - synthesizer",
+      "Darryl Jones - bass",
+      "Al Foster - drums",
+      "Steve Thornton - percussion"
+    ],
+    "year_source": "curated-album",
+    "album_source": "spotify",
+    "label_source": "curated-album",
+    "instrumentation": [],
+    "metadata_sources": [
+      "era:dataset",
+      "instrument:artist",
+      "moods:artist",
+      "subgenres:artist"
+    ],
+    "needs_enrichment": false,
+    "date_added_source": "db_updated_at",
+    "metadata_complete": true,
+    "key_players_source": "curated-album",
+    "primary_instrument": "trumpet",
     "audio_features": {
       "acousticness": 0.357,
       "danceability": 0.658,
@@ -22637,21 +23280,98 @@
       "loudness": -8.174,
       "speechiness": 0.0333,
       "spotify_valence": 0.528
-    },
-    "date_added": "2026-10-19"
+    }
   },
   {
+    "era": "Cool Jazz",
+    "year": 1957,
+    "album": "Godchild",
+    "apply": true,
+    "label": "Capitol",
+    "moods": [
+      "reflective",
+      "spacious",
+      "contemplative"
+    ],
     "title": "Godchild",
     "artist": "Miles Davis",
     "rating": 7.5,
+    "subgenres": [
+      "modal jazz",
+      "cool jazz"
+    ],
+    "date_added": "2026-10-12",
+    "era_source": "curated-album",
     "spotify_id": "3rWBDik1VBZWkEJrAMB1x3",
-    "date_added": "2026-10-19"
+    "key_players": [
+      "Miles Davis - trumpet",
+      "Lee Konitz - alto saxophone",
+      "Gerry Mulligan - baritone saxophone",
+      "Kai Winding - trombone",
+      "Al Haig - piano",
+      "Joe Shulman - bass",
+      "Max Roach - drums"
+    ],
+    "year_source": "curated-album",
+    "album_source": "spotify",
+    "label_source": "curated-album",
+    "instrumentation": [],
+    "metadata_sources": [
+      "era:dataset",
+      "instrument:album",
+      "moods:album",
+      "subgenres:album",
+      "year:album"
+    ],
+    "needs_enrichment": false,
+    "date_added_source": "db_updated_at",
+    "metadata_complete": true,
+    "key_players_source": "curated-album",
+    "primary_instrument": "trumpet"
   },
   {
+    "era": "Post-Bop",
+    "year": 1965,
+    "album": "E.S.P. (2022 Remaster)",
+    "apply": true,
+    "label": "Columbia",
+    "moods": [
+      "reflective",
+      "spacious",
+      "contemplative"
+    ],
     "title": "Little One (2022 Remaster)",
     "artist": "Miles Davis",
     "rating": 5,
+    "subgenres": [
+      "modal jazz",
+      "cool jazz"
+    ],
+    "date_added": "2026-10-12",
+    "era_source": "curated-album",
     "spotify_id": "4uKU7v10V2AxdQzqVCrJzQ",
+    "key_players": [
+      "Miles Davis - trumpet",
+      "Wayne Shorter - tenor saxophone",
+      "Herbie Hancock - piano",
+      "Ron Carter - bass",
+      "Tony Williams - drums"
+    ],
+    "year_source": "curated-album",
+    "album_source": "spotify",
+    "label_source": "curated-album",
+    "instrumentation": [],
+    "metadata_sources": [
+      "era:dataset",
+      "instrument:artist",
+      "moods:artist",
+      "subgenres:artist"
+    ],
+    "needs_enrichment": false,
+    "date_added_source": "db_updated_at",
+    "metadata_complete": true,
+    "key_players_source": "curated-album",
+    "primary_instrument": "trumpet",
     "audio_features": {
       "acousticness": 0.979,
       "danceability": 0.524,
@@ -22661,14 +23381,52 @@
       "loudness": -15.183,
       "speechiness": 0.0513,
       "spotify_valence": 0.238
-    },
-    "date_added": "2026-10-19"
+    }
   },
   {
+    "era": "Post-Bop",
+    "year": 1965,
+    "album": "E.S.P. (2022 Remaster)",
+    "apply": true,
+    "label": "Columbia",
+    "moods": [
+      "reflective",
+      "spacious",
+      "contemplative"
+    ],
     "title": "Iris (2022 Remaster)",
     "artist": "Miles Davis",
     "rating": 3.5,
+    "subgenres": [
+      "modal jazz",
+      "cool jazz"
+    ],
+    "date_added": "2026-10-12",
+    "era_source": "curated-album",
     "spotify_id": "7lozo9YHY2tmpYaX4l9h43",
+    "key_players": [
+      "Miles Davis - trumpet",
+      "Wayne Shorter - tenor saxophone",
+      "Herbie Hancock - piano",
+      "Ron Carter - bass",
+      "Tony Williams - drums"
+    ],
+    "year_source": "curated-album",
+    "album_source": "spotify",
+    "label_source": "curated-album",
+    "instrumentation": [],
+    "metadata_sources": [
+      "era:dataset",
+      "instrument:album",
+      "moods:album",
+      "subgenres:album",
+      "year:album"
+    ],
+    "needs_enrichment": false,
+    "date_added_source": "db_updated_at",
+    "metadata_complete": true,
+    "key_players_source": "curated-album",
+    "primary_instrument": "trumpet",
     "audio_features": {
       "acousticness": 0.96,
       "danceability": 0.488,
@@ -22678,15 +23436,52 @@
       "loudness": -15.265,
       "speechiness": 0.0425,
       "spotify_valence": 0.313
-    },
-    "date_added": "2026-10-19"
+    }
   },
   {
+    "era": "Post-Bop",
+    "year": 1968,
+    "album": "Nefertiti (2023 Remaster)",
+    "apply": true,
+    "label": "Columbia",
+    "moods": [
+      "reflective",
+      "spacious",
+      "contemplative"
+    ],
     "notes": "Piano killed it herbie",
     "title": "Fall (2023 Remaster)",
     "artist": "Miles Davis",
     "rating": 6,
+    "subgenres": [
+      "modal jazz",
+      "cool jazz"
+    ],
+    "date_added": "2026-10-12",
+    "era_source": "curated-album",
     "spotify_id": "7JgFV8uxZNpB0zz6zlwkDj",
+    "key_players": [
+      "Miles Davis - trumpet",
+      "Wayne Shorter - tenor saxophone",
+      "Herbie Hancock - piano",
+      "Ron Carter - bass",
+      "Tony Williams - drums"
+    ],
+    "year_source": "curated-album",
+    "album_source": "spotify",
+    "label_source": "curated-album",
+    "instrumentation": [],
+    "metadata_sources": [
+      "era:dataset",
+      "instrument:artist",
+      "moods:artist",
+      "subgenres:artist"
+    ],
+    "needs_enrichment": false,
+    "date_added_source": "db_updated_at",
+    "metadata_complete": true,
+    "key_players_source": "curated-album",
+    "primary_instrument": "trumpet",
     "audio_features": {
       "acousticness": 0.862,
       "danceability": 0.443,
@@ -22696,31 +23491,52 @@
       "loudness": -16.562,
       "speechiness": 0.0389,
       "spotify_valence": 0.131
-    },
-    "date_added": "2026-10-19"
+    }
   },
   {
-    "title": "Maiden Voyage - Remastered 1999/Rudy Van Gelder Edition",
-    "artist": "Herbie Hancock",
-    "rating": 7,
-    "spotify_id": "0T1EaGm6b9eM7xBf4F1hlc",
-    "audio_features": {
-      "acousticness": 0.719,
-      "danceability": 0.467,
-      "spotify_energy": 0.459,
-      "instrumentalness": 0.00312,
-      "liveness": 0.0944,
-      "loudness": -9.706,
-      "speechiness": 0.0305,
-      "spotify_valence": 0.178
-    },
-    "date_added": "2026-10-19"
-  },
-  {
+    "era": "Post-Bop",
+    "year": 1968,
+    "album": "Speak Like A Child (Expanded Edition)",
+    "apply": true,
+    "label": "Blue Note",
+    "moods": [
+      "cool",
+      "pretty",
+      "sophisticated"
+    ],
     "title": "Toys",
     "artist": "Herbie Hancock",
     "rating": 6,
+    "subgenres": [
+      "post-bop",
+      "modal jazz"
+    ],
+    "date_added": "2026-10-12",
+    "era_source": "curated-album",
     "spotify_id": "0GeGIfL8CsPec8Z2bMhttW",
+    "key_players": [
+      "Herbie Hancock - piano",
+      "Thad Jones - flugelhorn",
+      "Peter Phillips - bass trombone",
+      "Jerry Dodgion - alto flute",
+      "Ron Carter - bass",
+      "Mickey Roker - drums"
+    ],
+    "year_source": "curated-album",
+    "album_source": "spotify",
+    "label_source": "curated-album",
+    "instrumentation": [],
+    "metadata_sources": [
+      "era:dataset",
+      "instrument:artist",
+      "moods:artist",
+      "subgenres:artist"
+    ],
+    "needs_enrichment": false,
+    "date_added_source": "db_updated_at",
+    "metadata_complete": true,
+    "key_players_source": "curated-album",
+    "primary_instrument": "piano",
     "audio_features": {
       "acousticness": 0.91,
       "danceability": 0.513,
@@ -22730,14 +23546,52 @@
       "loudness": -13.088,
       "speechiness": 0.0305,
       "spotify_valence": 0.322
-    },
-    "date_added": "2026-10-19"
+    }
   },
   {
+    "era": "Soul/Funk",
+    "year": 1969,
+    "album": "Fat Albert Rotunda",
+    "apply": true,
+    "label": "Warner Bros.",
+    "moods": [
+      "cool",
+      "pretty",
+      "sophisticated"
+    ],
     "title": "Tell Me a Bedtime Story",
     "artist": "Herbie Hancock",
     "rating": 7,
+    "subgenres": [
+      "post-bop",
+      "modal jazz"
+    ],
+    "date_added": "2026-10-12",
+    "era_source": "curated-album",
     "spotify_id": "6eimz6jvlZaPwtflDWCTa0",
+    "key_players": [
+      "Herbie Hancock - piano, electric piano",
+      "Joe Henderson - tenor saxophone",
+      "Johnny Coles - flugelhorn",
+      "Garnett Brown - trombone",
+      "Buster Williams - bass",
+      "Albert Heath - drums"
+    ],
+    "year_source": "curated-album",
+    "album_source": "spotify",
+    "label_source": "curated-album",
+    "instrumentation": [],
+    "metadata_sources": [
+      "era:dataset",
+      "instrument:artist",
+      "moods:artist",
+      "subgenres:artist"
+    ],
+    "needs_enrichment": false,
+    "date_added_source": "db_updated_at",
+    "metadata_complete": true,
+    "key_players_source": "curated-album",
+    "primary_instrument": "piano",
     "audio_features": {
       "acousticness": 0.713,
       "danceability": 0.398,
@@ -22747,31 +23601,49 @@
       "loudness": -16.591,
       "speechiness": 0.0297,
       "spotify_valence": 0.353
-    },
-    "date_added": "2026-10-19"
+    }
   },
   {
-    "title": "Fee-Fi-Fo-Fum - Remastered1998/Rudy Van Gelder Edition",
-    "artist": "Wayne Shorter",
-    "rating": 4.5,
-    "spotify_id": "6lgkhf5XLGA2wvgFeTy2cq",
-    "audio_features": {
-      "acousticness": 0.76,
-      "danceability": 0.454,
-      "spotify_energy": 0.498,
-      "instrumentalness": 0.000625,
-      "liveness": 0.0858,
-      "loudness": -7.74,
-      "speechiness": 0.0373,
-      "spotify_valence": 0.367
-    },
-    "date_added": "2026-10-19"
-  },
-  {
+    "era": "Post-Bop",
+    "year": 1967,
+    "album": "Adam's Apple (Rudy Van Gelder Edition)",
+    "apply": true,
+    "label": "Blue Note",
+    "moods": [
+      "playful",
+      "angular"
+    ],
     "title": "Footprints - Remastered",
     "artist": "Wayne Shorter",
     "rating": 5,
+    "subgenres": [
+      "post-bop",
+      "hard bop"
+    ],
+    "date_added": "2026-10-12",
+    "era_source": "curated-album",
     "spotify_id": "2JITVZu8o6ls9k8SoMRy7w",
+    "key_players": [
+      "Wayne Shorter - tenor saxophone",
+      "Herbie Hancock - piano",
+      "Reggie Workman - bass",
+      "Joe Chambers - drums"
+    ],
+    "year_source": "curated-album",
+    "album_source": "spotify",
+    "label_source": "curated-album",
+    "instrumentation": [],
+    "metadata_sources": [
+      "era:dataset",
+      "instrument:artist",
+      "moods:artist",
+      "subgenres:artist"
+    ],
+    "needs_enrichment": false,
+    "date_added_source": "db_updated_at",
+    "metadata_complete": true,
+    "key_players_source": "curated-album",
+    "primary_instrument": "tenor saxophone",
     "audio_features": {
       "acousticness": 0.768,
       "danceability": 0.53,
@@ -22781,14 +23653,51 @@
       "loudness": -11.19,
       "speechiness": 0.028,
       "spotify_valence": 0.492
-    },
-    "date_added": "2026-10-19"
+    }
   },
   {
+    "era": "Post-Bop",
+    "year": 1967,
+    "album": "Sorcerer (feat. Wayne Shorter, Herbie Hancock, Ron Carter & Tony Williams)",
+    "apply": true,
+    "label": "Columbia",
+    "moods": [
+      "reflective",
+      "spacious",
+      "contemplative"
+    ],
     "title": "Pee Wee",
     "artist": "Miles Davis",
     "rating": 4,
+    "subgenres": [
+      "modal jazz",
+      "cool jazz"
+    ],
+    "date_added": "2026-10-12",
+    "era_source": "curated-album",
     "spotify_id": "4x4Y3DVb5L9Ym7kPc1VQIj",
+    "key_players": [
+      "Miles Davis - trumpet",
+      "Wayne Shorter - tenor saxophone",
+      "Herbie Hancock - piano",
+      "Ron Carter - bass",
+      "Tony Williams - drums"
+    ],
+    "year_source": "curated-album",
+    "album_source": "spotify",
+    "label_source": "curated-album",
+    "instrumentation": [],
+    "metadata_sources": [
+      "era:dataset",
+      "instrument:artist",
+      "moods:artist",
+      "subgenres:artist"
+    ],
+    "needs_enrichment": false,
+    "date_added_source": "db_updated_at",
+    "metadata_complete": true,
+    "key_players_source": "curated-album",
+    "primary_instrument": "trumpet",
     "audio_features": {
       "acousticness": 0.93,
       "danceability": 0.423,
@@ -22798,14 +23707,51 @@
       "loudness": -20.354,
       "speechiness": 0.0334,
       "spotify_valence": 0.122
-    },
-    "date_added": "2026-10-19"
+    }
   },
   {
+    "era": "Hard Bop",
+    "year": 1960,
+    "album": "Giant Steps (2020 Remaster)",
+    "apply": true,
+    "label": "Atlantic",
+    "moods": [
+      "tender",
+      "romantic"
+    ],
     "title": "Syeeda's Song Flute - 2020 Remaster",
     "artist": "John Coltrane",
     "rating": 7.5,
+    "subgenres": [
+      "modal jazz",
+      "spiritual jazz"
+    ],
+    "date_added": "2026-10-12",
+    "era_source": "curated-album",
     "spotify_id": "7JsINk6Y1eUgqA7KdCX8Q3",
+    "key_players": [
+      "John Coltrane - tenor saxophone",
+      "Tommy Flanagan - piano",
+      "Wynton Kelly - piano",
+      "Paul Chambers - bass",
+      "Art Taylor - drums",
+      "Jimmy Cobb - drums"
+    ],
+    "year_source": "curated-album",
+    "album_source": "spotify",
+    "label_source": "curated-album",
+    "instrumentation": [],
+    "metadata_sources": [
+      "era:dataset",
+      "instrument:artist",
+      "moods:artist",
+      "subgenres:artist"
+    ],
+    "needs_enrichment": false,
+    "date_added_source": "db_updated_at",
+    "metadata_complete": true,
+    "key_players_source": "curated-album",
+    "primary_instrument": "tenor saxophone",
     "audio_features": {
       "acousticness": 0.45,
       "danceability": 0.578,
@@ -22815,31 +23761,61 @@
       "loudness": -17.671,
       "speechiness": 0.0535,
       "spotify_valence": 0.367
-    },
-    "date_added": "2026-10-19"
+    }
   },
   {
-    "title": "Fleurette Africaine (African Flower) - 2002 Remaster",
-    "artist": "Duke Ellington",
-    "rating": 7,
-    "spotify_id": "4Keh41jYFaVPP5C82DxmTG",
-    "audio_features": {
-      "acousticness": 0.937,
-      "danceability": 0.431,
-      "spotify_energy": 0.21,
-      "instrumentalness": 0.921,
-      "liveness": 0.108,
-      "loudness": -19.24,
-      "speechiness": 0.0299,
-      "spotify_valence": 0.493
-    },
-    "date_added": "2026-10-19"
-  },
-  {
+    "era": "Post-Bop",
+    "year": 1967,
+    "album": "Far East Suite",
+    "apply": true,
+    "label": "RCA Victor",
+    "moods": [
+      "romantic",
+      "pretty",
+      "lovely",
+      "captivating",
+      "bittersweet",
+      "longing",
+      "lush",
+      "background"
+    ],
     "title": "Isfahan",
     "artist": "Duke Ellington",
     "rating": 7.5,
+    "subgenres": [
+      "piano trio",
+      "avant-garde jazz"
+    ],
+    "date_added": "2026-10-12",
+    "era_source": "curated-album",
     "spotify_id": "1qHrF4XOI6Pliy7atNjLds",
+    "key_players": [
+      "Duke Ellington - piano",
+      "Billy Strayhorn - piano, arranger",
+      "Cootie Williams - trumpet",
+      "Cat Anderson - trumpet",
+      "Johnny Hodges - alto saxophone",
+      "Paul Gonsalves - tenor saxophone",
+      "Harry Carney - baritone saxophone",
+      "Lawrence Brown - trombone",
+      "John Lamb - bass",
+      "Rufus Jones - drums"
+    ],
+    "year_source": "curated-album",
+    "album_source": "spotify",
+    "label_source": "curated-album",
+    "instrumentation": [],
+    "metadata_sources": [
+      "era:dataset",
+      "instrument:artist",
+      "moods:artist",
+      "subgenres:artist"
+    ],
+    "needs_enrichment": false,
+    "date_added_source": "db_updated_at",
+    "metadata_complete": true,
+    "key_players_source": "curated-album",
+    "primary_instrument": "piano",
     "audio_features": {
       "acousticness": 0.975,
       "danceability": 0.247,
@@ -22849,15 +23825,56 @@
       "loudness": -13.544,
       "speechiness": 0.032,
       "spotify_valence": 0.0872
-    },
-    "date_added": "2026-10-19"
+    }
   },
   {
+    "era": "Hard Bop",
+    "year": 1960,
+    "album": "Soul Station",
+    "apply": true,
+    "label": "Blue Note",
+    "moods": [
+      "euphoric",
+      "serene"
+    ],
     "notes": "So warm",
     "title": "Remember - 1999/ Remastered",
     "artist": "Hank Mobley",
     "rating": 8.5,
+    "subgenres": [
+      "hard bop",
+      "tenor sax ballad"
+    ],
+    "date_added": "2026-10-12",
     "spotify_id": "2BhU0Hl5OatWiCW93pE2b8",
+    "key_players": [
+      "Hank Mobley - tenor saxophone",
+      "Wynton Kelly - piano",
+      "Paul Chambers - bass",
+      "Art Blakey - drums"
+    ],
+    "year_source": "dataset-album",
+    "album_source": "spotify",
+    "instrumentation": [
+      "tenor saxophone",
+      "piano",
+      "bass",
+      "drums"
+    ],
+    "metadata_sources": [
+      "era:dataset",
+      "instrument:album",
+      "instrumentation:album",
+      "label:album",
+      "moods:album",
+      "players:album",
+      "subgenres:artist",
+      "year:album"
+    ],
+    "needs_enrichment": false,
+    "date_added_source": "db_updated_at",
+    "metadata_complete": true,
+    "primary_instrument": "tenor saxophone",
     "audio_features": {
       "acousticness": 0.794,
       "danceability": 0.539,
@@ -22867,15 +23884,52 @@
       "loudness": -9.168,
       "speechiness": 0.0531,
       "spotify_valence": 0.699
-    },
-    "date_added": "2026-10-19"
+    }
   },
   {
+    "era": "Post-Bop",
+    "year": 1970,
+    "album": "The Awakening",
+    "apply": true,
+    "label": "Impulse!",
+    "moods": [
+      "cool",
+      "sexy",
+      "restless",
+      "fun",
+      "repetitive"
+    ],
     "notes": "Freaky player but not super satisfying for my ear yet",
     "title": "Wave",
     "artist": "Ahmad Jamal Trio",
     "rating": 6.5,
+    "subgenres": [
+      "hard bop",
+      "piano"
+    ],
+    "date_added": "2026-10-12",
+    "era_source": "curated-album",
     "spotify_id": "5XThWom9GPyAzKdZMN0Bxh",
+    "key_players": [
+      "Ahmad Jamal - piano",
+      "Jamil Nasser - bass",
+      "Frank Gant - drums"
+    ],
+    "year_source": "curated-album",
+    "album_source": "spotify",
+    "label_source": "curated-album",
+    "instrumentation": [],
+    "metadata_sources": [
+      "era:dataset",
+      "instrument:artist",
+      "moods:artist",
+      "subgenres:artist"
+    ],
+    "needs_enrichment": false,
+    "date_added_source": "db_updated_at",
+    "metadata_complete": true,
+    "key_players_source": "curated-album",
+    "primary_instrument": "piano",
     "audio_features": {
       "acousticness": 0.93,
       "danceability": 0.501,
@@ -22885,14 +23939,56 @@
       "loudness": -14.938,
       "speechiness": 0.0285,
       "spotify_valence": 0.36
-    },
-    "date_added": "2026-10-19"
+    }
   },
   {
+    "era": "Cool Jazz",
+    "year": 1957,
+    "album": "Birth Of The Cool",
+    "apply": true,
+    "label": "Capitol",
+    "moods": [
+      "reflective",
+      "spacious",
+      "contemplative"
+    ],
     "title": "Moon Dreams",
     "artist": "Miles Davis",
     "rating": 6.5,
+    "subgenres": [
+      "modal jazz",
+      "cool jazz"
+    ],
+    "date_added": "2026-10-12",
+    "era_source": "curated-album",
     "spotify_id": "3GRRmV65lSUxQ82GHyVAZO",
+    "key_players": [
+      "Miles Davis - trumpet",
+      "Lee Konitz - alto saxophone",
+      "Gerry Mulligan - baritone saxophone",
+      "Kai Winding - trombone",
+      "J.J. Johnson - trombone",
+      "Gunther Schuller - French horn",
+      "Al Haig - piano",
+      "Joe Shulman - bass",
+      "Max Roach - drums"
+    ],
+    "year_source": "curated-album",
+    "album_source": "spotify",
+    "label_source": "curated-album",
+    "instrumentation": [],
+    "metadata_sources": [
+      "era:dataset",
+      "instrument:album",
+      "moods:album",
+      "subgenres:album",
+      "year:album"
+    ],
+    "needs_enrichment": false,
+    "date_added_source": "db_updated_at",
+    "metadata_complete": true,
+    "key_players_source": "curated-album",
+    "primary_instrument": "trumpet",
     "audio_features": {
       "acousticness": 0.983,
       "danceability": 0.186,
@@ -22902,14 +23998,46 @@
       "loudness": -19.738,
       "speechiness": 0.0371,
       "spotify_valence": 0.0731
-    },
-    "date_added": "2026-10-19"
+    }
   },
   {
+    "era": "Bebop",
+    "year": 1950,
+    "album": "Bird After Dark",
+    "apply": true,
+    "label": "Verve",
+    "moods": [
+      "haunting",
+      "melancholic",
+      "languid"
+    ],
     "title": "All The Things You Are",
     "artist": "Charlie Parker",
     "rating": 7,
+    "subgenres": [
+      "bebop"
+    ],
+    "date_added": "2026-10-12",
+    "era_source": "curated-album",
     "spotify_id": "6SdnOecNGBzDgAvNVjJ59w",
+    "key_players": [
+      "Charlie Parker - alto saxophone"
+    ],
+    "year_source": "curated-album",
+    "album_source": "spotify",
+    "label_source": "curated-album",
+    "instrumentation": [],
+    "metadata_sources": [
+      "era:dataset",
+      "instrument:artist",
+      "moods:artist",
+      "subgenres:artist"
+    ],
+    "needs_enrichment": false,
+    "date_added_source": "db_updated_at",
+    "metadata_complete": true,
+    "key_players_source": "curated-album",
+    "primary_instrument": "alto saxophone",
     "audio_features": {
       "acousticness": 0.961,
       "danceability": 0.554,
@@ -22919,14 +24047,51 @@
       "loudness": -17.683,
       "speechiness": 0.0458,
       "spotify_valence": 0.51
-    },
-    "date_added": "2026-10-19"
+    }
   },
   {
+    "era": "Vocal Jazz",
+    "year": 1955,
+    "album": "After Hours",
+    "apply": true,
+    "label": "RCA Victor",
+    "moods": [
+      "pretty",
+      "beautiful",
+      "corny"
+    ],
     "title": "After Hours",
     "artist": "Sarah Vaughan",
     "rating": 4.5,
+    "subgenres": [
+      "vocal jazz",
+      "ballad"
+    ],
+    "date_added": "2026-10-12",
+    "era_source": "curated-album",
     "spotify_id": "7HTv5iPtAdyES2QRbZn8Lt",
+    "key_players": [
+      "Sarah Vaughan - vocals",
+      "Jimmy Jones - piano",
+      "Mundell Lowe - guitar",
+      "George Duvivier - bass",
+      "Roy Haynes - drums"
+    ],
+    "year_source": "curated-album",
+    "album_source": "spotify",
+    "label_source": "curated-album",
+    "instrumentation": [],
+    "metadata_sources": [
+      "era:dataset",
+      "instrument:artist",
+      "moods:artist",
+      "subgenres:artist"
+    ],
+    "needs_enrichment": false,
+    "date_added_source": "db_updated_at",
+    "metadata_complete": true,
+    "key_players_source": "curated-album",
+    "primary_instrument": "vocals",
     "audio_features": {
       "acousticness": 0.976,
       "danceability": 0.34,
@@ -22936,14 +24101,50 @@
       "loudness": -9.312,
       "speechiness": 0.0288,
       "spotify_valence": 0.112
-    },
-    "date_added": "2026-10-19"
+    }
   },
   {
+    "era": "Vocal Jazz",
+    "year": 1967,
+    "album": "Silk & Soul (Expanded Edition)",
+    "apply": true,
+    "label": "RCA Victor",
+    "moods": [
+      "romantic",
+      "beautiful",
+      "tender"
+    ],
     "title": "I Wish I Knew How It Would Feel to Be Free",
     "artist": "Nina Simone",
     "rating": 4,
+    "subgenres": [
+      "vocal jazz"
+    ],
+    "date_added": "2026-10-12",
+    "era_source": "curated-album",
     "spotify_id": "5CKHhg31HcYYhwUeeGqvhq",
+    "key_players": [
+      "Nina Simone - vocals, piano",
+      "Rudy Stevenson - guitar",
+      "Ernie Hayes - organ",
+      "Bob Bushnell - bass",
+      "Bernard Purdie - drums"
+    ],
+    "year_source": "curated-album",
+    "album_source": "spotify",
+    "label_source": "curated-album",
+    "instrumentation": [],
+    "metadata_sources": [
+      "era:dataset",
+      "instrument:artist",
+      "moods:artist",
+      "subgenres:artist"
+    ],
+    "needs_enrichment": false,
+    "date_added_source": "db_updated_at",
+    "metadata_complete": true,
+    "key_players_source": "curated-album",
+    "primary_instrument": "vocals",
     "audio_features": {
       "acousticness": 0.745,
       "danceability": 0.687,
@@ -22953,48 +24154,50 @@
       "loudness": -8.501,
       "speechiness": 0.076,
       "spotify_valence": 0.666
-    },
-    "date_added": "2026-10-19"
+    }
   },
   {
-    "title": "Naima - Mono",
-    "artist": "John Coltrane",
-    "rating": 8,
-    "spotify_id": "5cAwEKmadsW4nCYe9QUvgU",
-    "audio_features": {
-      "acousticness": 0.905,
-      "danceability": 0.292,
-      "spotify_energy": 0.012,
-      "instrumentalness": 0.164,
-      "liveness": 0.0813,
-      "loudness": -21.638,
-      "speechiness": 0.0393,
-      "spotify_valence": 0.133
-    },
-    "date_added": "2026-10-19"
-  },
-  {
-    "title": "Cantaloupe Island - Remastered 1999/Rudy Van Gelder Edition",
-    "artist": "Herbie Hancock",
-    "rating": 7,
-    "spotify_id": "0sCeNwt8xRCMR4NhKpMyBe",
-    "audio_features": {
-      "acousticness": 0.749,
-      "danceability": 0.515,
-      "spotify_energy": 0.583,
-      "instrumentalness": 0.000294,
-      "liveness": 0.123,
-      "loudness": -8.182,
-      "speechiness": 0.0284,
-      "spotify_valence": 0.414
-    },
-    "date_added": "2026-10-19"
-  },
-  {
+    "era": "Post-Bop",
+    "year": 1964,
+    "album": "Night Dreamer",
+    "apply": true,
+    "label": "Blue Note",
+    "moods": [
+      "playful",
+      "angular"
+    ],
     "title": "Virgo - Remastered 2004 / Rudy Van Gelder Edition",
     "artist": "Wayne Shorter",
     "rating": 6,
+    "subgenres": [
+      "post-bop",
+      "hard bop"
+    ],
+    "date_added": "2026-10-12",
+    "era_source": "curated-album",
     "spotify_id": "1ylwBTCAZ1WlvvMnWm6U3c",
+    "key_players": [
+      "Wayne Shorter - tenor saxophone",
+      "Lee Morgan - trumpet",
+      "McCoy Tyner - piano",
+      "Reggie Workman - bass",
+      "Elvin Jones - drums"
+    ],
+    "year_source": "curated-album",
+    "album_source": "spotify",
+    "label_source": "curated-album",
+    "instrumentation": [],
+    "metadata_sources": [
+      "era:dataset",
+      "instrument:artist",
+      "moods:artist",
+      "subgenres:artist"
+    ],
+    "needs_enrichment": false,
+    "date_added_source": "db_updated_at",
+    "metadata_complete": true,
+    "key_players_source": "curated-album",
+    "primary_instrument": "tenor saxophone",
     "audio_features": {
       "acousticness": 0.971,
       "danceability": 0.446,
@@ -23004,15 +24207,64 @@
       "loudness": -14.403,
       "speechiness": 0.0386,
       "spotify_valence": 0.172
-    },
-    "date_added": "2026-10-19"
+    }
   },
   {
+    "era": "Hard Bop",
     "year": 1961,
+    "album": "Thelonious Monk with John Coltrane (OJC Remaster)",
+    "apply": true,
+    "label": "Jazzland",
+    "moods": [
+      "pretty",
+      "lovely",
+      "bluesy",
+      "sensual",
+      "sexy",
+      "melancholic",
+      "bittersweet",
+      "longing",
+      "spacious",
+      "smooth",
+      "uninteresting",
+      "sleepy",
+      "flat"
+    ],
     "title": "Trinkle, Tinkle",
     "artist": "Thelonious Monk",
     "rating": 3,
+    "subgenres": [
+      "ballad",
+      "bebop"
+    ],
+    "date_added": "2026-10-13",
+    "era_source": "curated-album",
     "spotify_id": "20Fjir47YvWiroyPIqqeuj",
+    "key_players": [
+      "Thelonious Monk - piano",
+      "John Coltrane - tenor saxophone",
+      "Gigi Gryce - alto saxophone",
+      "Coleman Hawkins - tenor saxophone",
+      "Ray Copeland - trumpet",
+      "Wilbur Ware - bass",
+      "Art Blakey - drums",
+      "Shadow Wilson - drums"
+    ],
+    "year_source": "curated-album",
+    "album_source": "spotify",
+    "label_source": "curated-album",
+    "instrumentation": [],
+    "metadata_sources": [
+      "era:dataset",
+      "instrument:artist",
+      "moods:artist",
+      "subgenres:artist"
+    ],
+    "needs_enrichment": false,
+    "date_added_source": "db_updated_at",
+    "metadata_complete": true,
+    "key_players_source": "curated-album",
+    "primary_instrument": "piano",
     "audio_features": {
       "acousticness": 0.636,
       "danceability": 0.53,
@@ -23022,15 +24274,61 @@
       "loudness": -12.568,
       "speechiness": 0.0773,
       "spotify_valence": 0.351
-    },
-    "date_added": "2026-10-19"
+    }
   },
   {
+    "era": "Hard Bop",
     "year": 1957,
+    "album": "Brilliant Corners",
+    "apply": true,
+    "label": "Riverside",
+    "moods": [
+      "pretty",
+      "lovely",
+      "bluesy",
+      "sensual",
+      "sexy",
+      "melancholic",
+      "bittersweet",
+      "longing",
+      "spacious",
+      "smooth",
+      "uninteresting",
+      "sleepy",
+      "flat"
+    ],
     "title": "Brilliant Corners",
     "artist": "Thelonious Monk",
     "rating": 6.5,
+    "subgenres": [
+      "ballad",
+      "bebop"
+    ],
+    "date_added": "2026-10-13",
+    "era_source": "curated-album",
     "spotify_id": "3Xp64gvwjvJH1ZkOQur3xK",
+    "key_players": [
+      "Thelonious Monk - piano",
+      "Ernie Henry - alto saxophone",
+      "Sonny Rollins - tenor saxophone",
+      "Oscar Pettiford - bass",
+      "Max Roach - drums"
+    ],
+    "year_source": "curated-album",
+    "album_source": "spotify",
+    "label_source": "curated-album",
+    "instrumentation": [],
+    "metadata_sources": [
+      "era:dataset",
+      "instrument:artist",
+      "moods:artist",
+      "subgenres:artist"
+    ],
+    "needs_enrichment": false,
+    "date_added_source": "db_updated_at",
+    "metadata_complete": true,
+    "key_players_source": "curated-album",
+    "primary_instrument": "piano",
     "audio_features": {
       "acousticness": 0.511,
       "danceability": 0.583,
@@ -23040,15 +24338,61 @@
       "loudness": -10.258,
       "speechiness": 0.0345,
       "spotify_valence": 0.369
-    },
-    "date_added": "2026-10-19"
+    }
   },
   {
+    "era": "Hard Bop",
     "year": 1957,
+    "album": "Brilliant Corners",
+    "apply": true,
+    "label": "Riverside",
+    "moods": [
+      "pretty",
+      "lovely",
+      "bluesy",
+      "sensual",
+      "sexy",
+      "melancholic",
+      "bittersweet",
+      "longing",
+      "spacious",
+      "smooth",
+      "uninteresting",
+      "sleepy",
+      "flat"
+    ],
     "title": "Ba-Lue Bolivar Ba-Lues-Are",
     "artist": "Thelonious Monk",
     "rating": 5.5,
+    "subgenres": [
+      "ballad",
+      "bebop"
+    ],
+    "date_added": "2026-10-13",
+    "era_source": "curated-album",
     "spotify_id": "1OjmEyEycmzJK3itBAq8EG",
+    "key_players": [
+      "Thelonious Monk - piano",
+      "Ernie Henry - alto saxophone",
+      "Sonny Rollins - tenor saxophone",
+      "Oscar Pettiford - bass",
+      "Max Roach - drums"
+    ],
+    "year_source": "curated-album",
+    "album_source": "spotify",
+    "label_source": "curated-album",
+    "instrumentation": [],
+    "metadata_sources": [
+      "era:dataset",
+      "instrument:album",
+      "moods:album",
+      "subgenres:album"
+    ],
+    "needs_enrichment": false,
+    "date_added_source": "db_updated_at",
+    "metadata_complete": true,
+    "key_players_source": "curated-album",
+    "primary_instrument": "piano",
     "audio_features": {
       "acousticness": 0.596,
       "danceability": 0.566,
@@ -23058,15 +24402,61 @@
       "loudness": -11.194,
       "speechiness": 0.0507,
       "spotify_valence": 0.326
-    },
-    "date_added": "2026-10-19"
+    }
   },
   {
+    "era": "Hard Bop",
     "year": 1957,
+    "album": "Brilliant Corners",
+    "apply": true,
+    "label": "Riverside",
+    "moods": [
+      "pretty",
+      "lovely",
+      "bluesy",
+      "sensual",
+      "sexy",
+      "melancholic",
+      "bittersweet",
+      "longing",
+      "spacious",
+      "smooth",
+      "uninteresting",
+      "sleepy",
+      "flat"
+    ],
     "title": "Pannonica",
     "artist": "Thelonious Monk",
     "rating": 5,
+    "subgenres": [
+      "ballad",
+      "bebop"
+    ],
+    "date_added": "2026-10-13",
+    "era_source": "curated-album",
     "spotify_id": "3EM4Vr12ZTUee0OLjTw01F",
+    "key_players": [
+      "Thelonious Monk - piano",
+      "Ernie Henry - alto saxophone",
+      "Sonny Rollins - tenor saxophone",
+      "Oscar Pettiford - bass",
+      "Max Roach - drums"
+    ],
+    "year_source": "curated-album",
+    "album_source": "spotify",
+    "label_source": "curated-album",
+    "instrumentation": [],
+    "metadata_sources": [
+      "era:dataset",
+      "instrument:album",
+      "moods:album",
+      "subgenres:album"
+    ],
+    "needs_enrichment": false,
+    "date_added_source": "db_updated_at",
+    "metadata_complete": true,
+    "key_players_source": "curated-album",
+    "primary_instrument": "piano",
     "audio_features": {
       "acousticness": 0.677,
       "danceability": 0.536,
@@ -23076,15 +24466,61 @@
       "loudness": -9.73,
       "speechiness": 0.0334,
       "spotify_valence": 0.14
-    },
-    "date_added": "2026-10-19"
+    }
   },
   {
+    "era": "Hard Bop",
     "year": 1957,
+    "album": "Brilliant Corners",
+    "apply": true,
+    "label": "Riverside",
+    "moods": [
+      "pretty",
+      "lovely",
+      "bluesy",
+      "sensual",
+      "sexy",
+      "melancholic",
+      "bittersweet",
+      "longing",
+      "spacious",
+      "smooth",
+      "uninteresting",
+      "sleepy",
+      "flat"
+    ],
     "title": "I Surrender, Dear",
     "artist": "Thelonious Monk",
     "rating": 3.5,
+    "subgenres": [
+      "ballad",
+      "bebop"
+    ],
+    "date_added": "2026-10-13",
+    "era_source": "curated-album",
     "spotify_id": "5Di7WT1rz8KYNCmfY3yWLV",
+    "key_players": [
+      "Thelonious Monk - piano",
+      "Ernie Henry - alto saxophone",
+      "Sonny Rollins - tenor saxophone",
+      "Oscar Pettiford - bass",
+      "Max Roach - drums"
+    ],
+    "year_source": "curated-album",
+    "album_source": "spotify",
+    "label_source": "curated-album",
+    "instrumentation": [],
+    "metadata_sources": [
+      "era:dataset",
+      "instrument:album",
+      "moods:album",
+      "subgenres:album"
+    ],
+    "needs_enrichment": false,
+    "date_added_source": "db_updated_at",
+    "metadata_complete": true,
+    "key_players_source": "curated-album",
+    "primary_instrument": "piano",
     "audio_features": {
       "acousticness": 0.988,
       "danceability": 0.548,
@@ -23094,15 +24530,61 @@
       "loudness": -16.242,
       "speechiness": 0.0529,
       "spotify_valence": 0.0772
-    },
-    "date_added": "2026-10-19"
+    }
   },
   {
+    "era": "Hard Bop",
     "year": 1957,
+    "album": "Brilliant Corners",
+    "apply": true,
+    "label": "Riverside",
+    "moods": [
+      "pretty",
+      "lovely",
+      "bluesy",
+      "sensual",
+      "sexy",
+      "melancholic",
+      "bittersweet",
+      "longing",
+      "spacious",
+      "smooth",
+      "uninteresting",
+      "sleepy",
+      "flat"
+    ],
     "title": "Bemsha Swing",
     "artist": "Thelonious Monk",
     "rating": 7,
+    "subgenres": [
+      "ballad",
+      "bebop"
+    ],
+    "date_added": "2026-10-13",
+    "era_source": "curated-album",
     "spotify_id": "4H2njXrFG7Ol1AjYS7YTej",
+    "key_players": [
+      "Thelonious Monk - piano",
+      "Ernie Henry - alto saxophone",
+      "Sonny Rollins - tenor saxophone",
+      "Oscar Pettiford - bass",
+      "Max Roach - drums"
+    ],
+    "year_source": "curated-album",
+    "album_source": "spotify",
+    "label_source": "curated-album",
+    "instrumentation": [],
+    "metadata_sources": [
+      "era:dataset",
+      "instrument:album",
+      "moods:album",
+      "subgenres:album"
+    ],
+    "needs_enrichment": false,
+    "date_added_source": "db_updated_at",
+    "metadata_complete": true,
+    "key_players_source": "curated-album",
+    "primary_instrument": "piano",
     "audio_features": {
       "acousticness": 0.55,
       "danceability": 0.543,
@@ -23112,15 +24594,67 @@
       "loudness": -7.492,
       "speechiness": 0.0332,
       "spotify_valence": 0.518
-    },
-    "date_added": "2026-10-19"
+    }
   },
   {
+    "era": "Hard Bop",
     "year": 1958,
+    "album": "Ahmad Jamal At The Pershing: But Not For Me",
+    "apply": true,
+    "label": "Argo",
+    "moods": [
+      "cool",
+      "sexy",
+      "restless",
+      "fun",
+      "repetitive"
+    ],
     "title": "But Not For Me - Live At The Pershing, Chicago, 1958",
     "artist": "Ahmad Jamal Trio",
-    "rating": 8,
+    "rating": 7.75,
+    "subgenres": [
+      "hard bop",
+      "piano"
+    ],
+    "date_added": "2026-10-13",
     "spotify_id": "5iWKFIAbqS8btb6jquMusM",
+    "key_players": [
+      "Ahmad Jamal - piano",
+      "Israel Crosby - bass",
+      "Vernel Fournier - drums"
+    ],
+    "album_source": "spotify",
+    "instrumentation": [
+      "piano",
+      "bass",
+      "drums"
+    ],
+    "rating_variants": [
+      {
+        "title": "But Not For Me - Live At The Pershing, Chicago, 1958",
+        "rating": 8
+      },
+      {
+        "title": "But Not for Me",
+        "rating": 7.5
+      }
+    ],
+    "metadata_sources": [
+      "era:dataset",
+      "instrument:recording",
+      "instrumentation:album",
+      "label:album",
+      "moods:recording",
+      "players:recording",
+      "subgenres:recording"
+    ],
+    "needs_enrichment": false,
+    "date_added_source": "db_updated_at",
+    "merged_duplicates": [
+      "But Not for Me"
+    ],
+    "metadata_complete": true,
+    "primary_instrument": "piano",
     "audio_features": {
       "acousticness": 0.392,
       "danceability": 0.591,
@@ -23130,15 +24664,67 @@
       "loudness": -14.071,
       "speechiness": 0.0944,
       "spotify_valence": 0.561
-    },
-    "date_added": "2026-10-19"
+    }
   },
   {
+    "era": "Cool Jazz",
     "year": 1958,
+    "album": "Ahmad Jamal At The Pershing: But Not For Me",
+    "apply": true,
+    "label": "Argo",
+    "moods": [
+      "pretty",
+      "cool",
+      "experimental",
+      "restless",
+      "fun"
+    ],
     "title": "Surrey With The Fringe On The Top - Live At The Pershing, Chicago, 1958",
     "artist": "Ahmad Jamal Trio",
-    "rating": 6.5,
+    "rating": 4.75,
+    "subgenres": [
+      "cool jazz",
+      "piano trio"
+    ],
+    "date_added": "2026-10-13",
     "spotify_id": "2G91ddDq9RzO8lujn2X2oH",
+    "key_players": [
+      "Ahmad Jamal - piano",
+      "Israel Crosby - bass",
+      "Vernel Fournier - drums"
+    ],
+    "album_source": "spotify",
+    "instrumentation": [
+      "piano",
+      "bass",
+      "drums"
+    ],
+    "rating_variants": [
+      {
+        "title": "Surrey With The Fringe On The Top - Live At The Pershing, Chicago, 1958",
+        "rating": 6.5
+      },
+      {
+        "title": "Surrey with the Fringe on Top",
+        "rating": 3
+      }
+    ],
+    "metadata_sources": [
+      "era:dataset",
+      "instrument:album",
+      "instrumentation:album",
+      "label:album",
+      "moods:album",
+      "players:album",
+      "subgenres:album"
+    ],
+    "needs_enrichment": false,
+    "date_added_source": "db_updated_at",
+    "merged_duplicates": [
+      "Surrey with the Fringe on Top"
+    ],
+    "metadata_complete": true,
+    "primary_instrument": "piano",
     "audio_features": {
       "acousticness": 0.428,
       "danceability": 0.465,
@@ -23148,15 +24734,70 @@
       "loudness": -15.647,
       "speechiness": 0.0626,
       "spotify_valence": 0.717
-    },
-    "date_added": "2026-10-19"
+    }
   },
   {
+    "era": "Hard Bop",
     "year": 1958,
+    "album": "Ahmad Jamal At The Pershing: But Not For Me",
+    "apply": true,
+    "label": "Argo",
+    "moods": [
+      "sexy",
+      "pretty",
+      "bluesy",
+      "melancholic",
+      "hopeful",
+      "bittersweet",
+      "elegant",
+      "sparse"
+    ],
     "title": "Moonlight In Vermont - Live At The Pershing, Chicago, 1958",
     "artist": "Ahmad Jamal Trio",
-    "rating": 9,
+    "rating": 7.0,
+    "subgenres": [
+      "hard bop",
+      "piano ballad"
+    ],
+    "date_added": "2026-10-13",
     "spotify_id": "68oYY9hUduyqbKZpOUi4Iq",
+    "key_players": [
+      "Ahmad Jamal - piano",
+      "Israel Crosby - bass",
+      "Vernel Fournier - drums"
+    ],
+    "album_source": "spotify",
+    "instrumentation": [
+      "piano",
+      "bass",
+      "drums"
+    ],
+    "rating_variants": [
+      {
+        "title": "Moonlight In Vermont - Live At The Pershing, Chicago, 1958",
+        "rating": 9
+      },
+      {
+        "title": "Moonlight in Vermont",
+        "rating": 5
+      }
+    ],
+    "metadata_sources": [
+      "era:dataset",
+      "instrument:recording",
+      "instrumentation:album",
+      "label:album",
+      "moods:recording",
+      "players:recording",
+      "subgenres:recording"
+    ],
+    "needs_enrichment": false,
+    "date_added_source": "db_updated_at",
+    "merged_duplicates": [
+      "Moonlight in Vermont"
+    ],
+    "metadata_complete": true,
+    "primary_instrument": "piano",
     "audio_features": {
       "acousticness": 0.658,
       "danceability": 0.427,
@@ -23166,15 +24807,54 @@
       "loudness": -18.124,
       "speechiness": 0.105,
       "spotify_valence": 0.329
-    },
-    "date_added": "2026-10-19"
+    }
   },
   {
+    "era": "Cool Jazz",
     "year": 1958,
+    "album": "Ahmad Jamal At The Pershing: But Not For Me",
+    "apply": true,
+    "label": "Argo",
+    "moods": [
+      "pretty",
+      "cool",
+      "experimental",
+      "restless",
+      "fun"
+    ],
     "title": "Music, Music, Music - Live At The Pershing, Chicago, 1958",
     "artist": "Ahmad Jamal Trio",
     "rating": 7,
+    "subgenres": [
+      "cool jazz",
+      "piano trio"
+    ],
+    "date_added": "2026-10-13",
     "spotify_id": "6157eGcWcBaHZcYIfQQZjn",
+    "key_players": [
+      "Ahmad Jamal - piano",
+      "Israel Crosby - bass",
+      "Vernel Fournier - drums"
+    ],
+    "album_source": "spotify",
+    "instrumentation": [
+      "piano",
+      "bass",
+      "drums"
+    ],
+    "metadata_sources": [
+      "era:dataset",
+      "instrument:album",
+      "instrumentation:album",
+      "label:album",
+      "moods:album",
+      "players:album",
+      "subgenres:album"
+    ],
+    "needs_enrichment": false,
+    "date_added_source": "db_updated_at",
+    "metadata_complete": true,
+    "primary_instrument": "piano",
     "audio_features": {
       "acousticness": 0.625,
       "danceability": 0.694,
@@ -23184,7 +24864,6 @@
       "loudness": -14.045,
       "speechiness": 0.0528,
       "spotify_valence": 0.741
-    },
-    "date_added": "2026-10-19"
+    }
   }
 ]
