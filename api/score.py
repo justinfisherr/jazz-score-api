@@ -222,6 +222,7 @@ def build_taste_profile(tracks):
         "top_rated": [{"title": t.get("title"), "artist": t.get("artist"), "rating": t.get("rating")} for t in top],
         "misses": [{"title": t.get("title"), "artist": t.get("artist"), "rating": t.get("rating")} for t in low],
         "avoid_recent": [{"title": t.get("title"), "artist": t.get("artist")} for t in recent],
+        "rated_catalog": [{"title": t.get("title"), "artist": t.get("artist")} for t in rated],
         "top_artists": top_artists[:12],
         "top_eras": [{"era": k, "n": n} for k, n in mode("era")],
         "top_subgenres": [{"subgenre": k, "n": n} for k, n in mode("subgenres")],
@@ -454,26 +455,38 @@ class handler(BaseHTTPRequestHandler):
         tracks = db.fetch_tracks()
         profile = build_taste_profile(tracks)
         try:
-            recs = ask_openrouter(kind, prompt, count, profile)
+            recs = ask_openrouter(kind, prompt, count + 3, profile)
         except Exception as exc:  # noqa: BLE001
             self._json(502, {"error": f"openrouter: {exc}"})
             return
         token = get_token()
         out = []
-        for rec in recs[:count]:
+        seen = set()
+        for rec in recs:
+            if len(out) >= count:
+                break
             try:
                 if kind == "track":
                     item = resolve_track_recommendation(rec, token)
-                    if item:
-                        out.append(item)
+                    if item and not item.get("reviewed"):
+                        key = (item["title"].lower(), item["artist"].lower())
+                        if key not in seen:
+                            seen.add(key)
+                            out.append(item)
                 elif kind == "album":
                     item = resolve_album_recommendation(rec, token)
-                    if item:
-                        out.append(item)
+                    if item and not item.get("reviewed"):
+                        key = (item["name"].lower(), item["artist"].lower())
+                        if key not in seen:
+                            seen.add(key)
+                            out.append(item)
                 else:
                     item = resolve_playlist_recommendation(rec, token)
                     if item:
-                        out.append(item)
+                        key = (item["title"] or "").lower()
+                        if key not in seen:
+                            seen.add(key)
+                            out.append(item)
             except Exception:  # noqa: BLE001
                 continue
         self._json(200, {
@@ -481,6 +494,7 @@ class handler(BaseHTTPRequestHandler):
             "prompt": prompt,
             "model": OPENROUTER_MODEL,
             "recommendations": out,
+            "message": None if out else "The model only returned things you have already rated. Try a more specific request.",
             "profile": {
                 "tracks": len([t for t in tracks if t.get("entity_type") != "album"]),
                 "top_eras": profile["top_eras"][:4],
