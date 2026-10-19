@@ -140,7 +140,11 @@ def enrich_track(track, all_tracks, token, spotify_enabled=True):
             fill["spotify_id"] = out.get("spotify_id") or sp.get("id")
             fill["album"] = out.get("album") or album.get("name")
             release = album.get("release_date") or ""
-            fill["year"] = out.get("year") or (int(release[:4]) if release[:4].isdigit() else None)
+            if not out.get("year") and release[:4].isdigit():
+                fill["year"] = int(release[:4])
+                out["year_source"] = "spotify-release"
+            if not out.get("album") and album.get("name"):
+                out["album_source"] = "spotify"
 
     for key in ("spotify_id", "album", "year"):
         if not out.get(key) and fill.get(key):
@@ -148,7 +152,11 @@ def enrich_track(track, all_tracks, token, spotify_enabled=True):
 
     exact, album_refs, artist_refs = reference_tracks(out, all_tracks)
     sources = []
-    for group_name, group in (("recording", exact), ("album", album_refs), ("artist", artist_refs)):
+
+    # Sessions are specific: only copy personnel, label and instrumentation
+    # from the same recording or the same album, never from an unrelated
+    # session by the same artist.
+    for group_name, group in (("recording", exact), ("album", album_refs)):
         if not group:
             continue
         if not out.get("primary_instrument"):
@@ -166,6 +174,11 @@ def enrich_track(track, all_tracks, token, spotify_enabled=True):
             if value:
                 out["instrumentation"] = list(value)
                 sources.append(f"instrumentation:{group_name}")
+        if not out.get("key_players"):
+            value = _mode([tuple(t.get("key_players") or []) for t in group])
+            if value:
+                out["key_players"] = list(value)
+                sources.append(f"players:{group_name}")
         if not out.get("subgenres"):
             value = _mode([tuple(t.get("subgenres") or []) for t in group])
             if value:
@@ -176,11 +189,31 @@ def enrich_track(track, all_tracks, token, spotify_enabled=True):
             if value:
                 out["moods"] = list(value)
                 sources.append(f"moods:{group_name}")
-        if not out.get("key_players"):
-            value = _mode([tuple(t.get("key_players") or []) for t in group])
+        if out.get("year_source") == "spotify-release" or not out.get("year"):
+            value = _mode([t.get("year") for t in group])
             if value:
-                out["key_players"] = list(value)
-                sources.append(f"players:{group_name}")
+                out["year"] = value
+                out["year_source"] = f"dataset-{group_name}"
+                sources.append(f"year:{group_name}")
+
+    # Instrument, era, subgenre and mood can safely lean on the artist's
+    # broader catalog when the exact session is unknown.
+    if artist_refs:
+        if not out.get("primary_instrument"):
+            value = _mode([t.get("primary_instrument") for t in artist_refs])
+            if value:
+                out["primary_instrument"] = value
+                sources.append("instrument:artist")
+        if not out.get("subgenres"):
+            value = _mode([tuple(t.get("subgenres") or []) for t in artist_refs])
+            if value:
+                out["subgenres"] = list(value)
+                sources.append("subgenres:artist")
+        if not out.get("moods"):
+            value = _mode([tuple(t.get("moods") or []) for t in artist_refs])
+            if value:
+                out["moods"] = list(value)
+                sources.append("moods:artist")
 
     if not out.get("era"):
         value, source = infer_era(out, exact, album_refs, artist_refs, all_tracks)
