@@ -50,6 +50,8 @@ GH_API = "https://api.github.com"
 OPENROUTER_URL = "https://openrouter.ai/api/v1/chat/completions"
 OPENROUTER_API_KEY = os.environ.get("OPENROUTER_API_KEY", "")
 OPENROUTER_MODEL = os.environ.get("OPENROUTER_MODEL", "deepseek/deepseek-v4.1-flash")
+PLAYBACK_TOKEN_URL = os.environ.get("PLAYBACK_TOKEN_URL", "https://transcribe-xi-virid.vercel.app/api/spotify-token")
+_playback_token_cache = {"token": None, "expires_at": 0}
 
 
 def gh_headers():
@@ -470,7 +472,9 @@ class handler(BaseHTTPRequestHandler):
         if self.headers.get("x-app-password") != APP_PASSWORD:
             self._json(401, {"error": "unauthorized"})
             return
-        if path.startswith("/api/recommend"):
+        if path.startswith("/api/spotify-playback-token"):
+            self._playback_token()
+        elif path.startswith("/api/recommend"):
             self._recommend()
         elif path.startswith("/api/enrich"):
             self._enrich()
@@ -497,6 +501,27 @@ class handler(BaseHTTPRequestHandler):
             self._json(200, {"ok": True})
         else:
             self._json(401, {"error": "wrong password"})
+
+    def _playback_token(self):
+        now = time.time()
+        cached = _playback_token_cache
+        if cached.get("token") and cached.get("expires_at", 0) > now + 60:
+            self._json(200, {"access_token": cached["token"], "expires_in": int(cached["expires_at"] - now)})
+            return
+        try:
+            resp = requests.get(PLAYBACK_TOKEN_URL, timeout=20)
+            if resp.status_code != 200:
+                raise RuntimeError(f"token broker returned {resp.status_code}")
+            data = resp.json()
+            token = data.get("access_token")
+            if not token:
+                raise RuntimeError("token broker returned no token")
+            expires = int(data.get("expires_in") or 3600)
+            cached["token"] = token
+            cached["expires_at"] = now + expires
+            self._json(200, {"access_token": token, "expires_in": expires})
+        except Exception as exc:  # noqa: BLE001
+            self._json(502, {"error": f"playback token unavailable: {exc}"})
 
     def _recommend(self):
         if not OPENROUTER_API_KEY:
