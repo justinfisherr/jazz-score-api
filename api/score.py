@@ -240,6 +240,8 @@ def ask_openrouter(kind, prompt, count, profile):
     }[kind]
     system = (
         "You are Justin's jazz concierge. You know his taste model and his library. "
+        "Recommend jazz recordings only unless the request explicitly asks for another genre. "
+        f"Return exactly {count + 3} distinct recommendations. "
         "Recommend music he has not already rated. Be specific, avoid obvious greatest-hits picks "
         "unless they genuinely fit the request, and lean into the gaps in his listening. "
         f"{kind_rule} "
@@ -269,7 +271,7 @@ def ask_openrouter(kind, prompt, count, profile):
             "model": OPENROUTER_MODEL,
             "messages": [{"role": "system", "content": system}, {"role": "user", "content": user}],
             "temperature": 0.7,
-            "max_tokens": 900,
+            "max_tokens": 1400,
             "response_format": {"type": "json_object"},
         },
         timeout=60,
