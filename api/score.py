@@ -487,7 +487,7 @@ class handler(BaseHTTPRequestHandler):
 
         def consume(candidates):
             for rec in candidates:
-                if len(out) >= count:
+                if len(out) >= count + 4:
                     return
                 try:
                     if kind == "track":
@@ -527,6 +527,11 @@ class handler(BaseHTTPRequestHandler):
                 consume(retry)
             except Exception:  # noqa: BLE001
                 pass
+        if kind == "track":
+            # Let the taste model rank the AI's candidates instead of trusting
+            # the first three the language model happened to name.
+            out.sort(key=lambda r: r.get("score") or 0, reverse=True)
+            out = out[:count]
         self._json(200, {
             "kind": kind,
             "prompt": prompt,
