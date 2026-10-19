@@ -292,14 +292,16 @@ def ask_openrouter(kind, prompt, count, profile, reject=None):
             "model": OPENROUTER_MODEL,
             "messages": [{"role": "system", "content": system}, {"role": "user", "content": user}],
             "temperature": 0.7,
-            "max_tokens": 1400,
-            "response_format": {"type": "json_object"},
+            "max_tokens": 3000,
+            "reasoning": {"effort": "low"},
         },
         timeout=60,
     )
     if resp.status_code >= 400:
         raise RuntimeError(f"{resp.status_code}: {resp.text[:300]}")
-    content = resp.json()["choices"][0]["message"]["content"]
+    content = resp.json()["choices"][0]["message"].get("content")
+    if not content:
+        raise RuntimeError("model returned an empty response")
     content = re.sub(r"^```(?:json)?\s*|\s*```$", "", content.strip(), flags=re.S)
     try:
         data = json.loads(content)
