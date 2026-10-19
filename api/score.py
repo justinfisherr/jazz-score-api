@@ -20,6 +20,7 @@ ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
 
 import db  # noqa: E402
+import enrich  # noqa: E402
 import genre_bridge  # noqa: E402
 
 db.init_schema()
@@ -245,7 +246,9 @@ class handler(BaseHTTPRequestHandler):
         if self.headers.get("x-app-password") != APP_PASSWORD:
             self._json(401, {"error": "unauthorized"})
             return
-        if path.startswith("/api/train"):
+        if path.startswith("/api/enrich"):
+            self._enrich()
+        elif path.startswith("/api/train"):
             self._trigger_train()
         elif path.startswith("/api/rate/delete"):
             self._unrate()
@@ -268,6 +271,30 @@ class handler(BaseHTTPRequestHandler):
             self._json(200, {"ok": True})
         else:
             self._json(401, {"error": "wrong password"})
+
+    def _enrich(self):
+        length = int(self.headers.get("Content-Length", 0) or 0)
+        try:
+            body = json.loads(self.rfile.read(length) or b"{}")
+        except json.JSONDecodeError:
+            self._json(400, {"error": "invalid JSON"})
+            return
+        title = (body.get("title") or "").strip()
+        artist = (body.get("artist") or "").strip()
+        if not title or not artist:
+            self._json(400, {"error": "title and artist are required"})
+            return
+        existing = db.get_track(title, artist) or {}
+        track = {**existing, **{k: v for k, v in body.items() if v is not None}}
+        track["title"], track["artist"] = title, artist
+        try:
+            token = get_token()
+            enriched = enrich.enrich_track(track, db.fetch_tracks(), token)
+        except Exception as exc:  # noqa: BLE001
+            enriched = {**track, "needs_enrichment": True, "metadata_missing": ["enrichment failed"], "enrichment_error": str(exc)}
+        if body.get("apply"):
+            db.upsert_track(enriched)
+        self._json(200, {"track": enriched})
 
     def _train_status(self):
         if not GH_TOKEN:
@@ -340,6 +367,10 @@ class handler(BaseHTTPRequestHandler):
         if not (review.get("title") or "").strip() or not (review.get("artist") or "").strip():
             self._json(400, {"error": "title and artist are required"})
             return
+        try:
+            review = enrich.enrich_track(review, db.fetch_tracks(), get_token())
+        except Exception:  # noqa: BLE001
+            review["needs_enrichment"] = True
         pid = db.add_pending_review(review)
         self._json(200, {"ok": True, "id": pid})
 
@@ -373,6 +404,10 @@ class handler(BaseHTTPRequestHandler):
         merged["title"] = title
         merged["artist"] = artist
         merged["rating"] = rating
+        try:
+            merged = enrich.enrich_track(merged, db.fetch_tracks(), get_token())
+        except Exception:  # noqa: BLE001
+            merged["needs_enrichment"] = True
         db.upsert_track(merged)
         self._json(200, {"ok": True, "title": title, "artist": artist, "rating": rating})
 
