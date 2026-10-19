@@ -236,7 +236,6 @@ def build_taste_profile(tracks):
         "top_rated": [{"title": t.get("title"), "artist": t.get("artist"), "rating": t.get("rating")} for t in top],
         "misses": [{"title": t.get("title"), "artist": t.get("artist"), "rating": t.get("rating")} for t in low],
         "avoid_recent": [{"title": t.get("title"), "artist": t.get("artist")} for t in recent],
-        "rated_catalog": [{"title": t.get("title"), "artist": t.get("artist")} for t in rated],
         "top_artists": top_artists[:12],
         "low_artists": low_artists[:8],
         "top_albums": top_albums[:10],
