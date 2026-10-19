@@ -261,6 +261,8 @@ def ask_openrouter(kind, prompt, count, profile, reject=None):
         "Recommend music he has not already rated. Be specific and lean into gaps, but balance about "
         "70% fit to his highest-rated eras, instruments, artists, collaborators, and albums with 30% exploration. "
         "Favor artists one or two degrees away from his top artists (same scene, sidemen, or label) and avoid low_artists. "
+        "At least half of the picks should be by top_artists or by musicians who played on their records. "
+        "Avoid the most canonical names (Coltrane, Miles Davis, Wayne Shorter, Herbie Hancock) unless the request names them. "
         "A pick that clearly sits outside his taste is a failed recommendation. "
         f"{kind_rule} "
         "spotify_query must be the exact search phrase that will find that item on Spotify. "
