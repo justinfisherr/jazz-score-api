@@ -637,8 +637,7 @@ class handler(BaseHTTPRequestHandler):
                 all_tracks = db.fetch_tracks()
                 real = [p for p in playlists if p.get("special") != "liked"]
                 with ThreadPoolExecutor(max_workers=6) as pool:
-                    real = list(pool.map(lambda p: analyze_playlist(p, token, all_tracks), real))
-                playlists = [p for p in playlists if p.get("special") == "liked"] + real
+                    playlists = list(pool.map(lambda p: analyze_playlist(p, token, all_tracks), real))
             self._json(200, {"playlists": playlists})
         except Exception as exc:  # noqa: BLE001
             self._json(502, {"error": f"playlists unavailable: {exc}"})
