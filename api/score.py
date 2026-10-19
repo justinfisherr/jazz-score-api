@@ -291,7 +291,7 @@ def ask_openrouter(kind, prompt, count, profile, reject=None):
             "model": OPENROUTER_MODEL,
             "messages": [{"role": "system", "content": system}, {"role": "user", "content": user}],
             "temperature": 0.7,
-            "max_tokens": 4000,
+            "max_tokens": 6000,
             "reasoning": {"enabled": False},
         },
         timeout=60,
@@ -506,7 +506,7 @@ class handler(BaseHTTPRequestHandler):
             return
         kind = body.get("kind") if body.get("kind") in ("track", "album", "playlist") else "track"
         prompt = str(body.get("prompt") or "").strip()
-        count = max(1, min(5, int(body.get("count") or (3 if kind == "track" else 2))))
+        count = max(1, min(10, int(body.get("count") or (10 if kind == "track" else 2))))
         tracks = db.fetch_tracks()
         profile = build_taste_profile(tracks)
         try:
