@@ -15,11 +15,13 @@
     "artist": "John Coltrane",
     "energy": 9,
     "rating": 10,
+    "liked_at": "2026-10-19T22:45:57.290131",
     "subgenres": [
       "modal jazz"
     ],
     "date_added": "2026-06-20",
     "spotify_id": "2JOEPbuwVf0nafGnMSVEhH",
+    "entity_type": "track",
     "key_players": [
       "McCoy Tyner - piano",
       "John Coltrane - soprano saxophone",
@@ -55,6 +57,8 @@
       "drums"
     ],
     "favorite_moments": null,
+    "needs_enrichment": false,
+    "metadata_complete": true,
     "notable_qualities": [
       "soprano sax debut",
       "extended modal vamp",
@@ -11139,6 +11143,7 @@
       "modal"
     ],
     "date_added": "2026-07-01",
+    "era_source": "curated-album",
     "spotify_id": "52GKwMjXBDxSAH4y4DMzHe",
     "key_players": [
       "McCoy Tyner - piano",
@@ -11146,8 +11151,9 @@
       "Lex Humphries - drums"
     ],
     "playthrough": null,
-    "year_source": "dataset-album",
+    "year_source": "curated-album",
     "album_source": "spotify",
+    "label_source": "curated-album",
     "replayability": null,
     "audio_features": {
       "liveness": 0.0644,
@@ -11168,6 +11174,7 @@
     ],
     "needs_enrichment": false,
     "metadata_complete": true,
+    "key_players_source": "curated-album",
     "primary_instrument": "piano"
   },
   {
@@ -25511,6 +25518,941 @@
       "loudness": -14.045,
       "speechiness": 0.0528,
       "spotify_valence": 0.741
+    }
+  },
+  {
+    "era": "Electric",
+    "year": 1970,
+    "album": "Bitches Brew",
+    "label": "Columbia",
+    "moods": [
+      "hypnotic",
+      "dark",
+      "raw",
+      "trippy"
+    ],
+    "title": "Bitches Brew",
+    "artist": "Miles Davis",
+    "rating": 2,
+    "subgenres": [
+      "electric jazz",
+      "jazz fusion",
+      "psychedelic jazz"
+    ],
+    "spotify_id": "15tLhnzO4o8fMOEjdZGfII",
+    "key_players": [
+      "Miles Davis - trumpet",
+      "Wayne Shorter - soprano saxophone",
+      "Bennie Maupin - bass clarinet",
+      "John McLaughlin - electric guitar",
+      "Chick Corea - electric piano",
+      "Joe Zawinul - electric piano",
+      "Dave Holland - bass",
+      "Harvey Brooks - electric bass",
+      "Jack DeJohnette - drums",
+      "Lenny White - drums"
+    ],
+    "album_source": "spotify",
+    "instrumentation": [
+      "trumpet",
+      "electric guitar",
+      "electric piano",
+      "bass",
+      "drums",
+      "percussion"
+    ],
+    "metadata_sources": [
+      "era:dataset",
+      "instrument:album",
+      "instrumentation:album",
+      "label:album",
+      "moods:album",
+      "players:album",
+      "subgenres:album"
+    ],
+    "needs_enrichment": false,
+    "metadata_complete": true,
+    "primary_instrument": "trumpet",
+    "date_added": "2026-10-19",
+    "date_added_source": "db_updated_at",
+    "audio_features": {
+      "acousticness": 0.521,
+      "danceability": 0.351,
+      "spotify_energy": 0.514,
+      "instrumentalness": 0.277,
+      "liveness": 0.1,
+      "loudness": -9.092,
+      "speechiness": 0.0349,
+      "spotify_valence": 0.172
+    }
+  },
+  {
+    "era": "Post-Bop",
+    "year": 1968,
+    "album": "The Inflated Tear",
+    "label": "Atlantic",
+    "moods": [
+      "bluesy",
+      "spiritual",
+      "playful"
+    ],
+    "title": "The Inflated Tear - Live Version",
+    "artist": "Rahsaan Roland Kirk",
+    "rating": 4,
+    "subgenres": [
+      "post-bop",
+      "avant-garde jazz"
+    ],
+    "era_source": "curated-album",
+    "spotify_id": "1gtBt4RuqguF7CfIBrDJ5s",
+    "key_players": [
+      "Rahsaan Roland Kirk - tenor saxophone, manzello, stritch, flute",
+      "Ron Burton - piano",
+      "Steve Novosel - bass",
+      "Jimmy Hopps - drums"
+    ],
+    "year_source": "curated-album",
+    "album_source": "spotify",
+    "label_source": "curated-album",
+    "instrumentation": [],
+    "metadata_sources": [
+      "era:year-neighbours"
+    ],
+    "needs_enrichment": false,
+    "metadata_complete": true,
+    "key_players_source": "curated-album",
+    "primary_instrument": "tenor saxophone",
+    "date_added": "2026-10-19",
+    "date_added_source": "db_updated_at",
+    "audio_features": {
+      "acousticness": 0.874,
+      "danceability": 0.405,
+      "spotify_energy": 0.15,
+      "instrumentalness": 0.582,
+      "liveness": 0.192,
+      "loudness": -14.473,
+      "speechiness": 0.0628,
+      "spotify_valence": 0.19
+    }
+  },
+  {
+    "era": "Hard Bop",
+    "year": 1966,
+    "album": "The Gigolo",
+    "moods": [
+      "repetitive",
+      "flat"
+    ],
+    "title": "The Gigolo",
+    "artist": "Lee Morgan",
+    "rating": 7,
+    "subgenres": [
+      "hard bop",
+      "soul jazz",
+      "boogaloo"
+    ],
+    "spotify_id": "1KHBXcAbYTYrUYczFOPHEp",
+    "key_players": [],
+    "album_source": "spotify",
+    "instrumentation": [],
+    "metadata_sources": [
+      "era:dataset",
+      "instrument:artist",
+      "moods:artist",
+      "subgenres:artist"
+    ],
+    "needs_enrichment": false,
+    "metadata_complete": false,
+    "primary_instrument": "trumpet",
+    "date_added": "2026-10-19",
+    "date_added_source": "db_updated_at",
+    "audio_features": {
+      "acousticness": 0.594,
+      "danceability": 0.36,
+      "spotify_energy": 0.695,
+      "instrumentalness": 0.105,
+      "liveness": 0.123,
+      "loudness": -10.855,
+      "speechiness": 0.0424,
+      "spotify_valence": 0.667
+    }
+  },
+  {
+    "era": "Hard Bop",
+    "year": 2005,
+    "album": "The Big Beat (The Rudy Van Gelder Edition)",
+    "moods": [
+      "bittersweet",
+      "melancholic",
+      "sexy",
+      "corny"
+    ],
+    "title": "Dat Dere - Remastered 2005",
+    "artist": "Art Blakey & The Jazz Messengers",
+    "rating": 4,
+    "subgenres": [
+      "hard bop"
+    ],
+    "spotify_id": "0fYXEHGIJqfimplx8Y4683",
+    "key_players": [],
+    "album_source": "spotify",
+    "instrumentation": [],
+    "metadata_sources": [
+      "era:dataset",
+      "instrument:artist",
+      "moods:artist",
+      "subgenres:artist"
+    ],
+    "needs_enrichment": false,
+    "metadata_complete": false,
+    "primary_instrument": "drums",
+    "date_added": "2026-10-19",
+    "date_added_source": "db_updated_at",
+    "audio_features": {
+      "acousticness": 0.802,
+      "danceability": 0.718,
+      "spotify_energy": 0.523,
+      "instrumentalness": 0.0944,
+      "liveness": 0.14,
+      "loudness": -6.638,
+      "speechiness": 0.0427,
+      "spotify_valence": 0.576
+    }
+  },
+  {
+    "era": "Hard Bop",
+    "year": 2004,
+    "album": "The Cape Verdean Blues",
+    "label": "Blue Note",
+    "moods": [
+      "joyful",
+      "funky",
+      "playful",
+      "swinging"
+    ],
+    "title": "The Cape Verdean Blues - Rudy Van Gelder Edition / 2003 Remastered",
+    "artist": "Horace Silver Quintet",
+    "rating": 6.5,
+    "subgenres": [
+      "hard bop",
+      "bebop",
+      "soul jazz"
+    ],
+    "spotify_id": "2Z7Z8BDwjZQeYuzwe3LdOp",
+    "key_players": [
+      "Horace Silver - piano",
+      "Art Farmer - trumpet",
+      "Hank Mobley - tenor saxophone",
+      "Teddy Kotick - bass",
+      "Louis Hayes - drums"
+    ],
+    "album_source": "spotify",
+    "instrumentation": [
+      "piano",
+      "trumpet",
+      "tenor saxophone",
+      "bass",
+      "drums"
+    ],
+    "metadata_sources": [
+      "era:dataset",
+      "instrument:album",
+      "instrumentation:album",
+      "label:album",
+      "moods:album",
+      "players:album",
+      "subgenres:album"
+    ],
+    "needs_enrichment": false,
+    "metadata_complete": true,
+    "primary_instrument": "piano",
+    "date_added": "2026-10-19",
+    "date_added_source": "db_updated_at",
+    "audio_features": {
+      "acousticness": 0.673,
+      "danceability": 0.704,
+      "spotify_energy": 0.76,
+      "instrumentalness": 0.781,
+      "liveness": 0.143,
+      "loudness": -8.944,
+      "speechiness": 0.035,
+      "spotify_valence": 0.967
+    }
+  },
+  {
+    "era": "Hard Bop",
+    "year": 1999,
+    "album": "Idle Moments",
+    "moods": [
+      "mellow"
+    ],
+    "title": "Jean De Fleur - Rudy Van Gelder Edition / Remastered 1999",
+    "artist": "Grant Green",
+    "rating": 3.5,
+    "subgenres": [
+      "hard bop",
+      "soul jazz"
+    ],
+    "spotify_id": "6ZniDtZIvYjdYHG8sHh2jD",
+    "key_players": [],
+    "album_source": "spotify",
+    "instrumentation": [],
+    "metadata_sources": [
+      "era:dataset",
+      "instrument:album",
+      "moods:album",
+      "subgenres:album"
+    ],
+    "needs_enrichment": false,
+    "metadata_complete": false,
+    "primary_instrument": "guitar",
+    "date_added": "2026-10-19",
+    "date_added_source": "db_updated_at",
+    "audio_features": {
+      "acousticness": 0.777,
+      "danceability": 0.651,
+      "spotify_energy": 0.554,
+      "instrumentalness": 2.1e-05,
+      "liveness": 0.188,
+      "loudness": -10.266,
+      "speechiness": 0.0359,
+      "spotify_valence": 0.646
+    }
+  },
+  {
+    "era": "Post-Bop",
+    "year": 1999,
+    "album": "The Kicker",
+    "moods": [
+      "gentle",
+      "soft"
+    ],
+    "title": "The Kicker",
+    "artist": "Bobby Hutcherson",
+    "rating": 7,
+    "subgenres": [
+      "post-bop",
+      "ballad"
+    ],
+    "spotify_id": "2vbwftVDzPgXHuTnZ92Grx",
+    "key_players": [],
+    "album_source": "spotify",
+    "instrumentation": [],
+    "metadata_sources": [
+      "era:dataset",
+      "instrument:artist",
+      "moods:artist",
+      "subgenres:artist"
+    ],
+    "needs_enrichment": false,
+    "metadata_complete": false,
+    "primary_instrument": "vibraphone",
+    "date_added": "2026-10-19",
+    "date_added_source": "db_updated_at",
+    "audio_features": {
+      "acousticness": 0.715,
+      "danceability": 0.585,
+      "spotify_energy": 0.426,
+      "instrumentalness": 2.07e-06,
+      "liveness": 0.089,
+      "loudness": -13.856,
+      "speechiness": 0.0437,
+      "spotify_valence": 0.627
+    }
+  },
+  {
+    "era": "Post-Bop",
+    "year": 2016,
+    "album": "The Tour, Vol. 1 (Recorded Live in Stuttgart, March 22, 1976)",
+    "moods": [
+      "lyrical",
+      "warm"
+    ],
+    "title": "The Moontrane - Recorded Live in Stuttgart, March 22, 1976",
+    "artist": "Woody Shaw",
+    "rating": 2,
+    "subgenres": [
+      "post-bop",
+      "modern jazz"
+    ],
+    "spotify_id": "4h6Ll1OZxgPnIVXMgdhLEz",
+    "key_players": [],
+    "album_source": "spotify",
+    "instrumentation": [],
+    "metadata_sources": [
+      "era:dataset",
+      "instrument:artist",
+      "moods:artist",
+      "subgenres:artist"
+    ],
+    "needs_enrichment": false,
+    "metadata_complete": false,
+    "primary_instrument": "trumpet",
+    "date_added": "2026-10-19",
+    "date_added_source": "db_updated_at",
+    "audio_features": {
+      "acousticness": 0.392,
+      "danceability": 0.381,
+      "spotify_energy": 0.633,
+      "instrumentalness": 0.62,
+      "liveness": 0.748,
+      "loudness": -10.505,
+      "speechiness": 0.0357,
+      "spotify_valence": 0.77
+    }
+  },
+  {
+    "era": "Electric",
+    "year": 1981,
+    "album": "The Birthday Concert (Live at Mr. Pip's, Ft. Lauderdale, FL, 12/1/81)",
+    "label": "Warner Bros.",
+    "moods": [
+      "funky",
+      "energetic",
+      "celebratory"
+    ],
+    "title": "Soul Intro / The Chicken - Live at Mr. Pip's, feat. Lauderdale, FL, 12/1/81",
+    "artist": "Jaco Pastorius",
+    "rating": 6.5,
+    "subgenres": [
+      "jazz fusion",
+      "jazz funk"
+    ],
+    "era_source": "curated-album",
+    "spotify_id": "3ZqpGNEFhF7thoffF97e0i",
+    "key_players": [
+      "Jaco Pastorius - bass",
+      "Randy Brecker - trumpet",
+      "Bob Mintzer - tenor saxophone",
+      "Othello Molineaux - steel pans",
+      "Don Alias - percussion",
+      "Peter Erskine - drums"
+    ],
+    "year_source": "curated-album",
+    "album_source": "spotify",
+    "label_source": "curated-album",
+    "instrumentation": [],
+    "metadata_sources": [
+      "era:year-neighbours"
+    ],
+    "needs_enrichment": false,
+    "metadata_complete": true,
+    "key_players_source": "curated-album",
+    "primary_instrument": "bass",
+    "date_added": "2026-10-19",
+    "date_added_source": "db_updated_at",
+    "audio_features": {
+      "acousticness": 0.0853,
+      "danceability": 0.62,
+      "spotify_energy": 0.769,
+      "instrumentalness": 0.112,
+      "liveness": 0.952,
+      "loudness": -10.388,
+      "speechiness": 0.0767,
+      "spotify_valence": 0.655
+    }
+  },
+  {
+    "era": "Post-Bop",
+    "year": 1971,
+    "album": "Straight Life (CTI Records 40th Anniversary Edition)",
+    "moods": [
+      "sexy",
+      "pretty",
+      "lovely",
+      "joyful",
+      "peaceful",
+      "atmospheric"
+    ],
+    "title": "Mr. Clean",
+    "artist": "Freddie Hubbard",
+    "rating": 4,
+    "subgenres": [
+      "jazz-funk",
+      "post-bop",
+      "hard bop"
+    ],
+    "spotify_id": "4ZWojS2l1H2teFLrWq3zyJ",
+    "key_players": [],
+    "album_source": "spotify",
+    "instrumentation": [],
+    "metadata_sources": [
+      "era:dataset",
+      "instrument:artist",
+      "moods:artist",
+      "subgenres:artist"
+    ],
+    "needs_enrichment": false,
+    "metadata_complete": false,
+    "primary_instrument": "trumpet",
+    "date_added": "2026-10-19",
+    "date_added_source": "db_updated_at"
+  },
+  {
+    "era": "Soul/Funk",
+    "year": 1975,
+    "album": "Sunburst",
+    "label": "Blue Note",
+    "moods": [
+      "funky",
+      "groovy",
+      "spacious"
+    ],
+    "title": "The Kumquat Kids",
+    "artist": "Eddie Henderson",
+    "rating": 3.5,
+    "subgenres": [
+      "jazz fusion",
+      "soul jazz"
+    ],
+    "era_source": "curated-album",
+    "spotify_id": "2LyjDg604LyRHjPpiymW7Z",
+    "key_players": [
+      "Eddie Henderson - trumpet",
+      "George Cables - piano",
+      "Bennie Maupin - tenor saxophone",
+      "Julian Priester - trombone",
+      "Buster Williams - bass",
+      "Lenny White - drums"
+    ],
+    "year_source": "curated-album",
+    "album_source": "spotify",
+    "label_source": "curated-album",
+    "instrumentation": [],
+    "metadata_sources": [
+      "era:year-neighbours"
+    ],
+    "needs_enrichment": false,
+    "metadata_complete": true,
+    "key_players_source": "curated-album",
+    "primary_instrument": "trumpet",
+    "date_added": "2026-10-19",
+    "date_added_source": "db_updated_at",
+    "audio_features": {
+      "acousticness": 0.253,
+      "danceability": 0.651,
+      "spotify_energy": 0.752,
+      "instrumentalness": 0.0708,
+      "liveness": 0.0422,
+      "loudness": -8.017,
+      "speechiness": 0.0802,
+      "spotify_valence": 0.887
+    }
+  },
+  {
+    "era": "Post-Bop",
+    "year": 2018,
+    "album": "Full Circle: The Music of Joni Mitchell",
+    "moods": [
+      "euphoric",
+      "tense"
+    ],
+    "title": "The Dry Cleaner from Des Moines",
+    "artist": "Charles Mingus",
+    "rating": 4,
+    "subgenres": [
+      "big band",
+      "avant-garde jazz",
+      "hard bop"
+    ],
+    "spotify_id": "5q6ZMmRRyYlQUe88nmhpyA",
+    "key_players": [],
+    "album_source": "spotify",
+    "instrumentation": [],
+    "metadata_sources": [
+      "era:dataset",
+      "instrument:artist",
+      "moods:artist",
+      "subgenres:artist"
+    ],
+    "needs_enrichment": false,
+    "metadata_complete": false,
+    "primary_instrument": "bass",
+    "date_added": "2026-10-19",
+    "date_added_source": "db_updated_at"
+  },
+  {
+    "era": "Hard Bop",
+    "year": 1989,
+    "album": "The Best Of Horace Silver",
+    "liked": true,
+    "moods": [
+      "joyful",
+      "funky",
+      "playful",
+      "swinging"
+    ],
+    "title": "Nutville",
+    "artist": "Horace Silver Quintet",
+    "rating": 7,
+    "liked_at": "2026-10-19T22:55:38.935248",
+    "subgenres": [
+      "hard bop",
+      "bebop",
+      "soul jazz"
+    ],
+    "date_added": "2026-10-19",
+    "spotify_id": "5C3djIv5cQpGDhR6sKeOBo",
+    "entity_type": "track",
+    "key_players": [],
+    "album_source": "spotify",
+    "discovered_from": "ai-like",
+    "instrumentation": [],
+    "metadata_sources": [
+      "era:dataset",
+      "instrument:artist",
+      "moods:artist",
+      "subgenres:artist"
+    ],
+    "needs_enrichment": false,
+    "metadata_complete": false,
+    "primary_instrument": "piano",
+    "audio_features": {
+      "acousticness": 0.371,
+      "danceability": 0.457,
+      "spotify_energy": 0.616,
+      "instrumentalness": 0.000135,
+      "liveness": 0.0523,
+      "loudness": -15.392,
+      "speechiness": 0.0386,
+      "spotify_valence": 0.845
+    }
+  },
+  {
+    "era": "Hard Bop",
+    "year": 1967,
+    "album": "The Jody Grind",
+    "liked": true,
+    "moods": [
+      "joyful",
+      "funky",
+      "playful",
+      "swinging"
+    ],
+    "title": "The Jody Grind",
+    "artist": "Horace Silver",
+    "rating": 3.5,
+    "liked_at": "2026-10-19T22:55:49.200375",
+    "subgenres": [
+      "hard bop",
+      "bebop",
+      "soul jazz"
+    ],
+    "date_added": "2026-10-19",
+    "spotify_id": "2gK90iDN9ggQoECv4494mb",
+    "entity_type": "track",
+    "key_players": [],
+    "album_source": "spotify",
+    "discovered_from": "ai-like",
+    "instrumentation": [],
+    "metadata_sources": [
+      "era:dataset",
+      "instrument:artist",
+      "moods:artist",
+      "subgenres:artist"
+    ],
+    "needs_enrichment": false,
+    "metadata_complete": false,
+    "primary_instrument": "piano",
+    "audio_features": {
+      "acousticness": 0.667,
+      "danceability": 0.531,
+      "spotify_energy": 0.579,
+      "instrumentalness": 2.75e-05,
+      "liveness": 0.116,
+      "loudness": -9.216,
+      "speechiness": 0.0339,
+      "spotify_valence": 0.536
+    }
+  },
+  {
+    "era": "Post-Bop",
+    "year": 1960,
+    "album": "Blues & Roots",
+    "liked": true,
+    "moods": [
+      "euphoric",
+      "tense"
+    ],
+    "title": "E's Flat Ah's Flat Too",
+    "artist": "Charles Mingus",
+    "rating": 6.5,
+    "liked_at": "2026-10-19T22:55:58.877372",
+    "subgenres": [
+      "big band",
+      "avant-garde jazz",
+      "hard bop"
+    ],
+    "date_added": "2026-10-19",
+    "spotify_id": "2uG5erIimWW9wLnz57BFFZ",
+    "entity_type": "track",
+    "key_players": [],
+    "album_source": "spotify",
+    "discovered_from": "ai-like",
+    "instrumentation": [],
+    "metadata_sources": [
+      "era:dataset",
+      "instrument:artist",
+      "moods:artist",
+      "subgenres:artist"
+    ],
+    "needs_enrichment": false,
+    "metadata_complete": false,
+    "primary_instrument": "bass",
+    "audio_features": {
+      "acousticness": 0.644,
+      "danceability": 0.382,
+      "spotify_energy": 0.476,
+      "instrumentalness": 1.01e-06,
+      "liveness": 0.119,
+      "loudness": -14.27,
+      "speechiness": 0.0875,
+      "spotify_valence": 0.658
+    }
+  },
+  {
+    "era": "Post-Bop",
+    "year": 1963,
+    "album": "Mingus Mingus Mingus Mingus Mingus",
+    "label": "Impulse!",
+    "moods": [
+      "euphoric",
+      "tense"
+    ],
+    "title": "Hora Decubitus",
+    "artist": "Charles Mingus",
+    "rating": 6,
+    "subgenres": [
+      "big band",
+      "avant-garde jazz",
+      "hard bop"
+    ],
+    "spotify_id": "6evehXa14Rvbt355gFnMdH",
+    "key_players": [
+      "Charles Mingus - bass and composer",
+      "Eric Dolphy - alto saxophone",
+      "Booker Ervin - tenor saxophone",
+      "Jaki Byard - piano",
+      "Dannie Richmond - drums"
+    ],
+    "album_source": "spotify",
+    "instrumentation": [
+      "bass",
+      "alto saxophone",
+      "tenor saxophone",
+      "piano",
+      "drums"
+    ],
+    "metadata_sources": [
+      "era:dataset",
+      "instrument:album",
+      "instrumentation:album",
+      "label:album",
+      "moods:album",
+      "players:album",
+      "subgenres:album"
+    ],
+    "needs_enrichment": false,
+    "metadata_complete": true,
+    "primary_instrument": "bass",
+    "date_added": "2026-10-19",
+    "date_added_source": "db_updated_at",
+    "audio_features": {
+      "acousticness": 0.34,
+      "danceability": 0.391,
+      "spotify_energy": 0.732,
+      "instrumentalness": 0.175,
+      "liveness": 0.0983,
+      "loudness": -7.777,
+      "speechiness": 0.0702,
+      "spotify_valence": 0.752
+    }
+  },
+  {
+    "era": "Hard Bop",
+    "year": 1960,
+    "album": "Byrd In Flight (Remastered 2015)",
+    "moods": [
+      "spiritual",
+      "atmospheric",
+      "cinematic"
+    ],
+    "title": "Ghana - Remastered 2015",
+    "artist": "Donald Byrd",
+    "rating": 4.5,
+    "subgenres": [
+      "hard bop",
+      "gospel jazz"
+    ],
+    "spotify_id": "4Ux4F8AEFCFhbam8mpQvSo",
+    "key_players": [],
+    "album_source": "spotify",
+    "instrumentation": [],
+    "metadata_sources": [
+      "era:dataset",
+      "instrument:artist",
+      "moods:artist",
+      "subgenres:artist"
+    ],
+    "needs_enrichment": false,
+    "metadata_complete": false,
+    "primary_instrument": "trumpet",
+    "date_added": "2026-10-19",
+    "date_added_source": "db_updated_at",
+    "audio_features": {
+      "acousticness": 0.777,
+      "danceability": 0.577,
+      "spotify_energy": 0.515,
+      "instrumentalness": 0.0127,
+      "liveness": 0.214,
+      "loudness": -12.567,
+      "speechiness": 0.0587,
+      "spotify_valence": 0.697
+    }
+  },
+  {
+    "era": "Post-Bop",
+    "year": 1956,
+    "album": "Pithecanthropus Erectus",
+    "moods": [
+      "euphoric",
+      "tense"
+    ],
+    "title": "Pithecanthropus Erectus",
+    "artist": "Charles Mingus",
+    "rating": 5,
+    "subgenres": [
+      "big band",
+      "avant-garde jazz",
+      "hard bop"
+    ],
+    "spotify_id": "5lDqsu4gUAfFo8rPEEhHKw",
+    "key_players": [],
+    "album_source": "spotify",
+    "instrumentation": [],
+    "metadata_sources": [
+      "era:dataset",
+      "instrument:artist",
+      "moods:artist",
+      "subgenres:artist"
+    ],
+    "needs_enrichment": false,
+    "metadata_complete": false,
+    "primary_instrument": "bass",
+    "date_added": "2026-10-19",
+    "date_added_source": "db_updated_at",
+    "audio_features": {
+      "acousticness": 0.702,
+      "danceability": 0.457,
+      "spotify_energy": 0.226,
+      "instrumentalness": 0.0118,
+      "liveness": 0.12,
+      "loudness": -15.602,
+      "speechiness": 0.0543,
+      "spotify_valence": 0.473
+    }
+  },
+  {
+    "era": "Hard Bop",
+    "year": 1959,
+    "album": "Mingus Ah Um",
+    "label": "Columbia",
+    "moods": [
+      "joyful",
+      "ecstatic",
+      "passionate",
+      "communal"
+    ],
+    "title": "Better Get Hit In Your Soul - Instrumental",
+    "artist": "Charles Mingus",
+    "rating": 8,
+    "subgenres": [
+      "hard bop",
+      "gospel jazz",
+      "blues"
+    ],
+    "spotify_id": "0mbJqo6y9E3d57fhvYQKyT",
+    "key_players": [
+      "Charles Mingus - bass and composer",
+      "Booker Ervin - tenor saxophone",
+      "John Handy - alto saxophone",
+      "Jimmy Knepper - trombone",
+      "Horace Parlan - piano",
+      "Dannie Richmond - drums"
+    ],
+    "album_source": "spotify",
+    "instrumentation": [
+      "bass",
+      "alto saxophone",
+      "tenor saxophone",
+      "trombone",
+      "piano",
+      "drums"
+    ],
+    "metadata_sources": [
+      "era:dataset",
+      "instrument:album",
+      "instrumentation:album",
+      "label:album",
+      "moods:album",
+      "players:album",
+      "subgenres:album"
+    ],
+    "needs_enrichment": false,
+    "metadata_complete": true,
+    "primary_instrument": "bass",
+    "date_added": "2026-10-19",
+    "date_added_source": "db_updated_at",
+    "audio_features": {
+      "acousticness": 0.214,
+      "danceability": 0.397,
+      "spotify_energy": 0.742,
+      "instrumentalness": 0.00793,
+      "liveness": 0.103,
+      "loudness": -10.302,
+      "speechiness": 0.0557,
+      "spotify_valence": 0.681
+    }
+  },
+  {
+    "era": "Hard Bop",
+    "year": 1958,
+    "album": "Benny Golson And The Philadelphians",
+    "moods": [
+      "cool",
+      "smooth",
+      "hip"
+    ],
+    "title": "Blues March",
+    "artist": "Benny Golson",
+    "rating": 3.5,
+    "subgenres": [
+      "hard bop"
+    ],
+    "spotify_id": "3z6vI20hNUo15h3fCduRQm",
+    "key_players": [],
+    "album_source": "spotify",
+    "instrumentation": [],
+    "metadata_sources": [
+      "era:dataset",
+      "instrument:artist",
+      "moods:artist",
+      "subgenres:artist"
+    ],
+    "needs_enrichment": false,
+    "metadata_complete": false,
+    "primary_instrument": "trumpet",
+    "date_added": "2026-10-19",
+    "date_added_source": "db_updated_at",
+    "audio_features": {
+      "acousticness": 0.229,
+      "danceability": 0.723,
+      "spotify_energy": 0.305,
+      "instrumentalness": 0.0493,
+      "liveness": 0.0695,
+      "loudness": -12.691,
+      "speechiness": 0.0371,
+      "spotify_valence": 0.518
     }
   }
 ]
