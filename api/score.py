@@ -292,7 +292,7 @@ def ask_openrouter(kind, prompt, count, profile, reject=None):
             "messages": [{"role": "system", "content": system}, {"role": "user", "content": user}],
             "temperature": 0.7,
             "max_tokens": 4000,
-            "reasoning": {"effort": "low"},
+            "reasoning": {"enabled": False},
         },
         timeout=60,
     )
