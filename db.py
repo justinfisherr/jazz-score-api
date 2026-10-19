@@ -61,6 +61,13 @@ def fetch_tracks():
         return [r[0] for r in cur.fetchall()]
 
 
+def fetch_tracks_with_meta():
+    """Return [{'data':..., 'updated_at':...}] so callers can recover a real date."""
+    with get_conn() as conn, conn.cursor() as cur:
+        cur.execute("SELECT data, updated_at FROM tracks ORDER BY id")
+        return [{"data": r[0], "updated_at": r[1]} for r in cur.fetchall()]
+
+
 def get_track(title, artist):
     with get_conn() as conn, conn.cursor() as cur:
         cur.execute("SELECT data FROM tracks WHERE title = %s AND artist = %s", (title, artist))
