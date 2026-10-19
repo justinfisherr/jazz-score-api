@@ -514,7 +514,7 @@ class handler(BaseHTTPRequestHandler):
         tracks = db.fetch_tracks()
         profile = build_taste_profile(tracks)
         try:
-            recs = ask_openrouter(kind, prompt, count + 3, profile)
+            recs = ask_openrouter(kind, prompt, min(count, 6) if kind == "track" else count + 3, profile)
         except Exception as exc:  # noqa: BLE001
             self._json(502, {"error": f"openrouter: {exc}"})
             return
@@ -560,12 +560,19 @@ class handler(BaseHTTPRequestHandler):
                     continue
 
         consume(recs)
-        if len(out) < count and rejected:
-            try:
-                retry = ask_openrouter(kind, prompt, count + 3, profile, reject=rejected[:20])
-                consume(retry)
-            except Exception:  # noqa: BLE001
-                pass
+        if kind == "track":
+            attempts = 0
+            while len(out) < count and attempts < 2:
+                attempts += 1
+                reject = rejected[:] + [f"{r.get('title')} — {r.get('artist')}" for r in out]
+                try:
+                    more = ask_openrouter("track", prompt, 6, profile, reject=reject[-25:])
+                    before = len(out)
+                    consume(more)
+                    if len(out) == before:
+                        break
+                except Exception:  # noqa: BLE001
+                    break
         if kind == "track":
             # Let the taste model rank the AI's candidates instead of trusting
             # the first three the language model happened to name.
