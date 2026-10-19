@@ -7,8 +7,10 @@ GET /api/playlist?id=<playlist_id>            -> score every track in the playli
 """
 
 import json
+import re
 import os
 import time
+from collections import Counter
 import sys
 from http.server import BaseHTTPRequestHandler
 from pathlib import Path
@@ -230,13 +232,17 @@ def build_taste_profile(tracks):
 
 def ask_openrouter(kind, prompt, count, profile):
     shape = '{"recommendations":[{"title":"...","artist":"...","reason":"...","confidence":"high|medium|low","spotify_query":"..."}]}'
+    kind_rule = {
+        "track": "Every recommendation must be ONE TRACK. title is the track title, artist is the performing artist. Never return an album or playlist.",
+        "album": "Every recommendation must be ONE ALBUM. title is the album title, artist is the album artist. Never return a single track.",
+        "playlist": "Every recommendation must be ONE PLAYLIST. title is a short playlist name, artist is the curator or vibe, and spotify_query must be a Spotify playlist search phrase.",
+    }[kind]
     system = (
         "You are Justin's jazz concierge. You know his taste model and his library. "
         "Recommend music he has not already rated. Be specific, avoid obvious greatest-hits picks "
         "unless they genuinely fit the request, and lean into the gaps in his listening. "
-        "For an album recommendation, title is the album and artist is the album artist. "
-        "For a playlist, title is a short playlist name and artist is the curator or vibe, "
-        "and spotify_query must be a Spotify playlist search phrase. "
+        f"{kind_rule} "
+        "spotify_query must be the exact search phrase that will find that item on Spotify. "
         f"Return JSON only, exactly this shape: {shape}"
     )
     user = json.dumps({
