@@ -11,6 +11,8 @@ import re
 import os
 import time
 from collections import Counter
+from concurrent.futures import ThreadPoolExecutor
+from datetime import datetime
 import sys
 from http.server import BaseHTTPRequestHandler
 from pathlib import Path
@@ -52,6 +54,98 @@ OPENROUTER_API_KEY = os.environ.get("OPENROUTER_API_KEY", "")
 OPENROUTER_MODEL = os.environ.get("OPENROUTER_MODEL", "deepseek/deepseek-v4.1-flash")
 PLAYBACK_TOKEN_URL = os.environ.get("PLAYBACK_TOKEN_URL", "https://transcribe-xi-virid.vercel.app/api/spotify-token")
 _playback_token_cache = {"token": None, "expires_at": 0}
+JAZZ_EXTRA = {"stretch"}
+
+
+def get_user_token():
+    now = time.time()
+    if _playback_token_cache.get("token") and _playback_token_cache.get("expires_at", 0) > now + 60:
+        return _playback_token_cache["token"]
+    resp = requests.get(PLAYBACK_TOKEN_URL, timeout=20)
+    if resp.status_code != 200:
+        raise RuntimeError(f"token broker returned {resp.status_code}")
+    data = resp.json()
+    token = data.get("access_token")
+    if not token:
+        raise RuntimeError("token broker returned no token")
+    expires = int(data.get("expires_in") or 3600)
+    _playback_token_cache["token"] = token
+    _playback_token_cache["expires_at"] = now + expires
+    return token
+
+
+def is_jazz_playlist(name):
+    n = (name or "").strip().lower()
+    return "jazz" in n or "bop" in n or n in JAZZ_EXTRA
+
+
+def playlist_summary(p):
+    return {
+        "id": p["id"],
+        "name": p["name"],
+        "owner": (p.get("owner") or {}).get("display_name"),
+        "image": (p.get("images") or [{}])[0].get("url") if p.get("images") else None,
+        "track_count": (p.get("tracks") or {}).get("total"),
+        "public": p.get("public"),
+        "url": (p.get("external_urls") or {}).get("spotify"),
+        "jazz": is_jazz_playlist(p.get("name")),
+    }
+
+
+def fetch_owned_playlists(token):
+    headers = {"Authorization": f"Bearer {token}"}
+    me = requests.get(f"{SPOTIFY_API}/me", headers=headers, timeout=20).json()
+    mine = me.get("id")
+    out = []
+    url = f"{SPOTIFY_API}/me/playlists"
+    params = {"limit": 50}
+    while url:
+        resp = requests.get(url, headers=headers, params=params, timeout=30)
+        resp.raise_for_status()
+        data = resp.json()
+        for p in data.get("items", []):
+            if p and (p.get("owner") or {}).get("id") == mine:
+                out.append(playlist_summary(p))
+        url = data.get("next")
+        params = {}
+    return out
+
+
+def analyze_playlist(p, token, all_tracks):
+    tracks = get_playlist_tracks(token, p["id"])[:100]
+    rows = []
+    matched = []
+    for t in tracks:
+        artist = ", ".join(a.get("name", "") for a in t.get("artists", []))
+        existing = db.match_review(t.get("name"), artist, all_tracks)
+        if existing:
+            matched.append(existing)
+        rows.append({
+            "title": t.get("name"),
+            "artist": artist,
+            "matched": bool(existing),
+            "actual": existing.get("rating") if existing else None,
+            "predicted": None,
+        })
+    ratings = [m.get("rating") for m in matched if m.get("rating") is not None]
+    replay = [m.get("replayability") for m in matched if m.get("replayability") is not None]
+    energies = [m.get("energy") for m in matched if m.get("energy") is not None]
+    replay_avg = (sum(replay) / len(replay)) if replay else None
+    if replay_avg is not None and replay_avg > 1:
+        replay_avg = replay_avg / 10
+    top = lambda field, key: [v for v, _ in Counter(x for m in matched for x in (m.get(field) or [])).most_common(3)] if field in ("moods", "subgenres") else [v for v, _ in Counter(m.get(field) for m in matched if m.get(field)).most_common(3)]
+    return {
+        **p,
+        "track_count": len(tracks),
+        "matched_count": len(matched),
+        "avg_actual": (sum(ratings) / len(ratings)) if ratings else None,
+        "avg_predicted": None,
+        "avg_energy": (sum(energies) / len(energies)) if energies else None,
+        "avg_replayability": replay_avg,
+        "top_moods": top("moods", "mood"),
+        "top_eras": top("era", "era"),
+        "tracks": rows,
+    }
 
 
 def gh_headers():
@@ -377,6 +471,7 @@ def resolve_track_recommendation(rec, token, all_tracks=None):
         "reviewed": bool(existing),
         "rating": existing.get("rating"),
         "notes": existing.get("notes"),
+        "liked": bool(existing.get("liked")),
     }
 
 
@@ -426,6 +521,8 @@ class handler(BaseHTTPRequestHandler):
                 self._search_results(params)
             elif path.startswith("/api/album"):
                 self._album(params)
+            elif path.startswith("/api/playlists"):
+                self._playlists(params)
             elif path.startswith("/api/playlist"):
                 self._playlist(params)
             elif path.startswith("/api/pending"):
@@ -474,6 +571,8 @@ class handler(BaseHTTPRequestHandler):
             return
         if path.startswith("/api/spotify-playback-token"):
             self._playback_token()
+        elif path.startswith("/api/playlist/add"):
+            self._add_to_playlist()
         elif path.startswith("/api/recommend"):
             self._recommend()
         elif path.startswith("/api/enrich"):
@@ -503,25 +602,72 @@ class handler(BaseHTTPRequestHandler):
             self._json(401, {"error": "wrong password"})
 
     def _playback_token(self):
-        now = time.time()
-        cached = _playback_token_cache
-        if cached.get("token") and cached.get("expires_at", 0) > now + 60:
-            self._json(200, {"access_token": cached["token"], "expires_in": int(cached["expires_at"] - now)})
-            return
         try:
-            resp = requests.get(PLAYBACK_TOKEN_URL, timeout=20)
-            if resp.status_code != 200:
-                raise RuntimeError(f"token broker returned {resp.status_code}")
-            data = resp.json()
-            token = data.get("access_token")
-            if not token:
-                raise RuntimeError("token broker returned no token")
-            expires = int(data.get("expires_in") or 3600)
-            cached["token"] = token
-            cached["expires_at"] = now + expires
-            self._json(200, {"access_token": token, "expires_in": expires})
+            token = get_user_token()
+            self._json(200, {"access_token": token, "expires_in": int(max(0, _playback_token_cache["expires_at"] - time.time()))})
         except Exception as exc:  # noqa: BLE001
             self._json(502, {"error": f"playback token unavailable: {exc}"})
+
+    def _playlists(self, params):
+        try:
+            token = get_user_token()
+            playlists = [p for p in fetch_owned_playlists(token) if p["jazz"]]
+            if (params.get("analyze") or ["0"])[0] == "1":
+                all_tracks = db.fetch_tracks()
+                with ThreadPoolExecutor(max_workers=6) as pool:
+                    playlists = list(pool.map(lambda p: analyze_playlist(p, token, all_tracks), playlists))
+            self._json(200, {"playlists": playlists})
+        except Exception as exc:  # noqa: BLE001
+            self._json(502, {"error": f"playlists unavailable: {exc}"})
+
+    def _add_to_playlist(self):
+        length = int(self.headers.get("Content-Length", 0) or 0)
+        try:
+            body = json.loads(self.rfile.read(length) or b"{}")
+        except json.JSONDecodeError:
+            self._json(400, {"error": "invalid JSON"})
+            return
+        playlist_id = (body.get("playlist_id") or "").strip()
+        spotify_id = (body.get("spotify_id") or "").strip()
+        title = (body.get("title") or "").strip()
+        artist = (body.get("artist") or "").strip()
+        if not playlist_id or not spotify_id or not title or not artist:
+            self._json(400, {"error": "playlist_id, spotify_id, title and artist are required"})
+            return
+        try:
+            token = get_user_token()
+            resp = requests.post(
+                f"{SPOTIFY_API}/playlists/{playlist_id}/tracks",
+                headers={"Authorization": f"Bearer {token}", "Content-Type": "application/json"},
+                json={"uris": [f"spotify:track:{spotify_id}"]},
+                timeout=30,
+            )
+            if resp.status_code not in (200, 201):
+                raise RuntimeError(f"spotify add failed ({resp.status_code}): {resp.text[:200]}")
+            existing = db.get_track(title, artist) or {}
+            merged = {
+                **existing,
+                "title": title,
+                "artist": artist,
+                "spotify_id": existing.get("spotify_id") or spotify_id,
+                "album": body.get("album") or existing.get("album"),
+                "year": body.get("year") or existing.get("year"),
+                "entity_type": existing.get("entity_type") or "track",
+                "liked": True,
+                "liked_at": datetime.utcnow().isoformat(),
+                "discovered_from": existing.get("discovered_from") or "ai-like",
+            }
+            if not merged.get("date_added"):
+                merged["date_added"] = datetime.utcnow().date().isoformat()
+            try:
+                merged = enrich.enrich_track(merged, db.fetch_tracks(), token)
+            except Exception:  # noqa: BLE001
+                pass
+            merged["liked"] = True
+            db.upsert_track(merged)
+            self._json(200, {"ok": True, "liked": True, "playlist_id": playlist_id})
+        except Exception as exc:  # noqa: BLE001
+            self._json(502, {"error": f"could not add to playlist: {exc}"})
 
     def _recommend(self):
         if not OPENROUTER_API_KEY:
