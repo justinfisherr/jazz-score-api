@@ -344,7 +344,7 @@ def ask_openrouter(kind, prompt, count, profile, reject=None):
     return [r for r in recs if isinstance(r, dict) and r.get("title")]
 
 
-def resolve_track_recommendation(rec, token):
+def resolve_track_recommendation(rec, token, all_tracks=None):
     title = str(rec.get("title") or "").strip()
     artist = str(rec.get("artist") or "").strip()
     query = str(rec.get("spotify_query") or f"{title} {artist}").strip()
@@ -355,7 +355,11 @@ def resolve_track_recommendation(rec, token):
     recco = fetch_reccobeats(track["id"])
     candidate = build_candidate(track, sfa, recco)
     score = predict_track(candidate)
-    existing = db.match_review(candidate["title"], candidate["artist"]) or {}
+    all_tracks = all_tracks if all_tracks is not None else db.fetch_tracks()
+    existing = db.match_review(candidate["title"], candidate["artist"], all_tracks)
+    if not existing:
+        existing = next((t for t in all_tracks if t.get("spotify_id") and t.get("spotify_id") == track["id"]), None)
+    existing = existing or {}
     return {
         "kind": "track",
         "title": candidate["title"],
@@ -515,6 +519,7 @@ class handler(BaseHTTPRequestHandler):
             self._json(502, {"error": f"openrouter: {exc}"})
             return
         token = get_token()
+        existing_tracks = db.fetch_tracks()
         out = []
         seen = set()
         rejected = []
@@ -525,7 +530,7 @@ class handler(BaseHTTPRequestHandler):
                     return
                 try:
                     if kind == "track":
-                        item = resolve_track_recommendation(rec, token)
+                        item = resolve_track_recommendation(rec, token, existing_tracks)
                         if item and not item.get("reviewed"):
                             key = (item["title"].lower(), item["artist"].lower())
                             if key not in seen:
@@ -736,7 +741,11 @@ class handler(BaseHTTPRequestHandler):
         recco = fetch_reccobeats(track["id"])
         candidate = genre_bridge.apply(build_candidate(track, sfa, recco), genre)
         score = predict_track(candidate)
-        existing = db.match_review(candidate["title"], candidate["artist"]) or {}
+        all_tracks = db.fetch_tracks()
+        existing = db.match_review(candidate["title"], candidate["artist"], all_tracks)
+        if not existing:
+            existing = next((t for t in all_tracks if t.get("spotify_id") and t.get("spotify_id") == track["id"]), None)
+        existing = existing or {}
         self._json(200, {
             "title": candidate["title"],
             "artist": candidate["artist"],
