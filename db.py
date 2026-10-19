@@ -126,6 +126,7 @@ def _norm(s):
 def _norm_title(s):
     s = _norm(s)
     s = re.sub(r"\s*[-–]\s*(19|20)\d\d\s+.*$", "", s)
+    s = re.sub(r"\s*[-–]\s*(?:remaster(?:ed)?.*|mono.*|stereo.*|live.*|take\s+\d+.*|alternate.*|version.*|.*rvg.*|.*rudy van gelder.*)$", "", s, flags=re.I)
     s = re.sub(r"\s*[\(\[].*?(?:remaster|mono|take \d|alternate|live|version).*?[\)\]]", "", s)
     return s.strip()
 
