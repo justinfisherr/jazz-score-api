@@ -313,6 +313,7 @@ def enrich_track(track, all_tracks, token, spotify_enabled=True, use_agent=True)
         value, source = infer_era(out, exact, album_refs, artist_refs, all_tracks)
         if value:
             out["era"] = value
+            out["era_source"] = source
             sources.append(f"era:{source}")
 
     # Spotify/older rows often cannot supply instrument, personnel, or the
