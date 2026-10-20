@@ -44,8 +44,11 @@ def load_model(version=None):
 def _load_training_tracks():
     # Prefer the live Postgres dataset (when DATABASE_URL is set), else fall back
     # to the local JSON snapshot. Mirrors the album filter used at train time.
+    # Exclude rows that can't be scored: albums, and incomplete tracks without a
+    # rating key (feature engineering reads t["rating"] directly — one stray row
+    # would KeyError the entire prediction pipeline).
     tracks = _load_from_db() or _load_from_json()
-    return [t for t in tracks if t.get("entity_type") != "album"]
+    return [t for t in tracks if t.get("entity_type") != "album" and "rating" in t]
 
 
 def _load_from_db():
