@@ -812,7 +812,7 @@ class handler(BaseHTTPRequestHandler):
         track["title"], track["artist"] = title, artist
         try:
             token = get_token()
-            enriched = enrich.enrich_track(track, db.fetch_tracks(), token)
+            enriched = enrich.enrich_track(track, db.fetch_tracks(), token, use_agent=bool(body.get("use_agent")))
         except Exception as exc:  # noqa: BLE001
             enriched = {**track, "needs_enrichment": True, "metadata_missing": ["enrichment failed"], "enrichment_error": str(exc)}
         if body.get("apply"):
