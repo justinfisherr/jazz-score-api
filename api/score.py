@@ -343,7 +343,7 @@ def build_taste_profile(tracks):
 
 
 def ask_openrouter(kind, prompt, count, profile, reject=None):
-    shape = '{"recommendations":[{"title":"...","artist":"...","reason":"...","confidence":"high|medium|low","spotify_query":"..."}]}'
+    shape = '{"recommendations":[{"title":"...","artist":"...","reason":"...","key_players":["Name - instrument"],"confidence":"high|medium|low","spotify_query":"..."}]}'
     kind_rule = {
         "track": "Every recommendation must be ONE TRACK. title is the track title, artist is the performing artist. Never return an album or playlist.",
         "album": "Every recommendation must be ONE ALBUM. title is the album title, artist is the album artist. Never return a single track.",
@@ -360,6 +360,9 @@ def ask_openrouter(kind, prompt, count, profile, reject=None):
         "Avoid the most canonical names (Coltrane, Miles Davis, Wayne Shorter, Herbie Hancock) unless the request names them. "
         "A pick that clearly sits outside his taste is a failed recommendation. "
         f"{kind_rule} "
+        "For every track recommendation, include the actual performing band in key_players, "
+        "using strings like 'Name - instrument' (leader plus sidemen). Do not invent personnel: "
+        "return [] if you are not sure. Mention the band in the reason when it helps. "
         "spotify_query must be the exact search phrase that will find that item on Spotify. "
         f"Return JSON only, exactly this shape: {shape}"
     )
@@ -467,6 +470,9 @@ def resolve_track_recommendation(rec, token, all_tracks=None):
         "spotify_id": track["id"],
         "score": score,
         "reason": rec.get("reason"),
+        "key_players": (existing.get("key_players") or []) if existing.get("key_players") else [
+            p for p in (rec.get("key_players") or []) if isinstance(p, str) and " - " in p
+        ][:20],
         "confidence": rec.get("confidence"),
         "reviewed": bool(existing),
         "rating": existing.get("rating"),
@@ -688,6 +694,7 @@ class handler(BaseHTTPRequestHandler):
                 "liked": True,
                 "liked_at": datetime.utcnow().isoformat(),
                 "discovered_from": existing.get("discovered_from") or "ai-like",
+                "key_players": body.get("key_players") or existing.get("key_players") or [],
             }
             if not merged.get("date_added"):
                 merged["date_added"] = datetime.utcnow().date().isoformat()
