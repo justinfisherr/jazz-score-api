@@ -12,12 +12,22 @@ silently treating an empty list as complete.
 
 from __future__ import annotations
 
+import json
+import os
 import re
 from collections import Counter
 
 import requests
 
 SPOTIFY_API = "https://api.spotify.com/v1"
+OPENROUTER_URL = "https://openrouter.ai/api/v1/chat/completions"
+OPENROUTER_API_KEY = os.environ.get("OPENROUTER_API_KEY", "")
+OPENROUTER_MODEL = os.environ.get("OPENROUTER_MODEL", "deepseek/deepseek-v4.1-flash")
+ERA_OPTIONS = {
+    "Afro-Cuban Jazz", "Bebop", "Bossa Nova", "Contemporary", "Cool Jazz", "Cool",
+    "ECM/Improvisation", "Electric", "Free Jazz", "Hard Bop", "Jazz Fusion", "Modal",
+    "Neo-Bop", "Post-Bop", "Soul/Funk", "Spiritual Jazz", "Swing", "Vocal Jazz", "Unknown",
+}
 
 
 def norm(value) -> str:
@@ -129,7 +139,91 @@ def fetch_spotify_track(token, track):
     return data, album
 
 
-def enrich_track(track, all_tracks, token, spotify_enabled=True):
+def agent_metadata(track):
+    """Ask the model for facts Spotify does not expose.
+
+    Only fills fields we are missing, and only accepts medium/high confidence.
+    The source is recorded so curated/dataset data always wins.
+    """
+    if not OPENROUTER_API_KEY:
+        return None
+    prompt = (
+        "You are a jazz discography editor. Fill this recording's metadata from well-established facts. "
+        "Use the ORIGINAL release year, not a reissue year. Do not invent personnel; use [] if unsure. "
+        "Era must be one of: " + ", ".join(sorted(ERA_OPTIONS)) + ". "
+        "Return JSON only: "
+        '{"year":1968,"era":"Post-Bop","primary_instrument":"tenor saxophone","label":"Atlantic",'
+        '"key_players":["Name - instrument"],"subgenres":["post-bop"],"moods":["bluesy"],'
+        '"confidence":"high|medium|low","notes":"one short source note"}'
+    )
+    payload = {
+        "title": track.get("title"),
+        "artist": track.get("artist"),
+        "album": track.get("album"),
+        "year": track.get("year"),
+        "spotify_id": track.get("spotify_id"),
+    }
+    try:
+        resp = requests.post(
+            OPENROUTER_URL,
+            headers={
+                "Authorization": f"Bearer {OPENROUTER_API_KEY}",
+                "Content-Type": "application/json",
+                "HTTP-Referer": "https://claude-metrics-five.vercel.app",
+                "X-Title": "Jazz Taste Analysis",
+            },
+            json={
+                "model": OPENROUTER_MODEL,
+                "messages": [
+                    {"role": "system", "content": prompt},
+                    {"role": "user", "content": json.dumps(payload, ensure_ascii=False)},
+                ],
+                "temperature": 0.2,
+                "max_tokens": 900,
+                "reasoning": {"enabled": False},
+            },
+            timeout=45,
+        )
+        if resp.status_code >= 400:
+            return None
+        content = resp.json()["choices"][0]["message"].get("content")
+        if not content:
+            return None
+        content = re.sub(r"^```(?:json)?\s*|\s*```$", "", content.strip(), flags=re.S)
+        data = json.loads(content)
+        if not isinstance(data, dict):
+            return None
+        if str(data.get("confidence", "")).lower() not in ("high", "medium"):
+            return None
+        if data.get("era") and data["era"] not in ERA_OPTIONS:
+            data.pop("era")
+        if data.get("primary_instrument") and len(str(data["primary_instrument"])) > 60:
+            data.pop("primary_instrument")
+        if data.get("label") and len(str(data["label"])) > 80:
+            data.pop("label")
+        players = data.get("key_players")
+        if isinstance(players, list):
+            data["key_players"] = [p for p in players if isinstance(p, str) and " - " in p][:20]
+        else:
+            data.pop("key_players", None)
+        for key in ("subgenres", "moods"):
+            if not isinstance(data.get(key), list):
+                data.pop(key, None)
+        if data.get("year") is not None:
+            try:
+                y = int(data["year"])
+                if 1900 <= y <= 2030:
+                    data["year"] = y
+                else:
+                    data.pop("year")
+            except (TypeError, ValueError):
+                data.pop("year")
+        return data
+    except Exception:  # noqa: BLE001
+        return None
+
+
+def enrich_track(track, all_tracks, token, spotify_enabled=True, use_agent=True):
     """Fill model-critical metadata. User-supplied values are never overwritten."""
     out = dict(track)
     fill = dict(track)
@@ -220,6 +314,28 @@ def enrich_track(track, all_tracks, token, spotify_enabled=True):
         if value:
             out["era"] = value
             sources.append(f"era:{source}")
+
+    # Spotify/older rows often cannot supply instrument, personnel, or the
+    # original release year. Ask the model only for what is still missing.
+    missing = [k for k in ("era", "primary_instrument", "label", "key_players", "subgenres", "moods") if not out.get(k)]
+    if use_agent and missing:
+        meta = agent_metadata(out)
+        if meta:
+            if meta.get("era") and (not out.get("era") or out.get("era_source") in ("year-neighbours", "year-rule")):
+                out["era"] = meta["era"]
+                sources.append("era:agent")
+                out.pop("era_source", None)
+            for key in ("primary_instrument", "label", "key_players", "subgenres", "moods"):
+                if not out.get(key) and meta.get(key):
+                    out[key] = meta[key]
+                    sources.append(f"{key}:agent")
+            if meta.get("year") and (out.get("year_source") == "spotify-release" or not out.get("year")):
+                out["year"] = meta["year"]
+                sources.append("year:agent")
+                out.pop("year_source", None)
+            out["agent_confidence"] = meta.get("confidence")
+            if meta.get("notes"):
+                out["agent_notes"] = meta["notes"]
 
     # Normalize the fields the model expects to exist.
     out["key_players"] = out.get("key_players") or []
