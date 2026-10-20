@@ -31,6 +31,7 @@ db.init_schema()
 from predict import predict_track, predict_tracks  # noqa: E402
 from score import (  # noqa: E402
     build_candidate,
+    clean_title,
     fetch_reccobeats,
     fetch_spotify_audio,
     get_token,
@@ -518,6 +519,130 @@ def resolve_playlist_recommendation(rec, token):
     }
 
 
+def fill_unreviewed_from_spotify(token, all_tracks, profile, wanted, exclude=None):
+    """Deterministic safety net for track recommendations.
+
+    The LLM sometimes keeps proposing tracks Justin has already rated, which the
+    post-filter rejects until nothing is left. Instead of surfacing the "only
+    returned things you already rated" dead end, pull unreviewed tracks from his
+    top artists' discographies plus their sidemen ("one or two degrees away"),
+    score them with the taste model, and return the best `wanted` picks. Every
+    result here is guaranteed new to the dataset (title+artist and spotify_id)."""
+    wanted = max(1, int(wanted))
+    known_ids = {t.get("spotify_id") for t in all_tracks if t.get("spotify_id")}
+    seen = {(e or "").strip().lower() for e in (exclude or [])}
+    top_artists = (profile.get("top_artists") or [])
+    leaders = {_artist_key(a["artist"]) for a in top_artists[:8]}
+    sources = [a["artist"] for a in top_artists[:4]]
+    for name in _top_sidemen(all_tracks, leaders, n=4):
+        sources.append(name)
+
+    pool = []
+    cap = max(12, wanted * 2)
+    for artist in sources:
+        try:
+            hits = search_tracks(token, f'artist:"{artist}"', limit=8)
+        except Exception:  # noqa: BLE001
+            continue
+        for tr in hits:
+            if not tr or tr.get("id") in known_ids:
+                continue
+            prim = tr["artists"][0]["name"] if tr.get("artists") else ""
+            if not prim or _artist_key(prim) != _artist_key(artist):
+                continue
+            title = clean_title(tr.get("name") or "")
+            if not title or _junk_title(title):
+                continue
+            artist_name = tr["artists"][0]["name"]
+            key = f"{title} — {artist_name}".strip().lower()
+            if key in seen:
+                continue
+            seen.add(key)
+            pool.append((key, tr, artist))
+            if len(pool) >= cap:
+                break
+        if len(pool) >= cap:
+            break
+
+    if not pool:
+        return []
+
+    ids = [tr["id"] for _, tr, _ in pool]
+    sfas = fetch_spotify_audio_batch(token, ids)
+    reccos = fetch_reccobeats_batch(ids)
+    scored = []
+    for _key, tr, source in pool:
+        try:
+            candidate = build_candidate(tr, sfas.get(tr["id"]) or {}, reccos.get(tr["id"]) or {})
+            title_n = db._norm_title(candidate["title"])
+            artist_n = db._norm(candidate["artist"])
+            reviewed = any(
+                db._norm_title(t.get("title")) == title_n
+                and (ta == artist_n or (ta and artist_n and (ta in artist_n or artist_n in ta)))
+                for t in all_tracks
+                if (ta := db._norm(t.get("artist") or ""))
+            )
+            if reviewed:
+                continue
+            score = predict_track(candidate)
+            reason = f"Unrated pick from {source}, ranked by your taste model."
+            scored.append({
+                "kind": "track",
+                "title": candidate["title"],
+                "artist": candidate["artist"],
+                "album": (tr.get("album") or {}).get("name"),
+                "year": candidate["year"],
+                "image": track_image(tr),
+                "url": track_url(tr),
+                "spotify_id": tr["id"],
+                "score": score,
+                "reason": reason,
+                "key_players": [],
+                "confidence": "medium",
+                "reviewed": False,
+            })
+        except Exception:  # noqa: BLE001
+            continue
+    scored.sort(key=lambda r: r.get("score") or 0, reverse=True)
+    capped = []
+    per_source = {}
+    for r in scored:
+        src = r.get("artist") or ""
+        if per_source.get(src, 0) >= 3:
+            continue
+        per_source[src] = per_source.get(src, 0) + 1
+        capped.append(r)
+    return capped[:wanted]
+
+
+def _artist_key(s):
+    s = (s or "").strip().lower()
+    s = re.sub(r"\bthe\b", "", s)
+    return re.sub(r"\s+", "", s.replace("&", "and"))
+
+
+def _junk_title(title):
+    t = title.lower()
+    return any(k in t for k in ("remix", "karaoke", "tribute", "tiktok", "soundtrack", "medley"))
+
+
+def _top_sidemen(all_tracks, exclude_leaders, n=4, min_n=2):
+    stats = {}
+    for t in all_tracks:
+        leader = _artist_key(t.get("artist"))
+        for kp in t.get("key_players", []):
+            name = kp.split(" - ")[0].strip()
+            s = _artist_key(name)
+            if not s or not leader or s in exclude_leaders or s == leader:
+                continue
+            entry = stats.setdefault(s, {"name": name, "ratings": []})
+            if t.get("rating") is not None:
+                entry["ratings"].append(t["rating"])
+    ranked = [v for v in stats.values() if len(v["ratings"]) >= min_n]
+    ranked.sort(key=lambda v: (sum(v["ratings"]) / len(v["ratings"]), len(v["ratings"])), reverse=True)
+    return [v["name"] for v in ranked[:n]]
+
+
 class handler(BaseHTTPRequestHandler):
     def do_GET(self):  # noqa: N802
         path = urlparse(self.path).path
@@ -784,6 +909,16 @@ class handler(BaseHTTPRequestHandler):
                         break
                 except Exception:  # noqa: BLE001
                     break
+        if kind == "track" and len(out) < count:
+            # LLM proposals keep colliding with already-rated tracks; top up with
+            # deterministic unrated picks from his top artists' discographies.
+            exclude = rejected[:] + [f"{r.get('title')} — {r.get('artist')}" for r in out]
+            seen_keys = {(r["title"].lower(), r["artist"].lower()) for r in out}
+            for item in fill_unreviewed_from_spotify(token, existing_tracks, profile, count - len(out), exclude=exclude):
+                key = (item["title"].lower(), item["artist"].lower())
+                if key not in seen_keys:
+                    seen_keys.add(key)
+                    out.append(item)
         if kind == "track":
             # Let the taste model rank the AI's candidates instead of trusting
             # the first three the language model happened to name.
