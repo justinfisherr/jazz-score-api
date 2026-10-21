@@ -26454,5 +26454,2392 @@
       "speechiness": 0.0371,
       "spotify_valence": 0.518
     }
+  },
+  {
+    "era": "Free Jazz",
+    "year": 1961,
+    "album": "This Is Our Music",
+    "moods": [
+      "flat",
+      "experimental"
+    ],
+    "title": "P.S. Unless One Has (Blues Connotation)",
+    "artist": "Ornette Coleman",
+    "rating": 1,
+    "subgenres": [
+      "free jazz",
+      "avant-garde jazz"
+    ],
+    "spotify_id": "2zrlzgQa34sVExHMKqkjTA",
+    "key_players": [],
+    "album_source": "spotify",
+    "instrumentation": [],
+    "metadata_sources": [
+      "era:dataset",
+      "instrument:artist",
+      "moods:artist",
+      "subgenres:artist"
+    ],
+    "needs_enrichment": false,
+    "metadata_complete": false,
+    "primary_instrument": "alto saxophone",
+    "date_added": "2026-10-19",
+    "date_added_source": "db_updated_at",
+    "audio_features": {
+      "acousticness": 0.59,
+      "danceability": 0.564,
+      "spotify_energy": 0.352,
+      "instrumentalness": 0.0709,
+      "liveness": 0.266,
+      "loudness": -15.794,
+      "speechiness": 0.0412,
+      "spotify_valence": 0.63
+    }
+  },
+  {
+    "era": "Post-Bop",
+    "year": 1969,
+    "album": "The Prisoner",
+    "moods": [
+      "cool",
+      "pretty",
+      "sophisticated"
+    ],
+    "title": "The Prisoner",
+    "artist": "Herbie Hancock",
+    "rating": 2,
+    "subgenres": [
+      "post-bop",
+      "modal jazz"
+    ],
+    "spotify_id": "7pcXoFbpCBiCLlZDxfAI58",
+    "key_players": [],
+    "album_source": "spotify",
+    "instrumentation": [],
+    "metadata_sources": [
+      "era:dataset",
+      "instrument:artist",
+      "moods:artist",
+      "subgenres:artist"
+    ],
+    "needs_enrichment": false,
+    "metadata_complete": false,
+    "primary_instrument": "piano",
+    "date_added": "2026-10-19",
+    "date_added_source": "db_updated_at",
+    "audio_features": {
+      "acousticness": 0.593,
+      "danceability": 0.438,
+      "spotify_energy": 0.476,
+      "instrumentalness": 0.261,
+      "liveness": 0.105,
+      "loudness": -16.679,
+      "speechiness": 0.0449,
+      "spotify_valence": 0.379
+    }
+  },
+  {
+    "era": "Post-Bop",
+    "year": 1960,
+    "album": "Giant Steps (Mono)",
+    "moods": [
+      "tender",
+      "romantic"
+    ],
+    "title": "Cousin Mary - Mono",
+    "artist": "John Coltrane",
+    "rating": 6.5,
+    "subgenres": [
+      "modal jazz",
+      "spiritual jazz"
+    ],
+    "spotify_id": "6I1pxB8X2Fu4HFjo5Bgwor",
+    "key_players": [],
+    "album_source": "spotify",
+    "instrumentation": [],
+    "metadata_sources": [
+      "era:dataset",
+      "instrument:artist",
+      "moods:artist",
+      "subgenres:artist"
+    ],
+    "needs_enrichment": false,
+    "metadata_complete": false,
+    "primary_instrument": "tenor saxophone",
+    "date_added": "2026-10-19",
+    "date_added_source": "db_updated_at",
+    "audio_features": {
+      "acousticness": 0.419,
+      "danceability": 0.512,
+      "spotify_energy": 0.403,
+      "instrumentalness": 0.103,
+      "liveness": 0.108,
+      "loudness": -12.551,
+      "speechiness": 0.0499,
+      "spotify_valence": 0.395
+    }
+  },
+  {
+    "era": "Hard Bop",
+    "year": 1960,
+    "album": "Quiet Kenny",
+    "liked": true,
+    "moods": [
+      "driving",
+      "tense",
+      "cool"
+    ],
+    "title": "Lotus Blossom",
+    "artist": "Kenny Dorham",
+    "rating": 7.5,
+    "liked_at": "2026-10-20T02:20:35.279729",
+    "subgenres": [
+      "hard bop",
+      "post-bop"
+    ],
+    "date_added": "2026-10-20",
+    "spotify_id": "4JfOUrNqNVsy1XWC99JdmV",
+    "entity_type": "track",
+    "key_players": [],
+    "album_source": "spotify",
+    "discovered_from": "ai-like",
+    "instrumentation": [],
+    "metadata_sources": [
+      "era:dataset",
+      "instrument:artist",
+      "moods:artist",
+      "subgenres:artist"
+    ],
+    "needs_enrichment": false,
+    "metadata_complete": false,
+    "primary_instrument": "trumpet",
+    "audio_features": {
+      "acousticness": 0.659,
+      "danceability": 0.489,
+      "spotify_energy": 0.423,
+      "instrumentalness": 0.222,
+      "liveness": 0.173,
+      "loudness": -16.195,
+      "speechiness": 0.0488,
+      "spotify_valence": 0.682
+    }
+  },
+  {
+    "era": "Post-Bop",
+    "year": 1995,
+    "album": "Gunslinging Birds",
+    "liked": true,
+    "moods": [
+      "joyful",
+      "passionate",
+      "exuberant"
+    ],
+    "title": "Reincarnation of a Lovebird",
+    "artist": "Mingus Big Band",
+    "rating": 9,
+    "liked_at": "2026-10-20T02:26:42.822012",
+    "subgenres": [
+      "post-bop",
+      "big band",
+      "blues"
+    ],
+    "date_added": "2026-10-20",
+    "spotify_id": "51tVEkUFyIrzDPClOi2wbs",
+    "entity_type": "track",
+    "key_players": [],
+    "album_source": "spotify",
+    "discovered_from": "ai-like",
+    "instrumentation": [],
+    "metadata_sources": [
+      "era:dataset",
+      "instrument:artist",
+      "moods:artist",
+      "subgenres:artist"
+    ],
+    "needs_enrichment": false,
+    "metadata_complete": false,
+    "primary_instrument": "big band",
+    "audio_features": {
+      "acousticness": 0.554,
+      "danceability": 0.499,
+      "spotify_energy": 0.46,
+      "instrumentalness": 0.724,
+      "liveness": 0.159,
+      "loudness": -11.03,
+      "speechiness": 0.0666,
+      "spotify_valence": 0.369
+    }
+  },
+  {
+    "era": "Post-Bop",
+    "year": 1970,
+    "album": "Extensions",
+    "moods": [
+      "moody",
+      "dark"
+    ],
+    "title": "The Wanderer - Remastered 1996",
+    "artist": "McCoy Tyner",
+    "rating": 5,
+    "subgenres": [
+      "piano trio",
+      "ballad",
+      "standard"
+    ],
+    "spotify_id": "2tS7ygzke0W1zIHZB6NqWk",
+    "key_players": [],
+    "album_source": "spotify",
+    "instrumentation": [],
+    "metadata_sources": [
+      "era:dataset",
+      "instrument:artist",
+      "moods:artist",
+      "subgenres:artist"
+    ],
+    "needs_enrichment": false,
+    "metadata_complete": false,
+    "primary_instrument": "piano",
+    "date_added": "2026-10-20",
+    "date_added_source": "db_updated_at",
+    "audio_features": {
+      "acousticness": 0.338,
+      "danceability": 0.382,
+      "spotify_energy": 0.743,
+      "instrumentalness": 3.26e-05,
+      "liveness": 0.136,
+      "loudness": -10.58,
+      "speechiness": 0.175,
+      "spotify_valence": 0.251
+    }
+  },
+  {
+    "era": "Cool Jazz",
+    "year": 1981,
+    "album": "You Must Believe In Spring (Remastered Version)",
+    "label": "Warner Bros.",
+    "liked": true,
+    "moods": [
+      "intimate",
+      "spacious",
+      "cool"
+    ],
+    "title": "The Peacocks - Remastered 2003",
+    "artist": "Bill Evans",
+    "rating": 7,
+    "liked_at": "2026-10-20T02:37:47.077974",
+    "subgenres": [
+      "cool jazz",
+      "standard",
+      "piano"
+    ],
+    "date_added": "2026-10-20",
+    "era_source": "dataset",
+    "spotify_id": "5shKp4VqCY5SoV3rIt0jpr",
+    "agent_notes": "Recorded 1977, released 1981 on Warner Bros.; 'The Peacocks' is a Jimmy Rowles composition.",
+    "entity_type": "track",
+    "key_players": [
+      "Bill Evans - piano",
+      "Eddie Gómez - bass",
+      "Eliot Zigmund - drums"
+    ],
+    "discovered_from": "ai-like",
+    "instrumentation": [],
+    "agent_confidence": "high",
+    "metadata_sources": [
+      "era:dataset",
+      "instrument:artist",
+      "key_players:agent",
+      "label:agent",
+      "moods:artist",
+      "subgenres:artist"
+    ],
+    "needs_enrichment": false,
+    "metadata_complete": true,
+    "primary_instrument": "piano",
+    "audio_features": {
+      "acousticness": 0.845,
+      "danceability": 0.39,
+      "spotify_energy": 0.25,
+      "instrumentalness": 0.911,
+      "liveness": 0.113,
+      "loudness": -17.149,
+      "speechiness": 0.0355,
+      "spotify_valence": 0.128
+    }
+  },
+  {
+    "era": "Post-Bop",
+    "year": 1960,
+    "album": "Sketches Of Spain 50th Anniversary (Legacy Edition)",
+    "label": "Columbia",
+    "moods": [
+      "reflective",
+      "spacious",
+      "contemplative"
+    ],
+    "title": "Teo",
+    "artist": "Miles Davis",
+    "rating": 6.5,
+    "subgenres": [
+      "modal jazz",
+      "cool jazz"
+    ],
+    "era_source": "dataset",
+    "spotify_id": "0s31ukWKvmdRcbfjS08opM",
+    "agent_notes": "'Teo' was recorded in 1960 during the Sketches of Spain sessions and first issued on the 1961 album Someday My Prince Will Come; original release year given as 1960.",
+    "key_players": [
+      "Miles Davis - trumpet",
+      "Gil Evans - arranger/conductor"
+    ],
+    "album_source": "spotify",
+    "instrumentation": [],
+    "agent_confidence": "high",
+    "metadata_sources": [
+      "era:dataset",
+      "instrument:artist",
+      "key_players:agent",
+      "label:agent",
+      "moods:artist",
+      "subgenres:artist"
+    ],
+    "needs_enrichment": false,
+    "metadata_complete": true,
+    "primary_instrument": "trumpet",
+    "date_added": "2026-10-20",
+    "date_added_source": "db_updated_at",
+    "audio_features": {
+      "acousticness": 0.596,
+      "danceability": 0.475,
+      "spotify_energy": 0.207,
+      "instrumentalness": 0.174,
+      "liveness": 0.109,
+      "loudness": -17.914,
+      "speechiness": 0.0415,
+      "spotify_valence": 0.483
+    }
+  },
+  {
+    "era": "Hard Bop",
+    "year": 1963,
+    "album": "Page One",
+    "label": "Blue Note",
+    "liked": true,
+    "moods": [
+      "cool",
+      "fun",
+      "joyful",
+      "cute"
+    ],
+    "title": "La Mesha",
+    "artist": "Joe Henderson",
+    "rating": 7,
+    "liked_at": "2026-10-20T02:55:57.875457",
+    "subgenres": [
+      "hard bop",
+      "bossa nova"
+    ],
+    "date_added": "2026-10-20",
+    "era_source": "dataset",
+    "spotify_id": "44g1MkUneM54KqxLyfWSr9",
+    "entity_type": "track",
+    "key_players": [
+      "Joe Henderson - tenor saxophone",
+      "Kenny Dorham - trumpet"
+    ],
+    "album_source": "spotify",
+    "discovered_from": "ai-like",
+    "instrumentation": [
+      "tenor saxophone",
+      "trumpet",
+      "piano",
+      "bass",
+      "drums"
+    ],
+    "metadata_sources": [
+      "era:dataset",
+      "instrument:album",
+      "instrumentation:album",
+      "label:album",
+      "moods:album",
+      "players:album",
+      "subgenres:album"
+    ],
+    "needs_enrichment": false,
+    "metadata_complete": true,
+    "primary_instrument": "tenor saxophone",
+    "audio_features": {
+      "acousticness": 0.981,
+      "danceability": 0.463,
+      "spotify_energy": 0.248,
+      "instrumentalness": 0.671,
+      "liveness": 0.0914,
+      "loudness": -11.039,
+      "speechiness": 0.0342,
+      "spotify_valence": 0.0546
+    }
+  },
+  {
+    "era": "Cool Jazz",
+    "year": 2000,
+    "album": "Lonely Woman",
+    "label": "Atlantic",
+    "moods": [
+      "lovely",
+      "joyful",
+      "cool",
+      "sensual",
+      "smooth",
+      "experimental",
+      "background"
+    ],
+    "title": "Lonely Woman",
+    "artist": "The Modern Jazz Quartet",
+    "rating": 4,
+    "subgenres": [
+      "cool jazz",
+      "third stream"
+    ],
+    "era_source": "dataset",
+    "spotify_id": "3Z6tdGq7irKyfhz3Fpn6nr",
+    "agent_notes": "Original Atlantic album released 1962; 2000 date is a reissue.",
+    "key_players": [
+      "John Lewis - piano",
+      "Milt Jackson - vibraphone",
+      "Percy Heath - bass",
+      "Connie Kay - drums"
+    ],
+    "album_source": "spotify",
+    "instrumentation": [],
+    "agent_confidence": "high",
+    "metadata_sources": [
+      "era:dataset",
+      "instrument:artist",
+      "key_players:agent",
+      "label:agent",
+      "moods:artist",
+      "subgenres:artist"
+    ],
+    "needs_enrichment": false,
+    "metadata_complete": true,
+    "primary_instrument": "vibraphone",
+    "date_added": "2026-10-20",
+    "date_added_source": "db_updated_at",
+    "audio_features": {
+      "acousticness": 0.938,
+      "danceability": 0.484,
+      "spotify_energy": 0.0788,
+      "instrumentalness": 0.798,
+      "liveness": 0.105,
+      "loudness": -21.011,
+      "speechiness": 0.035,
+      "spotify_valence": 0.104
+    }
+  },
+  {
+    "era": "Spiritual Jazz",
+    "year": 1969,
+    "album": "Spirits Known and Unknown",
+    "label": "Flying Dutchman",
+    "moods": [
+      "ecstatic",
+      "spiritual",
+      "hypnotic"
+    ],
+    "title": "The Creator Has a Master Plan",
+    "artist": "Leon Thomas",
+    "rating": 5.5,
+    "subgenres": [
+      "spiritual jazz",
+      "avant-garde jazz"
+    ],
+    "spotify_id": "37xeMeNgXrwfuD2Xt7r2zP",
+    "agent_notes": "Title track of Leon Thomas's 1969 debut LP Spirits Known and Unknown (Flying Dutchman); the song is co-credited to Pharoah Sanders and Thomas, who first recorded it on Sanders's 1969 album Karma.",
+    "key_players": [
+      "Leon Thomas - vocals",
+      "Pharoah Sanders - tenor saxophone",
+      "Lonnie Liston Smith - piano",
+      "Richard Davis - bass",
+      "Roy Haynes - drums"
+    ],
+    "album_source": "spotify",
+    "instrumentation": [],
+    "agent_confidence": "high",
+    "metadata_sources": [
+      "era:agent",
+      "era:year-neighbours",
+      "key_players:agent",
+      "label:agent",
+      "moods:agent",
+      "primary_instrument:agent",
+      "subgenres:agent"
+    ],
+    "needs_enrichment": false,
+    "metadata_complete": true,
+    "primary_instrument": "vocals",
+    "date_added": "2026-10-20",
+    "date_added_source": "db_updated_at",
+    "audio_features": {
+      "acousticness": 0.48,
+      "danceability": 0.551,
+      "spotify_energy": 0.32,
+      "instrumentalness": 0.000112,
+      "liveness": 0.126,
+      "loudness": -17.584,
+      "speechiness": 0.0377,
+      "spotify_valence": 0.598
+    }
+  },
+  {
+    "era": "Vocal Jazz",
+    "year": 1959,
+    "album": "Nina Simone and Her Friends (Remastered 2014)",
+    "label": "Bethlehem",
+    "liked": true,
+    "moods": [
+      "romantic",
+      "beautiful",
+      "tender"
+    ],
+    "title": "I Loves You, Porgy - 2014 - Remaster",
+    "artist": "Nina Simone",
+    "liked_at": "2026-10-20T07:19:29.891085",
+    "subgenres": [
+      "vocal jazz"
+    ],
+    "date_added": "2026-10-20",
+    "era_source": "dataset",
+    "spotify_id": "0nQIWIpljdufnG7XEOEbtp",
+    "agent_notes": "From Nina Simone and Her Friends, a 1959 Bethlehem compilation drawn from her 1957 debut sessions; original release year used, not the 2014 remaster.",
+    "entity_type": "track",
+    "key_players": [
+      "Nina Simone - vocals, piano",
+      "Jimmy Bond - bass",
+      "Albert 'Tootie' Heath - drums"
+    ],
+    "discovered_from": "ai-like",
+    "instrumentation": [],
+    "agent_confidence": "medium",
+    "metadata_sources": [
+      "era:dataset",
+      "instrument:artist",
+      "label:agent",
+      "moods:artist",
+      "subgenres:artist"
+    ],
+    "needs_enrichment": false,
+    "metadata_complete": true,
+    "primary_instrument": "vocals",
+    "audio_features": {
+      "acousticness": 0.899,
+      "danceability": 0.361,
+      "spotify_energy": 0.0581,
+      "instrumentalness": 0.0,
+      "liveness": 0.0975,
+      "loudness": -19.301,
+      "speechiness": 0.041,
+      "spotify_valence": 0.171
+    }
+  },
+  {
+    "era": "Hard Bop",
+    "year": 1965,
+    "album": "One Flight Up (Remastered 2015)",
+    "label": "Blue Note",
+    "moods": [
+      "interesting",
+      "fun",
+      "joyful",
+      "restless"
+    ],
+    "title": "Darn That Dream - Remastered 2015",
+    "artist": "Dexter Gordon",
+    "rating": 6,
+    "subgenres": [
+      "hard bop",
+      "tenor ballad"
+    ],
+    "era_source": "dataset",
+    "spotify_id": "1Owq03yMItfgZMpt9CSe80",
+    "agent_notes": "'Darn That Dream' is a standard from Dexter Gordon's album One Flight Up, recorded June 1964 in Paris and released on Blue Note in 1965; the 2015 remaster is a reissue.",
+    "key_players": [
+      "Dexter Gordon - tenor saxophone",
+      "Donald Byrd - trumpet",
+      "Kenny Drew - piano",
+      "Niels-Henning Ørsted Pedersen - bass",
+      "Art Taylor - drums"
+    ],
+    "album_source": "spotify",
+    "instrumentation": [],
+    "agent_confidence": "high",
+    "metadata_sources": [
+      "era:dataset",
+      "instrument:artist",
+      "key_players:agent",
+      "label:agent",
+      "moods:artist",
+      "subgenres:artist"
+    ],
+    "needs_enrichment": false,
+    "metadata_complete": true,
+    "primary_instrument": "tenor saxophone",
+    "date_added": "2026-10-20",
+    "date_added_source": "db_updated_at",
+    "audio_features": {
+      "acousticness": 0.893,
+      "danceability": 0.458,
+      "spotify_energy": 0.0308,
+      "instrumentalness": 0.259,
+      "liveness": 0.126,
+      "loudness": -21.667,
+      "speechiness": 0.0361,
+      "spotify_valence": 0.275
+    }
+  },
+  {
+    "era": "Post-Bop",
+    "year": 1993,
+    "album": "Nostalgia in Times Square",
+    "label": "Dreyfus Jazz",
+    "moods": [
+      "fun",
+      "bluesy",
+      "joyful"
+    ],
+    "title": "Duke Ellington's Sound of Love",
+    "artist": "Mingus Big Band",
+    "rating": 4,
+    "subgenres": [
+      "post-bop",
+      "big band",
+      "blues"
+    ],
+    "era_source": "dataset",
+    "spotify_id": "6ohPUY7p09Xfx2JMfX0r5t",
+    "key_players": [
+      "Charles Mingus (composer)"
+    ],
+    "album_source": "spotify",
+    "instrumentation": [
+      "big band",
+      "bass",
+      "drums"
+    ],
+    "metadata_sources": [
+      "era:dataset",
+      "instrument:album",
+      "instrumentation:album",
+      "label:album",
+      "moods:album",
+      "players:album",
+      "subgenres:album"
+    ],
+    "needs_enrichment": false,
+    "metadata_complete": true,
+    "primary_instrument": "big band",
+    "date_added": "2026-10-20",
+    "date_added_source": "db_updated_at",
+    "audio_features": {
+      "acousticness": 0.702,
+      "danceability": 0.242,
+      "spotify_energy": 0.289,
+      "instrumentalness": 0.73,
+      "liveness": 0.0634,
+      "loudness": -15.159,
+      "speechiness": 0.0413,
+      "spotify_valence": 0.148
+    }
+  },
+  {
+    "era": "Hard Bop",
+    "year": 1990,
+    "album": "Meet The Jazztet",
+    "label": "Argo",
+    "moods": [
+      "cool",
+      "smooth",
+      "hip"
+    ],
+    "title": "I Remember Clifford",
+    "artist": "Art Farmer & Benny Golson Jazztet",
+    "rating": 3,
+    "subgenres": [
+      "hard bop"
+    ],
+    "era_source": "dataset",
+    "spotify_id": "1dDsPlUA9WqBsnK1e8jDqm",
+    "agent_notes": "Title track from the Jazztet's debut album 'Meet the Jazztet' (Argo LP 662), recorded February 1960; the 1990 date is a reissue.",
+    "key_players": [
+      "Art Farmer - trumpet",
+      "Benny Golson - tenor saxophone",
+      "Curtis Fuller - trombone",
+      "McCoy Tyner - piano",
+      "Addison Farmer - bass",
+      "Lex Humphries - drums"
+    ],
+    "album_source": "spotify",
+    "instrumentation": [],
+    "agent_confidence": "high",
+    "metadata_sources": [
+      "era:dataset",
+      "instrument:artist",
+      "key_players:agent",
+      "label:agent",
+      "moods:artist",
+      "subgenres:artist"
+    ],
+    "needs_enrichment": false,
+    "metadata_complete": true,
+    "primary_instrument": "trumpet",
+    "date_added": "2026-10-20",
+    "date_added_source": "db_updated_at",
+    "audio_features": {
+      "acousticness": 0.992,
+      "danceability": 0.516,
+      "spotify_energy": 0.113,
+      "instrumentalness": 0.916,
+      "liveness": 0.146,
+      "loudness": -16.56,
+      "speechiness": 0.0584,
+      "spotify_valence": 0.38
+    }
+  },
+  {
+    "era": "Post-Bop",
+    "year": 2002,
+    "album": "Selected Recordings",
+    "label": "ECM",
+    "moods": [
+      "reflective",
+      "searching"
+    ],
+    "title": "La Fiesta - Live",
+    "artist": "Chick Corea",
+    "rating": 6,
+    "subgenres": [
+      "post-bop",
+      "piano trio"
+    ],
+    "era_source": "dataset",
+    "spotify_id": "5hGIRMjtrTpdMdTrZv4lh1",
+    "agent_notes": "'La Fiesta' first appeared on Chick Corea's 1972 ECM album Return to Forever; this 2002 'Selected Recordings' is a compilation, so original year used.",
+    "key_players": [
+      "Chick Corea - piano",
+      "Dave Holland - bass",
+      "Barry Altschul - drums"
+    ],
+    "album_source": "spotify",
+    "instrumentation": [],
+    "agent_confidence": "medium",
+    "metadata_sources": [
+      "era:dataset",
+      "instrument:artist",
+      "key_players:agent",
+      "label:agent",
+      "moods:artist",
+      "subgenres:artist"
+    ],
+    "needs_enrichment": false,
+    "metadata_complete": true,
+    "primary_instrument": "piano",
+    "date_added": "2026-10-20",
+    "date_added_source": "db_updated_at",
+    "audio_features": {
+      "acousticness": 0.8,
+      "danceability": 0.212,
+      "spotify_energy": 0.561,
+      "instrumentalness": 0.00457,
+      "liveness": 0.129,
+      "loudness": -14.217,
+      "speechiness": 0.0545,
+      "spotify_valence": 0.257
+    }
+  },
+  {
+    "era": "Cool Jazz",
+    "year": 1981,
+    "album": "You Must Believe In Spring (Remastered Version)",
+    "label": "Warner Bros.",
+    "moods": [
+      "intimate",
+      "spacious",
+      "cool"
+    ],
+    "title": "Gary's Theme - Remastered 2003",
+    "artist": "Bill Evans",
+    "rating": 5.5,
+    "subgenres": [
+      "cool jazz",
+      "standard",
+      "piano"
+    ],
+    "era_source": "dataset",
+    "spotify_id": "3f9KhpRN6mMYoVnpuozgHD",
+    "key_players": [
+      "Bill Evans - piano",
+      "Eddie Gómez - bass",
+      "Eliot Zigmund - drums"
+    ],
+    "album_source": "spotify",
+    "instrumentation": [],
+    "metadata_sources": [
+      "era:dataset",
+      "instrument:album",
+      "label:album",
+      "moods:album",
+      "players:album",
+      "subgenres:album"
+    ],
+    "needs_enrichment": false,
+    "metadata_complete": true,
+    "primary_instrument": "piano",
+    "date_added": "2026-10-20",
+    "date_added_source": "db_updated_at",
+    "audio_features": {
+      "acousticness": 0.903,
+      "danceability": 0.421,
+      "spotify_energy": 0.08,
+      "instrumentalness": 0.859,
+      "liveness": 0.135,
+      "loudness": -21.795,
+      "speechiness": 0.04,
+      "spotify_valence": 0.0546
+    }
+  },
+  {
+    "era": "Post-Bop",
+    "year": 1993,
+    "album": "Nostalgia in Times Square",
+    "label": "Dreyfus Jazz",
+    "moods": [
+      "fun",
+      "bluesy",
+      "joyful"
+    ],
+    "title": "Invisible Lady",
+    "artist": "Mingus Big Band",
+    "rating": 6.5,
+    "subgenres": [
+      "post-bop",
+      "big band",
+      "blues"
+    ],
+    "era_source": "dataset",
+    "spotify_id": "52UXXV1AYnTP1Cfbgkv64v",
+    "key_players": [
+      "Charles Mingus (composer)"
+    ],
+    "album_source": "spotify",
+    "instrumentation": [
+      "big band",
+      "bass",
+      "drums"
+    ],
+    "metadata_sources": [
+      "era:dataset",
+      "instrument:album",
+      "instrumentation:album",
+      "label:album",
+      "moods:album",
+      "players:album",
+      "subgenres:album"
+    ],
+    "needs_enrichment": false,
+    "metadata_complete": true,
+    "primary_instrument": "big band",
+    "date_added": "2026-10-20",
+    "date_added_source": "db_updated_at",
+    "audio_features": {
+      "acousticness": 0.55,
+      "danceability": 0.475,
+      "spotify_energy": 0.507,
+      "instrumentalness": 0.454,
+      "liveness": 0.0892,
+      "loudness": -14.19,
+      "speechiness": 0.102,
+      "spotify_valence": 0.376
+    }
+  },
+  {
+    "era": "Post-Bop",
+    "year": 1967,
+    "album": "Adam's Apple (Rudy Van Gelder Edition)",
+    "label": "Blue Note",
+    "moods": [
+      "playful",
+      "angular"
+    ],
+    "title": "Teru - Rudy Van Gelder Edition/2000 Digital Remaster/24 Bit Mastering",
+    "artist": "Wayne Shorter",
+    "rating": 3.5,
+    "subgenres": [
+      "post-bop",
+      "hard bop"
+    ],
+    "era_source": "dataset",
+    "spotify_id": "2WSJsFFzxQGYFJlR57ddGI",
+    "key_players": [
+      "Wayne Shorter - tenor saxophone",
+      "Herbie Hancock - piano",
+      "Reggie Workman - bass",
+      "Joe Chambers - drums"
+    ],
+    "album_source": "spotify",
+    "instrumentation": [],
+    "metadata_sources": [
+      "era:dataset",
+      "instrument:album",
+      "label:album",
+      "moods:album",
+      "players:album",
+      "subgenres:album"
+    ],
+    "needs_enrichment": false,
+    "metadata_complete": true,
+    "primary_instrument": "tenor saxophone",
+    "date_added": "2026-10-20",
+    "date_added_source": "db_updated_at",
+    "audio_features": {
+      "acousticness": 0.992,
+      "danceability": 0.35,
+      "spotify_energy": 0.0587,
+      "instrumentalness": 0.859,
+      "liveness": 0.116,
+      "loudness": -20.725,
+      "speechiness": 0.0406,
+      "spotify_valence": 0.164
+    }
+  },
+  {
+    "era": "Soul/Funk",
+    "year": 1965,
+    "album": "The In Crowd (Expanded Edition)",
+    "label": "Argo",
+    "moods": [
+      "groovy",
+      "funky"
+    ],
+    "title": "The \"In\" Crowd - Live At The Bohemian Caverns, Washington, D.C./1965",
+    "artist": "Ramsey Lewis Trio",
+    "rating": 4.5,
+    "subgenres": [
+      "soul jazz"
+    ],
+    "era_source": "dataset",
+    "spotify_id": "3l2pObHGPzGmgRWDlAbUJN",
+    "agent_notes": "Recorded live at the Bohemian Caverns, Washington, D.C., May 1965; released on Argo as The In Crowd.",
+    "key_players": [
+      "Ramsey Lewis - piano",
+      "Eldee Young - bass",
+      "Red Holt - drums"
+    ],
+    "album_source": "spotify",
+    "instrumentation": [],
+    "agent_confidence": "high",
+    "metadata_sources": [
+      "era:dataset",
+      "instrument:artist",
+      "key_players:agent",
+      "label:agent",
+      "moods:artist",
+      "subgenres:artist"
+    ],
+    "needs_enrichment": false,
+    "metadata_complete": true,
+    "primary_instrument": "piano",
+    "date_added": "2026-10-20",
+    "date_added_source": "db_updated_at",
+    "audio_features": {
+      "acousticness": 0.49,
+      "danceability": 0.652,
+      "spotify_energy": 0.515,
+      "instrumentalness": 0.14,
+      "liveness": 0.962,
+      "loudness": -19.55,
+      "speechiness": 0.118,
+      "spotify_valence": 0.645
+    }
+  },
+  {
+    "era": "Contemporary",
+    "year": 1995,
+    "album": "Family",
+    "label": "Verve",
+    "moods": [
+      "warm",
+      "sophisticated",
+      "uplifting"
+    ],
+    "title": "The Nearness Of You",
+    "artist": "Roy Hargrove",
+    "rating": 6,
+    "subgenres": [
+      "post-bop",
+      "modern jazz"
+    ],
+    "era_source": "dataset",
+    "spotify_id": "03OgbxrpNUTILNeBglaKDY",
+    "agent_notes": "Title is a standard ballad; 'Family' was released 1995 on Verve, with Hargrove's working quintet of that era.",
+    "key_players": [
+      "Roy Hargrove - trumpet",
+      "Ron Blake - tenor saxophone",
+      "Stephen Scott - piano",
+      "Rodney Whitaker - bass",
+      "Gregory Hutchinson - drums"
+    ],
+    "album_source": "spotify",
+    "instrumentation": [],
+    "agent_confidence": "medium",
+    "metadata_sources": [
+      "era:dataset",
+      "instrument:artist",
+      "key_players:agent",
+      "label:agent",
+      "moods:artist",
+      "subgenres:artist"
+    ],
+    "needs_enrichment": false,
+    "metadata_complete": true,
+    "primary_instrument": "trumpet",
+    "date_added": "2026-10-20",
+    "date_added_source": "db_updated_at",
+    "audio_features": {
+      "acousticness": 0.985,
+      "danceability": 0.353,
+      "spotify_energy": 0.0422,
+      "instrumentalness": 0.919,
+      "liveness": 0.161,
+      "loudness": -24.462,
+      "speechiness": 0.033,
+      "spotify_valence": 0.153
+    }
+  },
+  {
+    "era": "Cool Jazz",
+    "year": 1960,
+    "album": "Portrait In Jazz",
+    "label": "Riverside",
+    "moods": [
+      "intimate",
+      "spacious",
+      "cool"
+    ],
+    "title": "Blue In Green - Album Version - (take 3)",
+    "artist": "Bill Evans Trio",
+    "rating": 6,
+    "subgenres": [
+      "cool jazz",
+      "standard",
+      "piano"
+    ],
+    "era_source": "dataset",
+    "spotify_id": "6eAlKiRSXda4XYMSJQIzLw",
+    "agent_notes": "Take 3 from Portrait in Jazz, recorded Dec 28, 1959, released 1960 on Riverside; original Evans trio with LaFaro and Motian.",
+    "key_players": [
+      "Bill Evans - piano",
+      "Scott LaFaro - bass",
+      "Paul Motian - drums"
+    ],
+    "album_source": "spotify",
+    "instrumentation": [],
+    "agent_confidence": "high",
+    "metadata_sources": [
+      "era:dataset",
+      "instrument:artist",
+      "key_players:agent",
+      "label:agent",
+      "moods:artist",
+      "subgenres:artist"
+    ],
+    "needs_enrichment": false,
+    "metadata_complete": true,
+    "primary_instrument": "piano",
+    "date_added": "2026-10-20",
+    "date_added_source": "db_updated_at",
+    "audio_features": {
+      "acousticness": 0.975,
+      "danceability": 0.358,
+      "spotify_energy": 0.139,
+      "instrumentalness": 0.917,
+      "liveness": 0.077,
+      "loudness": -17.883,
+      "speechiness": 0.0427,
+      "spotify_valence": 0.12
+    }
+  },
+  {
+    "era": "Spiritual Jazz",
+    "year": 2008,
+    "album": "Africa",
+    "label": "Timeless",
+    "moods": [
+      "hypnotic",
+      "spacious",
+      "sustained",
+      "meditative"
+    ],
+    "title": "You've Got to Have Freedom",
+    "artist": "Pharoah Sanders",
+    "rating": 6.5,
+    "subgenres": [
+      "spiritual jazz",
+      "ambient jazz"
+    ],
+    "era_source": "dataset",
+    "spotify_id": "1sxRufRKMer2iOqxUkdhN4",
+    "agent_notes": "'You've Got to Have Freedom' first appeared on Pharoah Sanders' 1987 Timeless album 'Africa'; the 2008 date is a reissue.",
+    "key_players": [
+      "Pharoah Sanders - tenor saxophone",
+      "John Hicks - piano",
+      "Curtis Lundy - bass",
+      "Idris Muhammad - drums"
+    ],
+    "album_source": "spotify",
+    "instrumentation": [],
+    "agent_confidence": "medium",
+    "metadata_sources": [
+      "era:dataset",
+      "instrument:artist",
+      "key_players:agent",
+      "label:agent",
+      "moods:artist",
+      "subgenres:artist"
+    ],
+    "needs_enrichment": false,
+    "metadata_complete": true,
+    "primary_instrument": "tenor saxophone",
+    "date_added": "2026-10-20",
+    "date_added_source": "db_updated_at",
+    "audio_features": {
+      "acousticness": 0.0904,
+      "danceability": 0.402,
+      "spotify_energy": 0.557,
+      "instrumentalness": 0.883,
+      "liveness": 0.173,
+      "loudness": -12.786,
+      "speechiness": 0.0358,
+      "spotify_valence": 0.648
+    }
+  },
+  {
+    "era": "Hard Bop",
+    "year": 1995,
+    "album": "Kofi",
+    "label": "Blue Note",
+    "moods": [
+      "spiritual",
+      "atmospheric",
+      "cinematic"
+    ],
+    "title": "Kofi",
+    "artist": "Donald Byrd",
+    "rating": 6,
+    "subgenres": [
+      "hard bop",
+      "gospel jazz"
+    ],
+    "era_source": "dataset",
+    "spotify_id": "6Hk76REBGJGtePFcMWVxQT",
+    "agent_notes": "Recorded December 1969 and first issued in 1995 on Blue Note; original release year is the 1969 session date.",
+    "key_players": [
+      "Donald Byrd - trumpet",
+      "Frank Foster - tenor saxophone",
+      "Lew Tabackin - flute",
+      "Duke Pearson - electric piano",
+      "Ron Carter - bass",
+      "Mickey Roker - drums",
+      "Airto Moreira - percussion"
+    ],
+    "album_source": "spotify",
+    "instrumentation": [],
+    "agent_confidence": "medium",
+    "metadata_sources": [
+      "era:dataset",
+      "instrument:artist",
+      "key_players:agent",
+      "label:agent",
+      "moods:artist",
+      "subgenres:artist"
+    ],
+    "needs_enrichment": false,
+    "metadata_complete": true,
+    "primary_instrument": "trumpet",
+    "date_added": "2026-10-20",
+    "date_added_source": "db_updated_at",
+    "audio_features": {
+      "acousticness": 0.473,
+      "danceability": 0.473,
+      "spotify_energy": 0.403,
+      "instrumentalness": 0.123,
+      "liveness": 0.243,
+      "loudness": -15.155,
+      "speechiness": 0.039,
+      "spotify_valence": 0.591
+    }
+  },
+  {
+    "era": "Post-Bop",
+    "year": 1963,
+    "album": "Ballads (Deluxe Edition - Rudy Van Gelder Remaster)",
+    "label": "Impulse!",
+    "moods": [
+      "tender",
+      "romantic"
+    ],
+    "title": "Nancy",
+    "artist": "John Coltrane Quartet",
+    "rating": 5,
+    "subgenres": [
+      "modal jazz",
+      "spiritual jazz"
+    ],
+    "era_source": "dataset",
+    "spotify_id": "2HdvZsLXBmO9sc4cV8d4BA",
+    "agent_notes": "'Nancy (With the Laughing Face)' recorded for the Ballads album sessions (1961-62), released on Ballads in 1963; original release year for the album is 1963 but the track's session dates are 1961-62. Using 1962 as recording year per session data.",
+    "key_players": [
+      "John Coltrane - tenor saxophone",
+      "McCoy Tyner - piano",
+      "Jimmy Garrison - bass",
+      "Elvin Jones - drums"
+    ],
+    "album_source": "spotify",
+    "instrumentation": [],
+    "agent_confidence": "high",
+    "metadata_sources": [
+      "era:dataset",
+      "instrument:artist",
+      "key_players:agent",
+      "label:agent",
+      "moods:artist",
+      "subgenres:artist"
+    ],
+    "needs_enrichment": false,
+    "metadata_complete": true,
+    "primary_instrument": "tenor saxophone",
+    "date_added": "2026-10-20",
+    "date_added_source": "db_updated_at",
+    "audio_features": {
+      "acousticness": 0.984,
+      "danceability": 0.47,
+      "spotify_energy": 0.139,
+      "instrumentalness": 0.189,
+      "liveness": 0.152,
+      "loudness": -13.774,
+      "speechiness": 0.044,
+      "spotify_valence": 0.297
+    }
+  },
+  {
+    "era": "Bebop",
+    "year": 1977,
+    "album": "Free Ride",
+    "label": "Pablo",
+    "liked": true,
+    "moods": [
+      "lively",
+      "sophisticated",
+      "animated"
+    ],
+    "title": "Unicorn",
+    "artist": "Dizzy Gillespie",
+    "rating": 8,
+    "liked_at": "2026-10-20T20:51:44.048029",
+    "subgenres": [
+      "bebop",
+      "big band"
+    ],
+    "date_added": "2026-10-20",
+    "era_source": "dataset",
+    "spotify_id": "2nuD3zk0lrBx1pfJ78jdA1",
+    "agent_notes": "Track 'Unicorn' from Dizzy Gillespie's 1977 Pablo album Free Ride; personnel drawn from the album's standard quartet/quintet lineup.",
+    "entity_type": "track",
+    "key_players": [
+      "Dizzy Gillespie - trumpet",
+      "Milt Jackson - vibraphone",
+      "Ray Brown - bass",
+      "Jimmie Smith - drums",
+      "Monty Alexander - piano"
+    ],
+    "discovered_from": "ai-like",
+    "instrumentation": [],
+    "agent_confidence": "medium",
+    "metadata_sources": [
+      "era:dataset",
+      "instrument:artist",
+      "key_players:agent",
+      "label:agent",
+      "moods:artist",
+      "subgenres:artist"
+    ],
+    "needs_enrichment": false,
+    "metadata_complete": true,
+    "primary_instrument": "trumpet",
+    "audio_features": {
+      "acousticness": 0.118,
+      "danceability": 0.845,
+      "spotify_energy": 0.519,
+      "instrumentalness": 0.507,
+      "liveness": 0.0716,
+      "loudness": -11.498,
+      "speechiness": 0.0685,
+      "spotify_valence": 0.751
+    }
+  },
+  {
+    "era": "Hard Bop",
+    "year": 1957,
+    "album": "'Round About Midnight",
+    "label": "Columbia",
+    "moods": [
+      "playful",
+      "swinging"
+    ],
+    "title": "Dear Old Stockholm",
+    "artist": "Miles Davis",
+    "rating": 5.5,
+    "subgenres": [
+      "hard bop",
+      "standard"
+    ],
+    "era_source": "dataset",
+    "spotify_id": "1d0NjHhCDKCKZIbws021xD",
+    "key_players": [
+      "Miles Davis - trumpet",
+      "John Coltrane - tenor saxophone",
+      "Red Garland - piano",
+      "Paul Chambers - bass",
+      "Philly Joe Jones - drums"
+    ],
+    "album_source": "spotify",
+    "instrumentation": [
+      "trumpet",
+      "tenor saxophone",
+      "piano",
+      "bass",
+      "drums"
+    ],
+    "metadata_sources": [
+      "era:dataset",
+      "instrument:album",
+      "instrumentation:album",
+      "label:album",
+      "moods:album",
+      "players:album",
+      "subgenres:album"
+    ],
+    "needs_enrichment": false,
+    "metadata_complete": true,
+    "primary_instrument": "trumpet",
+    "date_added": "2026-10-20",
+    "date_added_source": "db_updated_at",
+    "audio_features": {
+      "acousticness": 0.525,
+      "danceability": 0.588,
+      "spotify_energy": 0.343,
+      "instrumentalness": 0.00085,
+      "liveness": 0.161,
+      "loudness": -11.158,
+      "speechiness": 0.0696,
+      "spotify_valence": 0.34
+    }
+  },
+  {
+    "era": "Post-Bop",
+    "year": 1968,
+    "album": "Miles In The Sky (Expanded Edition)",
+    "label": "Columbia",
+    "moods": [
+      "reflective",
+      "spacious",
+      "contemplative"
+    ],
+    "title": "Paraphernalia",
+    "artist": "Miles Davis",
+    "rating": 3,
+    "subgenres": [
+      "modal jazz",
+      "cool jazz"
+    ],
+    "era_source": "dataset",
+    "spotify_id": "7uvaAkNt835m6iPWoWc703",
+    "agent_notes": "Recorded January 1968 for Miles in the Sky; first Davis sessions to feature Hancock on electric piano.",
+    "key_players": [
+      "Miles Davis - trumpet",
+      "Wayne Shorter - tenor saxophone",
+      "Herbie Hancock - piano",
+      "Ron Carter - bass",
+      "Tony Williams - drums"
+    ],
+    "album_source": "spotify",
+    "instrumentation": [],
+    "agent_confidence": "high",
+    "metadata_sources": [
+      "era:dataset",
+      "instrument:artist",
+      "key_players:agent",
+      "label:agent",
+      "moods:artist",
+      "subgenres:artist"
+    ],
+    "needs_enrichment": false,
+    "metadata_complete": true,
+    "primary_instrument": "trumpet",
+    "date_added": "2026-10-20",
+    "date_added_source": "db_updated_at",
+    "audio_features": {
+      "acousticness": 0.376,
+      "danceability": 0.487,
+      "spotify_energy": 0.422,
+      "instrumentalness": 0.0284,
+      "liveness": 0.378,
+      "loudness": -13.061,
+      "speechiness": 0.0469,
+      "spotify_valence": 0.342
+    }
+  },
+  {
+    "era": "Post-Bop",
+    "year": 1962,
+    "album": "Olé Coltrane (Deluxe Edition)",
+    "label": "Atlantic",
+    "moods": [
+      "tender",
+      "romantic"
+    ],
+    "notes": "Too long for me",
+    "title": "Ole",
+    "artist": "John Coltrane",
+    "rating": 5.5,
+    "subgenres": [
+      "modal jazz",
+      "spiritual jazz"
+    ],
+    "era_source": "dataset",
+    "spotify_id": "5T2Cft0v1qKSmH0GUDzB2b",
+    "agent_notes": "Olé Coltrane was recorded May 25, 1961 and released by Atlantic in 1961; the 'Deluxe Edition' is a later reissue.",
+    "key_players": [
+      "John Coltrane - tenor saxophone",
+      "Freddie Hubbard - trumpet",
+      "Eric Dolphy - alto saxophone",
+      "McCoy Tyner - piano",
+      "Reggie Workman - bass",
+      "Art Davis - bass",
+      "Elvin Jones - drums"
+    ],
+    "album_source": "spotify",
+    "instrumentation": [],
+    "agent_confidence": "high",
+    "metadata_sources": [
+      "era:dataset",
+      "instrument:artist",
+      "key_players:agent",
+      "label:agent",
+      "moods:artist",
+      "subgenres:artist"
+    ],
+    "needs_enrichment": false,
+    "metadata_complete": true,
+    "primary_instrument": "tenor saxophone",
+    "date_added": "2026-10-20",
+    "date_added_source": "db_updated_at",
+    "audio_features": {
+      "acousticness": 0.433,
+      "danceability": 0.365,
+      "spotify_energy": 0.523,
+      "instrumentalness": 0.0147,
+      "liveness": 0.108,
+      "loudness": -13.47,
+      "speechiness": 0.0309,
+      "spotify_valence": 0.402
+    }
+  },
+  {
+    "era": "Post-Bop",
+    "year": 1962,
+    "album": "Coltrane Plays the Blues",
+    "label": "Atlantic",
+    "moods": [
+      "tender",
+      "romantic"
+    ],
+    "title": "Blues to Elvin",
+    "artist": "John Coltrane",
+    "rating": 3.5,
+    "subgenres": [
+      "modal jazz",
+      "spiritual jazz"
+    ],
+    "era_source": "dataset",
+    "spotify_id": "6zsXduqHYbAAy318vQqNTA",
+    "agent_notes": "Recorded October 1960, released 1962 on Atlantic's Coltrane Plays the Blues.",
+    "key_players": [
+      "John Coltrane - tenor saxophone",
+      "McCoy Tyner - piano",
+      "Steve Davis - bass",
+      "Elvin Jones - drums"
+    ],
+    "album_source": "spotify",
+    "instrumentation": [],
+    "agent_confidence": "high",
+    "metadata_sources": [
+      "era:dataset",
+      "instrument:artist",
+      "key_players:agent",
+      "label:agent",
+      "moods:artist",
+      "subgenres:artist"
+    ],
+    "needs_enrichment": false,
+    "metadata_complete": true,
+    "primary_instrument": "tenor saxophone",
+    "date_added": "2026-10-20",
+    "date_added_source": "db_updated_at",
+    "audio_features": {
+      "acousticness": 0.641,
+      "danceability": 0.555,
+      "spotify_energy": 0.228,
+      "instrumentalness": 0.0596,
+      "liveness": 0.0594,
+      "loudness": -15.155,
+      "speechiness": 0.0348,
+      "spotify_valence": 0.275
+    }
+  },
+  {
+    "era": "Post-Bop",
+    "year": 1962,
+    "album": "Coltrane Plays the Blues",
+    "label": "Atlantic",
+    "moods": [
+      "tender",
+      "romantic"
+    ],
+    "title": "Mr. Syms",
+    "artist": "John Coltrane",
+    "rating": 4,
+    "subgenres": [
+      "modal jazz",
+      "spiritual jazz"
+    ],
+    "era_source": "dataset",
+    "spotify_id": "0zqdzQsIvZXRRpbujjhvg5",
+    "key_players": [
+      "John Coltrane - tenor saxophone",
+      "McCoy Tyner - piano",
+      "Steve Davis - bass",
+      "Elvin Jones - drums"
+    ],
+    "album_source": "spotify",
+    "instrumentation": [],
+    "metadata_sources": [
+      "era:dataset",
+      "instrument:album",
+      "label:album",
+      "moods:album",
+      "players:album",
+      "subgenres:album"
+    ],
+    "needs_enrichment": false,
+    "metadata_complete": true,
+    "primary_instrument": "tenor saxophone",
+    "date_added": "2026-10-20",
+    "date_added_source": "db_updated_at",
+    "audio_features": {
+      "acousticness": 0.88,
+      "danceability": 0.42,
+      "spotify_energy": 0.26,
+      "instrumentalness": 0.929,
+      "liveness": 0.189,
+      "loudness": -17.802,
+      "speechiness": 0.0312,
+      "spotify_valence": 0.301
+    }
+  },
+  {
+    "era": "Post-Bop",
+    "year": 2026,
+    "album": "Miles '56 (Remastered 2026)",
+    "label": "Columbia",
+    "moods": [
+      "reflective",
+      "spacious",
+      "contemplative"
+    ],
+    "title": "Vierd Blues - Remastered 2026",
+    "artist": "Miles Davis",
+    "rating": 4,
+    "subgenres": [
+      "modal jazz",
+      "cool jazz"
+    ],
+    "era_source": "dataset",
+    "spotify_id": "4w50PHCRdG2LiDUZ6pn5IG",
+    "agent_notes": "'Vierd Blues' recorded 1956 for Columbia, issued on Miles '56; 2026 date is a remaster, not original release.",
+    "key_players": [
+      "Miles Davis - trumpet",
+      "John Coltrane - tenor saxophone",
+      "Red Garland - piano",
+      "Paul Chambers - bass",
+      "Philly Joe Jones - drums"
+    ],
+    "album_source": "spotify",
+    "instrumentation": [],
+    "agent_confidence": "high",
+    "metadata_sources": [
+      "era:dataset",
+      "instrument:artist",
+      "key_players:agent",
+      "label:agent",
+      "moods:artist",
+      "subgenres:artist"
+    ],
+    "needs_enrichment": false,
+    "metadata_complete": true,
+    "primary_instrument": "trumpet",
+    "date_added": "2026-10-20",
+    "date_added_source": "db_updated_at"
+  },
+  {
+    "era": "Post-Bop",
+    "year": 1995,
+    "album": "The Complete Africa / Brass Sessions",
+    "label": "Impulse!",
+    "moods": [
+      "tender",
+      "romantic"
+    ],
+    "title": "Song Of The Underground Railroad",
+    "artist": "John Coltrane Quartet",
+    "rating": 5,
+    "subgenres": [
+      "modal jazz",
+      "spiritual jazz"
+    ],
+    "era_source": "dataset",
+    "spotify_id": "37c47D3qZUBdB5eVxYB0AB",
+    "agent_notes": "Recorded May 23, 1961 during the Africa/Brass sessions; first issued on the 1970 LP The Africa/Brass Sessions, Volume 2, later compiled on the 1995 Complete Africa/Brass Sessions CD.",
+    "key_players": [
+      "John Coltrane - tenor saxophone",
+      "McCoy Tyner - piano",
+      "Reggie Workman - bass",
+      "Elvin Jones - drums"
+    ],
+    "album_source": "spotify",
+    "instrumentation": [],
+    "agent_confidence": "medium",
+    "metadata_sources": [
+      "era:dataset",
+      "instrument:artist",
+      "key_players:agent",
+      "label:agent",
+      "moods:artist",
+      "subgenres:artist"
+    ],
+    "needs_enrichment": false,
+    "metadata_complete": true,
+    "primary_instrument": "tenor saxophone",
+    "date_added": "2026-10-20",
+    "date_added_source": "db_updated_at",
+    "audio_features": {
+      "acousticness": 0.625,
+      "danceability": 0.361,
+      "spotify_energy": 0.669,
+      "instrumentalness": 0.053,
+      "liveness": 0.262,
+      "loudness": -10.48,
+      "speechiness": 0.0518,
+      "spotify_valence": 0.52
+    }
+  },
+  {
+    "era": "Bebop",
+    "year": 2022,
+    "album": "On Savoy: Charlie Parker & Miles Davis",
+    "label": "Savoy",
+    "moods": [
+      "haunting",
+      "melancholic",
+      "languid"
+    ],
+    "title": "Sipping At Bells",
+    "artist": "Charlie Parker",
+    "rating": 5,
+    "subgenres": [
+      "bebop"
+    ],
+    "era_source": "dataset",
+    "spotify_id": "5z0z4eHWCPjTlS1FPIUJ2L",
+    "agent_notes": "Recorded August 14, 1947 for Savoy; the 2022 Spotify entry is a reissue compilation, original release year 1947.",
+    "key_players": [
+      "Charlie Parker - alto saxophone",
+      "Miles Davis - trumpet",
+      "Duke Jordan - piano",
+      "Tommy Potter - bass",
+      "Max Roach - drums"
+    ],
+    "album_source": "spotify",
+    "instrumentation": [],
+    "agent_confidence": "high",
+    "metadata_sources": [
+      "era:dataset",
+      "instrument:artist",
+      "key_players:agent",
+      "label:agent",
+      "moods:artist",
+      "subgenres:artist"
+    ],
+    "needs_enrichment": false,
+    "metadata_complete": true,
+    "primary_instrument": "alto saxophone",
+    "date_added": "2026-10-20",
+    "date_added_source": "db_updated_at",
+    "audio_features": {
+      "acousticness": 0.895,
+      "danceability": 0.604,
+      "spotify_energy": 0.437,
+      "instrumentalness": 9.84e-05,
+      "liveness": 0.321,
+      "loudness": -8.315,
+      "speechiness": 0.0515,
+      "spotify_valence": 0.709
+    }
+  },
+  {
+    "era": "Free Jazz",
+    "year": 1959,
+    "album": "The Shape Of Jazz To Come",
+    "label": "Atlantic",
+    "moods": [
+      "flat",
+      "experimental"
+    ],
+    "title": "Peace",
+    "artist": "Ornette Coleman",
+    "rating": 6,
+    "subgenres": [
+      "free jazz",
+      "avant-garde jazz"
+    ],
+    "era_source": "dataset",
+    "spotify_id": "4TrzjMsOnd1KWkWrsDRB3u",
+    "key_players": [
+      "Ornette Coleman - alto saxophone",
+      "Don Cherry - trumpet",
+      "Charlie Haden - bass",
+      "Billy Higgins - drums"
+    ],
+    "album_source": "spotify",
+    "instrumentation": [
+      "alto saxophone",
+      "trumpet",
+      "bass",
+      "drums"
+    ],
+    "metadata_sources": [
+      "era:dataset",
+      "instrument:album",
+      "instrumentation:album",
+      "label:album",
+      "moods:album",
+      "players:album",
+      "subgenres:album"
+    ],
+    "needs_enrichment": false,
+    "metadata_complete": true,
+    "primary_instrument": "alto saxophone",
+    "date_added": "2026-10-21",
+    "date_added_source": "db_updated_at",
+    "audio_features": {
+      "acousticness": 0.717,
+      "danceability": 0.607,
+      "spotify_energy": 0.063,
+      "instrumentalness": 0.437,
+      "liveness": 0.11,
+      "loudness": -15.438,
+      "speechiness": 0.056,
+      "spotify_valence": 0.186
+    }
+  },
+  {
+    "era": "Jazz Fusion",
+    "year": 1973,
+    "album": "Spectrum",
+    "label": "Atlantic",
+    "moods": [
+      "energetic",
+      "groovy"
+    ],
+    "title": "Stratus",
+    "artist": "Billy Cobham",
+    "rating": 2.5,
+    "subgenres": [
+      "jazz fusion",
+      "jazz-rock"
+    ],
+    "spotify_id": "1BYVhbLZ6PAsv36Gc8iPuK",
+    "agent_notes": "Track from Billy Cobham's debut album Spectrum, recorded 1973 and released on Atlantic.",
+    "key_players": [
+      "Billy Cobham - drums",
+      "Tommy Bolin - guitar",
+      "Jan Hammer - electric piano",
+      "Lee Sklar - bass",
+      "Joe Farrell - flute",
+      "Jimmy Owens - trumpet",
+      "Ron Carter - bass"
+    ],
+    "album_source": "spotify",
+    "instrumentation": [],
+    "agent_confidence": "high",
+    "metadata_sources": [
+      "era:agent",
+      "era:year-neighbours",
+      "key_players:agent",
+      "label:agent",
+      "moods:agent",
+      "primary_instrument:agent",
+      "subgenres:agent"
+    ],
+    "needs_enrichment": false,
+    "metadata_complete": true,
+    "primary_instrument": "drums",
+    "date_added": "2026-10-21",
+    "date_added_source": "db_updated_at",
+    "audio_features": {
+      "acousticness": 0.0274,
+      "danceability": 0.376,
+      "spotify_energy": 0.804,
+      "instrumentalness": 0.784,
+      "liveness": 0.282,
+      "loudness": -8.591,
+      "speechiness": 0.076,
+      "spotify_valence": 0.607
+    }
+  },
+  {
+    "era": "Post-Bop",
+    "year": 1965,
+    "album": "1984",
+    "label": "Impulse!",
+    "moods": [
+      "soulful",
+      "groovy"
+    ],
+    "title": "One Little Indian",
+    "artist": "Yusef Lateef",
+    "rating": 1.5,
+    "subgenres": [
+      "post-bop",
+      "world jazz"
+    ],
+    "era_source": "dataset",
+    "spotify_id": "60FwJicbuIjaVbyTK0oi3r",
+    "agent_notes": "Track from Yusef Lateef's 1965 Impulse! album '1984'; personnel listing not confirmed here.",
+    "key_players": [
+      "Yusef Lateef - tenor saxophone, flute, oboe"
+    ],
+    "album_source": "spotify",
+    "instrumentation": [],
+    "agent_confidence": "medium",
+    "metadata_sources": [
+      "era:dataset",
+      "instrument:artist",
+      "key_players:agent",
+      "label:agent",
+      "moods:artist",
+      "subgenres:artist"
+    ],
+    "needs_enrichment": false,
+    "metadata_complete": true,
+    "primary_instrument": "tenor saxophone",
+    "date_added": "2026-10-21",
+    "date_added_source": "db_updated_at",
+    "audio_features": {
+      "acousticness": 0.231,
+      "danceability": 0.445,
+      "spotify_energy": 0.896,
+      "instrumentalness": 0.053,
+      "liveness": 0.309,
+      "loudness": -7.876,
+      "speechiness": 0.165,
+      "spotify_valence": 0.761
+    }
+  },
+  {
+    "era": "Contemporary",
+    "year": 2014,
+    "album": "Rising Son",
+    "label": "Blue Note",
+    "moods": [
+      "funky",
+      "cool",
+      "joyful",
+      "groove"
+    ],
+    "title": "Afro Blues",
+    "artist": "Takuya Kuroda",
+    "rating": 3.5,
+    "subgenres": [
+      "neo-soul jazz",
+      "contemporary jazz",
+      "jazz funk"
+    ],
+    "era_source": "dataset",
+    "spotify_id": "3GeUdjzlFWuskM2SVUaQsL",
+    "key_players": [
+      "Takuya Kuroda - trumpet",
+      "Corey King - trombone",
+      "Jon Hatamiya - alto saxophone",
+      "Marcus Strickland - tenor saxophone",
+      "Fabian Almazan - piano",
+      "Burniss Earl Travis II - electric bass",
+      "Nate Smith - drums"
+    ],
+    "album_source": "spotify",
+    "instrumentation": [
+      "trumpet",
+      "piano",
+      "bass",
+      "drums"
+    ],
+    "metadata_sources": [
+      "era:dataset",
+      "instrument:album",
+      "instrumentation:album",
+      "label:album",
+      "moods:album",
+      "players:album",
+      "subgenres:album"
+    ],
+    "needs_enrichment": false,
+    "metadata_complete": true,
+    "primary_instrument": "trumpet",
+    "date_added": "2026-10-21",
+    "date_added_source": "db_updated_at",
+    "audio_features": {
+      "acousticness": 0.0529,
+      "danceability": 0.781,
+      "spotify_energy": 0.827,
+      "instrumentalness": 0.749,
+      "liveness": 0.0696,
+      "loudness": -8.859,
+      "speechiness": 0.0561,
+      "spotify_valence": 0.702
+    }
+  },
+  {
+    "era": "Jazz Fusion",
+    "year": 1974,
+    "album": "Crosswinds",
+    "label": "Atlantic",
+    "liked": true,
+    "moods": [
+      "energetic",
+      "groovy"
+    ],
+    "title": "Heather",
+    "artist": "Billy Cobham",
+    "rating": 7.5,
+    "liked_at": "2026-10-21T02:01:51.215404",
+    "subgenres": [
+      "jazz fusion",
+      "jazz-rock"
+    ],
+    "date_added": "2026-10-21",
+    "era_source": "dataset",
+    "spotify_id": "4mraRJO2iZA5WQ5dxlSQx9",
+    "agent_notes": "Title track from Cobham's 1974 Atlantic album Crosswinds; personnel drawn from the original LP credits.",
+    "entity_type": "track",
+    "key_players": [
+      "Billy Cobham - drums",
+      "Michael Brecker - tenor saxophone",
+      "Randy Brecker - trumpet",
+      "George Duke - keyboards",
+      "John Abercrombie - guitar",
+      "Garnett Brown - trombone",
+      "Lee Pastora - congas",
+      "Larry Willis - piano",
+      "Alex Blake - bass"
+    ],
+    "album_source": "spotify",
+    "discovered_from": "ai-like",
+    "instrumentation": [],
+    "agent_confidence": "high",
+    "metadata_sources": [
+      "era:dataset",
+      "instrument:artist",
+      "key_players:agent",
+      "label:agent",
+      "moods:artist",
+      "subgenres:artist"
+    ],
+    "needs_enrichment": false,
+    "metadata_complete": true,
+    "primary_instrument": "drums",
+    "audio_features": {
+      "acousticness": 0.964,
+      "danceability": 0.351,
+      "spotify_energy": 0.0079,
+      "instrumentalness": 0.944,
+      "liveness": 0.0949,
+      "loudness": -27.866,
+      "speechiness": 0.0323,
+      "spotify_valence": 0.041
+    }
+  },
+  {
+    "era": "Jazz Fusion",
+    "year": 1973,
+    "album": "Spectrum",
+    "label": "Atlantic",
+    "moods": [
+      "energetic",
+      "groovy"
+    ],
+    "title": "Red Baron",
+    "artist": "Billy Cobham",
+    "rating": 6,
+    "subgenres": [
+      "jazz fusion",
+      "jazz-rock"
+    ],
+    "era_source": "dataset",
+    "spotify_id": "6ipO2COc25UhJu9tKCkNsd",
+    "key_players": [
+      "Billy Cobham - drums",
+      "Tommy Bolin - guitar",
+      "Jan Hammer - electric piano",
+      "Lee Sklar - bass",
+      "Joe Farrell - flute",
+      "Jimmy Owens - trumpet",
+      "Ron Carter - bass"
+    ],
+    "album_source": "spotify",
+    "instrumentation": [],
+    "metadata_sources": [
+      "era:dataset",
+      "instrument:album",
+      "label:album",
+      "moods:album",
+      "players:album",
+      "subgenres:album"
+    ],
+    "needs_enrichment": false,
+    "metadata_complete": true,
+    "primary_instrument": "drums",
+    "date_added": "2026-10-21",
+    "date_added_source": "db_updated_at",
+    "audio_features": {
+      "acousticness": 0.0184,
+      "danceability": 0.609,
+      "spotify_energy": 0.396,
+      "instrumentalness": 0.849,
+      "liveness": 0.0721,
+      "loudness": -13.846,
+      "speechiness": 0.044,
+      "spotify_valence": 0.355
+    }
+  },
+  {
+    "era": "Hard Bop",
+    "year": 1964,
+    "album": "Song For My Father",
+    "label": "Blue Note",
+    "moods": [
+      "playful",
+      "fun",
+      "groovy"
+    ],
+    "title": "Lonely Woman - Remastered 1999/Rudy Van Gelder Edition",
+    "artist": "Horace Silver",
+    "rating": 6,
+    "subgenres": [
+      "hard bop",
+      "soul jazz",
+      "Latin jazz"
+    ],
+    "era_source": "dataset",
+    "spotify_id": "23VGdNEZzKVCpIazC3ZHK6",
+    "key_players": [
+      "Horace Silver - piano",
+      "Carmell Jones - trumpet",
+      "Joe Henderson - tenor saxophone",
+      "Teddy Smith - bass",
+      "Roger Humphries - drums"
+    ],
+    "album_source": "spotify",
+    "instrumentation": [
+      "piano",
+      "trumpet",
+      "tenor saxophone",
+      "bass",
+      "drums"
+    ],
+    "metadata_sources": [
+      "era:dataset",
+      "instrument:album",
+      "instrumentation:album",
+      "label:album",
+      "moods:album",
+      "players:album",
+      "subgenres:album"
+    ],
+    "needs_enrichment": false,
+    "metadata_complete": true,
+    "primary_instrument": "piano",
+    "date_added": "2026-10-21",
+    "date_added_source": "db_updated_at",
+    "audio_features": {
+      "acousticness": 0.988,
+      "danceability": 0.522,
+      "spotify_energy": 0.14,
+      "instrumentalness": 0.898,
+      "liveness": 0.126,
+      "loudness": -15.774,
+      "speechiness": 0.0444,
+      "spotify_valence": 0.131
+    }
+  },
+  {
+    "era": "Soul/Funk",
+    "year": 1969,
+    "album": "Dorothy's Harp",
+    "label": "Cadet",
+    "moods": [
+      "elegant",
+      "mellow",
+      "smooth"
+    ],
+    "title": "The Windmills Of Your Mind",
+    "artist": "Dorothy Ashby",
+    "rating": 5,
+    "subgenres": [
+      "soul jazz",
+      "jazz pop"
+    ],
+    "spotify_id": "6no0N476tAU1oJM7fZiP5Y",
+    "agent_notes": "From Dorothy Ashby's 1969 Cadet album 'Dorothy's Harp'; a jazz-pop/soul-jazz interpretation of the Michel Legrand theme, arranged by Richard Evans. Personnel listing beyond Ashby and Evans unverified.",
+    "key_players": [
+      "Dorothy Ashby - harp",
+      "Richard Evans - arranger, conductor"
+    ],
+    "album_source": "spotify",
+    "instrumentation": [],
+    "agent_confidence": "medium",
+    "metadata_sources": [
+      "era:agent",
+      "era:year-neighbours",
+      "key_players:agent",
+      "label:agent",
+      "moods:agent",
+      "primary_instrument:agent",
+      "subgenres:agent"
+    ],
+    "needs_enrichment": false,
+    "metadata_complete": true,
+    "primary_instrument": "harp",
+    "date_added": "2026-10-21",
+    "date_added_source": "db_updated_at",
+    "audio_features": {
+      "acousticness": 0.786,
+      "danceability": 0.595,
+      "spotify_energy": 0.472,
+      "instrumentalness": 0.811,
+      "liveness": 0.248,
+      "loudness": -13.415,
+      "speechiness": 0.0539,
+      "spotify_valence": 0.562
+    }
+  },
+  {
+    "era": "Swing",
+    "year": 2014,
+    "album": "Studio Rio Presents: The Brazil Connection",
+    "label": "Columbia",
+    "moods": [
+      "melancholic",
+      "beautiful",
+      "tender"
+    ],
+    "title": "You've Changed - Studio Rio Version",
+    "artist": "Billie Holiday",
+    "rating": 4,
+    "subgenres": [
+      "vocal jazz",
+      "ballad"
+    ],
+    "era_source": "dataset",
+    "spotify_id": "6au6zu7SJAbqf4a6RDqySc",
+    "agent_notes": "Original vocal recording from Billie Holiday's 1958 Columbia album Lady in Satin; 2014 'Studio Rio Version' is a later remix with Brazilian backing, not the original release.",
+    "key_players": [
+      "Billie Holiday - voice",
+      "Ray Ellis - arranger/conductor"
+    ],
+    "album_source": "spotify",
+    "instrumentation": [],
+    "agent_confidence": "medium",
+    "metadata_sources": [
+      "era:dataset",
+      "instrument:artist",
+      "key_players:agent",
+      "label:agent",
+      "moods:artist",
+      "subgenres:artist"
+    ],
+    "needs_enrichment": false,
+    "metadata_complete": true,
+    "primary_instrument": "vocals",
+    "date_added": "2026-10-21",
+    "date_added_source": "db_updated_at",
+    "audio_features": {
+      "acousticness": 0.34,
+      "danceability": 0.672,
+      "spotify_energy": 0.608,
+      "instrumentalness": 0.00216,
+      "liveness": 0.228,
+      "loudness": -8.051,
+      "speechiness": 0.029,
+      "spotify_valence": 0.38
+    }
+  },
+  {
+    "era": "Vocal Jazz",
+    "year": 1978,
+    "album": "Baltimore",
+    "label": "CTI",
+    "liked": true,
+    "moods": [
+      "romantic",
+      "beautiful",
+      "tender"
+    ],
+    "title": "Baltimore",
+    "artist": "Nina Simone",
+    "rating": 7,
+    "liked_at": "2026-10-21T02:24:10.388248",
+    "subgenres": [
+      "vocal jazz"
+    ],
+    "date_added": "2026-10-21",
+    "era_source": "dataset",
+    "spotify_id": "39CyGKIFqMzSuynOR8uilD",
+    "agent_notes": "Title track from Nina Simone's 1978 album Baltimore, released on CTI Records.",
+    "entity_type": "track",
+    "key_players": [
+      "Nina Simone - vocals, piano",
+      "Arthur Adams - guitar",
+      "Chuck Rainey - bass",
+      "Jim Gordon - drums"
+    ],
+    "album_source": "spotify",
+    "discovered_from": "ai-like",
+    "instrumentation": [],
+    "agent_confidence": "high",
+    "metadata_sources": [
+      "era:dataset",
+      "instrument:artist",
+      "key_players:agent",
+      "label:agent",
+      "moods:artist",
+      "subgenres:artist"
+    ],
+    "needs_enrichment": false,
+    "metadata_complete": true,
+    "primary_instrument": "vocals"
+  },
+  {
+    "era": "Vocal Jazz",
+    "year": 1962,
+    "album": "Carmen McRae Sings Lover Man And Other Billie Holiday Classics",
+    "label": "Columbia",
+    "moods": [
+      "narrative",
+      "torch"
+    ],
+    "title": "Lover Man (Oh, Where Can You Be?)",
+    "artist": "Carmen McRae",
+    "rating": 6,
+    "subgenres": [
+      "vocal jazz"
+    ],
+    "era_source": "dataset",
+    "spotify_id": "0nPQJONzyuLVKGbKlXCDJE",
+    "agent_notes": "From Carmen McRae Sings Lover Man and Other Billie Holiday Classics (Columbia, 1962); personnel per album credits, verify exact lineup.",
+    "key_players": [
+      "Carmen McRae - vocals",
+      "Norman Simmons - piano",
+      "Joe Venuti - violin"
+    ],
+    "album_source": "spotify",
+    "instrumentation": [],
+    "agent_confidence": "medium",
+    "metadata_sources": [
+      "era:dataset",
+      "instrument:artist",
+      "key_players:agent",
+      "label:agent",
+      "moods:artist",
+      "subgenres:artist"
+    ],
+    "needs_enrichment": false,
+    "metadata_complete": true,
+    "primary_instrument": "vocals",
+    "date_added": "2026-10-21",
+    "date_added_source": "db_updated_at",
+    "audio_features": {
+      "acousticness": 0.975,
+      "danceability": 0.478,
+      "spotify_energy": 0.0955,
+      "instrumentalness": 0.00141,
+      "liveness": 0.103,
+      "loudness": -16.534,
+      "speechiness": 0.0521,
+      "spotify_valence": 0.182
+    }
+  },
+  {
+    "era": "Contemporary",
+    "year": 1961,
+    "album": "Straight Ahead (Remastered)",
+    "label": "Riverside",
+    "liked": true,
+    "moods": [
+      "desolate",
+      "tender"
+    ],
+    "title": "Left Alone - Remastered",
+    "artist": "Abbey Lincoln",
+    "rating": 8,
+    "liked_at": "2026-10-21T02:29:59.484127",
+    "subgenres": [
+      "vocal jazz",
+      "ballad"
+    ],
+    "date_added": "2026-10-21",
+    "era_source": "dataset",
+    "spotify_id": "23nl8R2ligTGnZwoPuGDk5",
+    "agent_notes": "From Abbey Lincoln's 'Straight Ahead' (Riverside RLP 9358), recorded February 1961; Mal Waldron composition also titled 'Left Alone'.",
+    "entity_type": "track",
+    "key_players": [
+      "Abbey Lincoln - vocals",
+      "Mal Waldron - piano",
+      "Kenny Dorham - trumpet",
+      "Eric Dolphy - alto saxophone",
+      "Booker Little - trumpet",
+      "Max Roach - drums"
+    ],
+    "album_source": "spotify",
+    "discovered_from": "ai-like",
+    "instrumentation": [],
+    "agent_confidence": "high",
+    "metadata_sources": [
+      "era:dataset",
+      "instrument:artist",
+      "key_players:agent",
+      "label:agent",
+      "moods:artist",
+      "subgenres:artist"
+    ],
+    "needs_enrichment": false,
+    "metadata_complete": true,
+    "primary_instrument": "vocals"
   }
 ]
