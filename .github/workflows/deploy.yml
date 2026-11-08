@@ -11,7 +11,6 @@ concurrency:
 env:
   VERCEL_ORG_ID: team_zXzMunM9NwscXMx0d5CI9eP3
   VERCEL_PROJECT_ID: prj_8a9RkaDYABtJNM4KDAfwfTVqD5sS
-  VITE_BASE_URL: /
 
 jobs:
   deploy:
@@ -20,7 +19,11 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 24
+      - name: Install uv (Vercel Python runtime needs it during prebuild)
+        run: |
+          curl -LsSf https://astral.sh/uv/install.sh | sh
+          echo "$HOME/.local/bin" >> $GITHUB_PATH
       - run: npm i -g vercel@latest
       - run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
       - run: vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
