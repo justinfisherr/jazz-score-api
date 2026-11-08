@@ -44,20 +44,56 @@ MOOD_ZONES = ["euphoric", "tense", "introspective", "serene"]
 SUBGENRE_THRESHOLD = 3
 LABEL_THRESHOLD = 3
 
+# Rating-derived features. They used to dominate the model (and the dashboard's
+# importance chart) while making unseen-album ranking WORSE: on an honest
+# album-grouped holdout, including them scored Spearman 0.100 vs 0.189 without.
+# They are still computed for the correlation panel, but they are not fed to the
+# model. Keep this list in sync with eval.py.
+# Computed for the correlation panel so missingness stays visible, but kept out
+# of the model: they did not improve unseen-album ranking and extra dimensions
+# dilute the k-NN distance.
+DATA_QUALITY_KEYS = {
+    "missing_instrumentation",
+    "missing_human_energy",
+    "missing_human_tempo",
+    "missing_human_complexity",
+}
+
+TARGET_ENCODING_KEYS = {
+    "artist_mean_rating",
+    "artist_decade_bayes_rating",
+    "artist_era_bayes_rating",
+    "era_bayes_rating",
+    "instrument_bayes_rating",
+    "instrument_combo_bayes_rating",
+    "label_bayes_rating",
+    "label_decade_bayes_rating",
+    "collaborator_quality",
+    "best_collaborator_rating",
+    "top2_collaborator_mean",
+    "favorite_collaborator_count",
+    "collaborator_rating_variance",
+    "leader_sideman_mean_rating",
+    "leader_sideman_track_count",
+}
+
 
 def load_data():
     all_entries = json.loads(TRAINING_DATA_PATH.read_text())
-    today = date.today().isoformat()
-    dirty = False
-    for entry in all_entries:
-        if not entry.get("date_added"):
-            entry["date_added"] = today
-            dirty = True
-    if dirty:
-        TRAINING_DATA_PATH.write_text(json.dumps(all_entries, indent=2, ensure_ascii=False))
     tracks = [t for t in all_entries if t.get("entity_type") != "album"]
     albums = [t for t in all_entries if t.get("entity_type") == "album"]
     return tracks, albums
+
+
+def effective_instrumentation(track):
+    """Return (instruments, missing).
+
+    ~40% of the dataset has an empty instrumentation list. Those rows used to be
+    labelled is_pianoless=1 and ensemble_size=0, which asserted facts the data
+    does not contain (and they skew low). Keep the missingness explicit instead.
+    """
+    curated = [str(i).strip().lower() for i in track.get("instrumentation") or [] if str(i).strip()]
+    return sorted(set(curated)), not curated
 
 
 def compute_mood_zone(track):
@@ -93,23 +129,42 @@ def engineer_features(tracks):
 
     eras = sorted(set(t.get("era", "Unknown") for t in tracks))
 
-    artist_track_indices = {}
-    for i, t in enumerate(tracks):
-        artist_track_indices.setdefault(t.get("artist", "Unknown"), []).append(i)
-    global_mean = np.mean([t["rating"] for t in tracks])
+    rated = [t["rating"] for t in tracks if t.get("rating") is not None]
+    global_mean = float(np.mean(rated)) if rated else 5.0
 
     has_audio = sum(1 for t in tracks if t.get("audio_features")) >= 3
+
+    # Album groups. Target encodings below never look at another track from the
+    # same album: ratings arrive album-by-album, so a sibling's rating answers
+    # "what did I think of this record", not "will I like this new track".
+    # Excluding siblings keeps a training row's features identical to what a
+    # brand-new candidate sees at scoring time (and blocks the biggest leak in
+    # the old pipeline, where era/label/artist means contained the other seven
+    # tracks of the same record).
+    album_key = {}
+    for i, t in enumerate(tracks):
+        a = (t.get("album") or "").strip().lower()
+        album_key[i] = a if a else f"__row_{i}"
+
+    def loo(entries, idx):
+        """Ratings from other albums only — no self, no sibling track."""
+        g = album_key[idx]
+        return [r for i2, r in entries if i2 != idx and album_key[i2] != g]
+
+    def add_rated(store, key, i, track):
+        if track.get("rating") is not None:
+            store.setdefault(key, []).append((i, track["rating"]))
+
+    def bayes(entries, idx, prior=global_mean, k=15):
+        other = loo(entries, idx)
+        n = len(other)
+        mean = float(np.mean(other)) if other else prior
+        return (n / (n + k)) * mean + (k / (n + k)) * prior, n, other
 
     # Pre-compute artist stats and collaborator ratings for LOO encoding
     artist_ratings = {}
     for i, t in enumerate(tracks):
-        artist_ratings.setdefault(t.get("artist", "Unknown"), []).append((i, t["rating"]))
-
-    player_ratings = {}
-    for t in tracks:
-        for kp in t.get("key_players", []):
-            name = kp.split(" - ")[0].strip().lower()
-            player_ratings.setdefault(name, []).append(t["rating"])
+        add_rated(artist_ratings, t.get("artist", "Unknown"), i, t)
 
     # Sideman-only ratings: appearances where this person is NOT the credited
     # leader (artist) of the track. Kept separate from leader-track ratings so
@@ -121,13 +176,8 @@ def engineer_features(tracks):
         for kp in t.get("key_players", []):
             name = kp.split(" - ")[0].strip().lower()
             if name and t_leader_name and name not in t_leader_name and t_leader_name not in name:
-                sideman_rating_pairs.setdefault(name, []).append((i, t["rating"]))
-
-    if sideman_rating_pairs:
-        sideman_means = {p: np.mean([r for _, r in rs]) for p, rs in sideman_rating_pairs.items()}
-        elite_sideman_threshold = np.percentile(list(sideman_means.values()), 75)
-    else:
-        elite_sideman_threshold = global_mean
+                if t.get("rating") is not None:
+                    sideman_rating_pairs.setdefault(name, []).append((i, t["rating"]))
 
     # Pre-compute artist×decade, artist×era, label×decade ratings for LOO (Feature 1, 4)
     artist_decade_ratings = {}
@@ -140,13 +190,9 @@ def engineer_features(tracks):
         era = t.get("era", "Unknown")
         label = t.get("label", "Unknown")
 
-        key_ad = (artist, decade)
-        key_ae = (artist, era)
-        key_ld = (label, decade)
-
-        artist_decade_ratings.setdefault(key_ad, []).append((i, t["rating"]))
-        artist_era_ratings.setdefault(key_ae, []).append((i, t["rating"]))
-        label_decade_ratings.setdefault(key_ld, []).append((i, t["rating"]))
+        add_rated(artist_decade_ratings, (artist, decade), i, t)
+        add_rated(artist_era_ratings, (artist, era), i, t)
+        add_rated(label_decade_ratings, (label, decade), i, t)
 
     # Pre-compute era, instrument, instrument combo, and label ratings for LOO
     era_ratings = {}
@@ -159,47 +205,19 @@ def engineer_features(tracks):
         instr_tuple = tuple(sorted(set(t.get("instrumentation", []))))
         label = t.get("label", "Unknown")
 
-        era_ratings.setdefault(era, []).append((i, t["rating"]))
-        instrument_ratings.setdefault(primary_instrument, []).append((i, t["rating"]))
-        instrument_combo_ratings.setdefault(instr_tuple, []).append((i, t["rating"]))
-        label_ratings.setdefault(label, []).append((i, t["rating"]))
+        add_rated(era_ratings, era, i, t)
+        add_rated(instrument_ratings, primary_instrument, i, t)
+        add_rated(instrument_combo_ratings, instr_tuple, i, t)
+        add_rated(label_ratings, label, i, t)
 
     # Pre-compute player stats for collaborator enhancements (Feature 3)
-    # Stores (track_index, rating) so per-track lookups below can do proper
-    # leave-one-out exclusion instead of leaking the current track's own rating.
-    player_track_count = {}
+    # Stores (track_index, rating) so per-track lookups below can exclude the
+    # current track and, via loo(), every track sharing its album.
     player_rating_pairs = {}
     for i, t in enumerate(tracks):
         for kp in t.get("key_players", []):
             name = kp.split(" - ")[0].strip().lower()
-            player_track_count[name] = player_track_count.get(name, 0) + 1
-            player_rating_pairs.setdefault(name, []).append((i, t["rating"]))
-
-    # Identify elite collaborators (top 25% by mean rating)
-    if player_rating_pairs:
-        player_means = {p: np.mean([r for _, r in rs]) for p, rs in player_rating_pairs.items()}
-        elite_threshold = np.percentile(list(player_means.values()), 75)
-        elite_players = {p for p, m in player_means.items() if m >= elite_threshold}
-    else:
-        elite_players = set()
-
-    # Compute recent period: last N tracks (approximate by index)
-    recent_threshold = max(0, len(tracks) - 40)  # last ~40 tracks
-
-    # Feature 9: Taste drift — causal EWMA of prior ratings (span=20 tracks).
-    # Computed once per track using only ratings that came BEFORE it in
-    # sequence, so it's leak-free: "how positively was I rating things going
-    # into this track," independent of category-specific priors. Lets the
-    # model see taste as a moving target rather than a stationary average.
-    EWMA_SPAN = 20.0
-    EWMA_ALPHA = 2.0 / (EWMA_SPAN + 1.0)
-    RECENCY_HALF_LIFE = 40.0  # tracks
-    RECENCY_DECAY = np.log(2) / RECENCY_HALF_LIFE
-    ewma_taste_levels = []
-    running_ewma = global_mean
-    for t in tracks:
-        ewma_taste_levels.append(running_ewma)
-        running_ewma = EWMA_ALPHA * t["rating"] + (1 - EWMA_ALPHA) * running_ewma
+            add_rated(player_rating_pairs, name, i, t)
 
     for idx, t in enumerate(tracks):
         row = {}
@@ -207,6 +225,11 @@ def engineer_features(tracks):
         row["year"] = t.get("year") or 1960
         row["tempo"] = TEMPO_MAP.get(t.get("tempo", "medium"), 2.5)
         row["harmonic_complexity"] = COMPLEXITY_MAP.get(t.get("harmonic_complexity", "medium"), 2)
+        # Human tags default to "medium" when absent. Say so instead of letting a
+        # fabricated 5/medium pose as an observation (the missing rows skew low).
+        row["missing_human_energy"] = int(t.get("energy") is None)
+        row["missing_human_tempo"] = int(t.get("tempo") is None)
+        row["missing_human_complexity"] = int(t.get("harmonic_complexity") is None)
 
         # Era one-hot
         track_era = t.get("era", "Unknown")
@@ -238,13 +261,14 @@ def engineer_features(tracks):
         row["subgenre_count"] = len(track_subgenres)
 
         # Ensemble / instrumentation
-        instr_lower = [i.lower() for i in t.get("instrumentation", [])]
+        instr_lower, instr_derived = effective_instrumentation(t)
         instr_joined = " ".join(instr_lower)
+        row["missing_instrumentation"] = int(instr_derived)
         row["ensemble_size"] = len(instr_lower)
         row["has_guitar"] = int("guitar" in instr_joined)
         row["has_strings"] = int("strings" in instr_joined or "orchestra" in instr_joined)
         row["has_vocals"] = int("vocal" in instr_joined)
-        row["is_pianoless"] = int("piano" not in instr_joined)
+        row["is_pianoless"] = int(bool(instr_lower) and "piano" not in instr_joined)
         row["has_trombone"] = int("trombone" in instr_joined)
 
         # Label
@@ -268,14 +292,13 @@ def engineer_features(tracks):
         # Falls back to the leader's own LOO mean rating rather than the flat
         # global mean, so those tracks keep real signal instead of collapsing
         # to a constant once the leader is excluded from their own collaborator pool.
-        leader_loo_entries = [r for i2, r in artist_ratings.get(t.get("artist", "Unknown"), []) if i2 != idx]
+        leader_loo_entries = loo(artist_ratings.get(t.get("artist", "Unknown"), []), idx)
         leader_fallback_mean = float(np.mean(leader_loo_entries)) if leader_loo_entries else global_mean
 
         collab_ratings = []
         best_collab_rating = leader_fallback_mean
         top2_collab_ratings = []
         favorite_collab_count = 0
-        has_elite_collab = 0
 
         for kp in t.get("key_players", []):
             name = kp.split(" - ")[0].strip().lower()
@@ -283,7 +306,7 @@ def engineer_features(tracks):
                 continue
             is_this_track_leader = name in artist_name or artist_name in name
             entries = player_rating_pairs.get(name, [])
-            other = [r for i2, r in entries if i2 != idx]
+            other = loo(entries, idx)
             if not other:
                 continue
             collab_ratings.extend(other)
@@ -294,8 +317,6 @@ def engineer_features(tracks):
             top2_collab_ratings.append(player_mean)
             if player_mean >= 8.0:
                 favorite_collab_count += 1
-            if name in elite_players:
-                has_elite_collab = 1
 
         row["collaborator_quality"] = float(np.mean(collab_ratings)) if collab_ratings else leader_fallback_mean
         row["best_collaborator_rating"] = float(best_collab_rating)  # Feature 3
@@ -304,20 +325,15 @@ def engineer_features(tracks):
         row["favorite_collaborator_count"] = float(favorite_collab_count)  # Feature 3
         collab_var = float(np.std(collab_ratings)) if len(collab_ratings) > 1 else 0.0
         row["collaborator_rating_variance"] = collab_var  # Feature 3
-        row["has_elite_collaborator"] = float(has_elite_collab)  # Feature 3
 
         # Feature 9: Leader identity — was this track's leader a beloved
         # sideman on someone else's session? Tests directly whether
         # collaborator quality transfers to leadership.
-        leader_sideman_entries = [r for i2, r in sideman_rating_pairs.get(artist_name, []) if i2 != idx]
+        leader_sideman_entries = loo(sideman_rating_pairs.get(artist_name, []), idx)
         row["leader_sideman_track_count"] = float(len(leader_sideman_entries))
-        if leader_sideman_entries:
-            leader_sideman_mean = float(np.mean(leader_sideman_entries))
-            row["leader_was_elite_sideman"] = int(leader_sideman_mean >= elite_sideman_threshold)
-        else:
-            leader_sideman_mean = global_mean
-            row["leader_was_elite_sideman"] = 0
-        row["leader_sideman_mean_rating"] = leader_sideman_mean
+        row["leader_sideman_mean_rating"] = (
+            float(np.mean(leader_sideman_entries)) if leader_sideman_entries else global_mean
+        )
 
         # Discovery source
         source = t.get("discovered_from", "self")
@@ -326,19 +342,16 @@ def engineer_features(tracks):
 
         row["energy_tempo"] = row["energy"] * row["tempo"]
 
-        # Artist stats (LOO) with Bayesian smoothing
+        # Artist stats (LOO) with Bayesian smoothing. Counts and confidence use
+        # OTHER albums only, so scoring a new track sees the same numbers as
+        # training did for the last track of that artist.
         artist = t.get("artist", "Unknown")
-        artist_entries = artist_ratings[artist]
-        n = len(artist_entries)
+        other_ratings = loo(artist_ratings.get(artist, []), idx)
+        n = len(other_ratings)
         k = 15  # confidence constant (IMDb-style)
 
-        if n > 1:
-            other_ratings = [r for i, r in artist_entries if i != idx]
-            artist_mean = np.mean(other_ratings)
-            row["artist_consistency"] = float(np.std(other_ratings)) if len(other_ratings) > 1 else 0.0
-        else:
-            artist_mean = global_mean
-            row["artist_consistency"] = 0.0
+        artist_mean = float(np.mean(other_ratings)) if other_ratings else global_mean
+        row["artist_consistency"] = float(np.std(other_ratings)) if len(other_ratings) > 1 else 0.0
 
         # Bayesian smoothing: blend artist mean with global mean based on sample size
         row["artist_mean_rating"] = float((n / (n + k)) * artist_mean + (k / (n + k)) * global_mean)
@@ -350,81 +363,20 @@ def engineer_features(tracks):
         row["artist_bayes_confidence"] = float(n / (n + k))  # raw confidence measure
 
         # Feature 1: Artist × Decade ratings (LOO Bayesian smoothed)
-        key_ad = (artist, decade)
-        ad_entries = artist_decade_ratings.get(key_ad, [])
-        n_ad = len(ad_entries)
-        if n_ad > 1:
-            ad_other = [r for i, r in ad_entries if i != idx]
-            ad_mean = np.mean(ad_other) if ad_other else artist_mean
-        else:
-            ad_mean = artist_mean  # fallback to artist mean
-        row["artist_decade_bayes_rating"] = float((n_ad / (n_ad + k)) * ad_mean + (k / (n_ad + k)) * artist_mean)
-
-        # Feature 1: Artist × Era ratings (LOO Bayesian smoothed)
-        key_ae = (artist, track_era)
-        ae_entries = artist_era_ratings.get(key_ae, [])
-        n_ae = len(ae_entries)
-        if n_ae > 1:
-            ae_other = [r for i, r in ae_entries if i != idx]
-            ae_mean = np.mean(ae_other) if ae_other else artist_mean
-        else:
-            ae_mean = artist_mean  # fallback to artist mean
-        row["artist_era_bayes_rating"] = float((n_ae / (n_ae + k)) * ae_mean + (k / (n_ae + k)) * artist_mean)
-
-        # Feature 1: Artist recent period delta
-        artist_recent_entries = [(i, r) for i, r in artist_entries if i >= recent_threshold]
-        if len(artist_recent_entries) > 1 and len(artist_entries) > 1:
-            recent_other = [r for i, r in artist_recent_entries if i != idx]
-            overall_other = [r for i, r in artist_entries if i != idx]
-            recent_mean = np.mean(recent_other) if recent_other else global_mean
-            overall_mean = np.mean(overall_other) if overall_other else global_mean
-            row["artist_recent_period_delta"] = float(recent_mean - overall_mean)
-        else:
-            row["artist_recent_period_delta"] = 0.0
+        row["artist_decade_bayes_rating"], n_ad, ad_other = bayes(artist_decade_ratings.get((artist, decade), []), idx, prior=row["artist_mean_rating"])
+        row["artist_era_bayes_rating"], n_ae, ae_other = bayes(artist_era_ratings.get((artist, track_era), []), idx, prior=row["artist_mean_rating"])
 
         # Era rating (LOO Bayesian smoothed)
         era = t.get("era", "Unknown")
-        era_entries = era_ratings.get(era, [])
-        n_era = len(era_entries)
-        if n_era > 1:
-            era_other = [r for i, r in era_entries if i != idx]
-            era_mean = np.mean(era_other) if era_other else global_mean
-        else:
-            era_mean = global_mean
-        row["era_bayes_rating"] = float((n_era / (n_era + k)) * era_mean + (k / (n_era + k)) * global_mean)
+        row["era_bayes_rating"], n_era, _ = bayes(era_ratings.get(era, []), idx)
 
         # Instrument rating (LOO Bayesian smoothed)
         primary_instrument = t.get("primary_instrument", "Unknown")
-        instr_entries = instrument_ratings.get(primary_instrument, [])
-        n_instr = len(instr_entries)
-        if n_instr > 1:
-            instr_other = [r for i, r in instr_entries if i != idx]
-            instr_mean = np.mean(instr_other) if instr_other else global_mean
-        else:
-            instr_mean = global_mean
-        row["instrument_bayes_rating"] = float((n_instr / (n_instr + k)) * instr_mean + (k / (n_instr + k)) * global_mean)
+        row["instrument_bayes_rating"], n_instr, _ = bayes(instrument_ratings.get(primary_instrument, []), idx)
 
         # Instrument combination rating (LOO Bayesian smoothed)
         instr_tuple = tuple(sorted(set(t.get("instrumentation", []))))
-        combo_entries = instrument_combo_ratings.get(instr_tuple, [])
-        n_combo = len(combo_entries)
-        if n_combo > 1:
-            combo_other = [r for i, r in combo_entries if i != idx]
-            combo_mean = np.mean(combo_other) if combo_other else global_mean
-        else:
-            combo_mean = global_mean
-        row["instrument_combo_bayes_rating"] = float((n_combo / (n_combo + k)) * combo_mean + (k / (n_combo + k)) * global_mean)
-
-        # Label rating (LOO Bayesian smoothed)
-        label = t.get("label", "Unknown")
-        label_entries = label_ratings.get(label, [])
-        n_label = len(label_entries)
-        if n_label > 1:
-            label_other = [r for i, r in label_entries if i != idx]
-            label_mean = np.mean(label_other) if label_other else global_mean
-        else:
-            label_mean = global_mean
-        row["label_bayes_rating"] = float((n_label / (n_label + k)) * label_mean + (k / (n_label + k)) * global_mean)
+        row["instrument_combo_bayes_rating"], n_combo, _ = bayes(instrument_combo_ratings.get(instr_tuple, []), idx)
 
         # Duration bucket
         duration = (t.get("audio_features") or {}).get("duration_s", 300)
@@ -439,21 +391,8 @@ def engineer_features(tracks):
         row["is_collaboration"] = int("&" in t.get("artist", "") or "," in t.get("artist", ""))
         row["instrumentation_diversity"] = len(set(INSTRUMENT_GROUPS.get(i, i) for i in instr_lower))
 
-        # Artist novelty — first time hearing this artist
-        row["artist_is_new"] = int(len(artist_entries) == 1)
-
-        # Feature 6: Recency-weighted features
-        row["rating_order_percentile"] = float(idx / max(len(tracks) - 1, 1))  # 0-1 scale
-        if idx >= recent_threshold:
-            row["is_recent"] = 1.0
-        else:
-            row["is_recent"] = 0.0
-
-        # Feature 9: Taste drift — continuous recency weight (replaces the
-        # hard last-40 cutoff with smooth exponential decay) and the causal
-        # EWMA current-taste-level computed above.
-        row["recency_weight"] = float(np.exp(-RECENCY_DECAY * (len(tracks) - 1 - idx)))
-        row["ewma_taste_level"] = float(ewma_taste_levels[idx])
+        # Artist novelty — first time hearing this artist on another album
+        row["artist_is_new"] = int(n == 0)
 
         # Feature 2: Ballad × Instrumental/Vocal split
         is_ballad = any(sg in ["ballad", "piano ballad", "tenor ballad", "vocal ballad"] for sg in track_subgenres)
@@ -544,19 +483,12 @@ def engineer_features(tracks):
             row["missing_audio_count"] = 4
 
         # Feature 4: Label × Decade ratings (LOO Bayesian smoothed)
-        key_ld = (track_label, decade)
-        ld_entries = label_decade_ratings.get(key_ld, [])
-        n_ld = len(ld_entries)
-        if n_ld > 1:
-            ld_other = [r for i, r in ld_entries if i != idx]
-            ld_mean = np.mean(ld_other) if ld_other else global_mean
-            # Approximate label mean: mean of all tracks with same label
-            label_tracks = [tracks[i].get("rating") for i, t in enumerate(tracks) if t.get("label") == track_label]
-            label_mean = np.mean(label_tracks) if label_tracks else global_mean
-        else:
-            ld_mean = global_mean
-            label_mean = global_mean
-        row["label_decade_bayes_rating"] = float((n_ld / (n_ld + k)) * ld_mean + (k / (n_ld + k)) * label_mean)
+        # Prior is the label's own LOO mean rather than a recomputed slice that
+        # included this track (and its siblings) in its own prior.
+        row["label_bayes_rating"], n_label_, _ = bayes(label_ratings.get(track_label, []), idx)
+        row["label_decade_bayes_rating"], n_ld, _ = bayes(
+            label_decade_ratings.get((track_label, decade), []), idx, prior=row["label_bayes_rating"]
+        )
 
         # Feature 4: Prestige & Blue Note era features
         is_prestige = track_label == "Prestige"
@@ -573,7 +505,9 @@ def engineer_features(tracks):
         rows.append(row)
 
     df = pd.DataFrame(rows)
-    ratings = pd.Series([t["rating"] for t in tracks])
+    # Unrated rows are allowed: they contribute no ratings to any encoding and
+    # only exist so a candidate can share the column layout at scoring time.
+    ratings = pd.Series([t.get("rating") for t in tracks], dtype="float64")
     feature_names = list(df.columns)
 
     return df, ratings, feature_names, common_subgenres, common_labels
@@ -590,6 +524,10 @@ def readable_name(feat):
         "artist_mean_rating": "Artist Avg Rating",
         "artist_track_count": "Artist Track Count",
         "ensemble_size": "Ensemble Size",
+        "missing_instrumentation": "Missing Instrumentation",
+        "missing_human_energy": "Missing Energy Tag",
+        "missing_human_tempo": "Missing Tempo Tag",
+        "missing_human_complexity": "Missing Complexity Tag",
         "has_guitar": "Has Guitar",
         "has_strings": "Has Strings",
         "has_vocals": "Has Vocals",
@@ -616,7 +554,6 @@ def readable_name(feat):
         # Feature 1: Artist × Era/Decade
         "artist_decade_bayes_rating": "Artist Avg Rating (Decade)",
         "artist_era_bayes_rating": "Artist Avg Rating (Era)",
-        "artist_recent_period_delta": "Artist Recent vs Overall Delta",
         # Category Bayesian ratings
         "era_bayes_rating": "Era Avg Rating",
         "instrument_bayes_rating": "Instrument Avg Rating",
@@ -634,7 +571,6 @@ def readable_name(feat):
         "top2_collaborator_mean": "Top 2 Collaborators Mean",
         "favorite_collaborator_count": "Favorite Collaborator Count",
         "collaborator_rating_variance": "Collaborator Rating Variance",
-        "has_elite_collaborator": "Has Elite Collaborator",
         # Feature 4: Label × Decade
         "label_decade_bayes_rating": "Label Avg Rating (Decade)",
         "prestige_1950s_1960s": "Prestige 1950s-60s",
@@ -646,15 +582,9 @@ def readable_name(feat):
         "artist_bayes_confidence": "Artist Bayes Confidence",
         "collaborator_count_log": "Collaborator Count (log)",
         "collaborator_bayes_confidence": "Collaborator Bayes Confidence",
-        # Feature 6: Recency
-        "rating_order_percentile": "Rating Order Percentile",
-        "is_recent": "Is Recent",
-        # Feature 9: Leader identity + taste drift
+        # Feature 9: Leader identity
         "leader_sideman_mean_rating": "Leader's Rating as Sideman Elsewhere",
-        "leader_was_elite_sideman": "Leader Was Elite Sideman",
         "leader_sideman_track_count": "Leader Sideman Track Count",
-        "recency_weight": "Recency Weight (exp decay)",
-        "ewma_taste_level": "EWMA Current Taste Level",
         # Feature 7: Musical interactions
         "hard_bop_medium_energy": "Hard Bop Medium Energy",
         "hard_bop_instrumental": "Hard Bop Instrumental",
@@ -1015,8 +945,11 @@ def build_predictions(tracks, model_results, best_labels, coords):
             "label": t.get("label"),
             "harmonic_complexity": t.get("harmonic_complexity"),
             "discovered_from": t.get("discovered_from"),
-            "ensemble_size": len(t.get("instrumentation") or []),
-            "is_pianoless": int("piano" not in " ".join(t.get("instrumentation") or []).lower()),
+            "ensemble_size": len(effective_instrumentation(t)[0]),
+            "is_pianoless": int(
+                bool(effective_instrumentation(t)[0])
+                and "piano" not in " ".join(effective_instrumentation(t)[0])
+            ),
             "has_vocals": int("vocal" in " ".join(t.get("instrumentation") or []).lower()),
             "has_guitar": int("guitar" in " ".join(t.get("instrumentation") or []).lower()),
             "subgenres": t.get("subgenres", []),
@@ -1584,6 +1517,111 @@ def sync_recco_features(entries):
     return updated
 
 
+def album_groups(tracks):
+    groups = []
+    for i, t in enumerate(tracks):
+        a = (t.get("album") or "").strip().lower()
+        groups.append(a if a else f"__row_{i}")
+    return np.array(groups, dtype=object)
+
+
+def _rank_metrics(y_true, y_pred):
+    from scipy.stats import spearmanr
+
+    y_true = np.asarray(y_true, dtype=float)
+    y_pred = np.asarray(y_pred, dtype=float)
+    order = np.argsort(-y_pred)
+    top_n = max(1, int(round(len(y_true) * 0.1)))
+    top_mean = float(np.mean(y_true[order[:top_n]]))
+    rest_mean = float(np.mean(y_true[order[top_n:]])) if top_n < len(y_true) else top_mean
+    return {
+        "spearman": round(float(spearmanr(y_true, y_pred).statistic), 4),
+        "top_decile_lift": round(top_mean - rest_mean, 4),
+    }
+
+
+MODEL_CANDIDATES = ("ridge", "gradient_boosting", "knn")
+
+
+def model_factories():
+    """The models allowed to become the deployed scorer. All are cheap, and all
+    are judged on the honest holdout rather than on in-sample R²."""
+    from sklearn.neighbors import KNeighborsRegressor
+
+    return {
+        "ridge": lambda: RidgeCV(alphas=[0.01, 0.1, 1.0, 10.0, 100.0], cv=LeaveOneOut()),
+        "gradient_boosting": lambda: GradientBoostingRegressor(
+            n_estimators=300, max_depth=3, learning_rate=0.03, random_state=42
+        ),
+        "knn": lambda: KNeighborsRegressor(n_neighbors=25, weights="distance", metric="cosine"),
+    }
+
+
+def album_holdout(tracks, feature_names, n_splits=5, seed=42, shuffle=(), only=None, return_preds=False):
+    """Honest evaluation: hide whole albums, rebuild every encoding with the
+    held-out ratings masked out, then score the untouched tracks.
+
+    Plain LOO over rows is the number that produced the old 0.76: each row's
+    encodings were allowed to see the other tracks on the same record, so the
+    model was rewarded for remembering the album it had just listened to. Here
+    a fold's albums are invisible to both the features and the fit.
+
+    Returns {model_name: metrics} for every candidate model, all scored on the
+    identical folds.
+    """
+    from sklearn.model_selection import GroupKFold
+
+    rated_idx = [i for i, t in enumerate(tracks) if t.get("rating") is not None]
+    y = np.array([tracks[i]["rating"] for i in rated_idx], dtype=float)
+    groups = album_groups(tracks)[rated_idx]
+    if len(set(groups)) < n_splits:
+        n_splits = max(2, len(set(groups)))
+
+    factories = model_factories()
+    if only:
+        factories = {k: v for k, v in factories.items() if k in only}
+    preds = {name: np.full(len(rated_idx), np.nan) for name in factories}
+    rng = np.random.default_rng(seed)
+
+    for train_pos, test_pos in GroupKFold(n_splits=n_splits).split(rated_idx, y, groups):
+        hidden = {rated_idx[p] for p in test_pos}
+        masked = [dict(t) for t in tracks]
+        for i in hidden:
+            masked[i]["rating"] = None
+        X, _, _, _, _ = engineer_features(masked)
+        X = X.reindex(columns=feature_names, fill_value=0)
+        for col in shuffle:
+            if col in X.columns:
+                X[col] = rng.permutation(X[col].values)
+
+        train_rows = [rated_idx[p] for p in train_pos]
+        test_rows = [rated_idx[p] for p in test_pos]
+        scaler = StandardScaler().fit(X.iloc[train_rows])
+        X_train = scaler.transform(X.iloc[train_rows])
+        X_test = scaler.transform(X.iloc[test_rows])
+        for name, factory in factories.items():
+            model = factory().fit(X_train, y[train_pos])
+            preds[name][test_pos] = model.predict(X_test)
+
+    results = {}
+    for name, raw in preds.items():
+        p = np.clip(raw, 1, 10)
+        metrics = {
+            "method": f"album-grouped {n_splits}-fold holdout",
+            "n_tracks": int(len(y)),
+            "n_albums": int(len(set(groups))),
+            "r_squared": round(float(r2_score(y, p)), 4),
+            "rmse": round(float(np.sqrt(mean_squared_error(y, p))), 4),
+            "mae": round(float(mean_absolute_error(y, p)), 4),
+        }
+        metrics.update(_rank_metrics(y, p))
+        results[name] = metrics
+    if return_preds:
+        clipped = {name: np.clip(raw, 1, 10) for name, raw in preds.items()}
+        return results, clipped, y, groups
+    return results
+
+
 def main():
     parser = argparse.ArgumentParser(description="Train jazz taste model")
     parser.add_argument("--major", action="store_true",
@@ -1594,6 +1632,8 @@ def main():
                         help="Version notes (why this release)")
     parser.add_argument("--changelog", type=str, nargs="*", default=None,
                         help="List of changes for this version")
+    parser.add_argument("--strict", action="store_true",
+                        help="Fail if any track is missing era or primary instrument")
     args = parser.parse_args()
 
     print("Loading data...")
@@ -1604,6 +1644,28 @@ def main():
         print(f"  Fetched ReccoBeats features for {synced} new track(s)")
     tracks, albums = load_data()
     print(f"Loaded {len(tracks)} tracks, {len(albums)} albums")
+
+    # Feature engineering reads t["rating"] directly, so a single unrated row
+    # (e.g. a track liked/enriched before it was scored) would crash training.
+    # Unrated rows are skipped by every target encoding now, but they still have
+    # no target to fit, so they stay out of the model.
+    unrated = [t for t in tracks if t.get("rating") is None]
+    if unrated:
+        print(f"Data quality: excluding {len(unrated)} track(s) with no rating from this model:")
+        for t in unrated[:20]:
+            print(f"    - {t.get('title')} — {t.get('artist')}")
+        tracks = [t for t in tracks if t.get("rating") is not None]
+
+    critical_missing = [t for t in tracks if not t.get("era") or not t.get("primary_instrument")]
+    if critical_missing:
+        print(f"Data quality: excluding {len(critical_missing)} track(s) missing era or primary instrument from this model:")
+        for t in critical_missing[:20]:
+            print(f"    - {t.get('title')} — {t.get('artist')}")
+        if args.strict:
+            raise SystemExit(f"Refusing to train: {len(critical_missing)} track(s) missing era or primary instrument. Run enrich_tracks.py first.")
+        tracks = [t for t in tracks if t.get("era") and t.get("primary_instrument")]
+    soft_missing = [t for t in tracks if not t.get("key_players") or not t.get("label") or not t.get("subgenres") or not t.get("moods")]
+    print(f"Data quality: {len(tracks)} complete tracks, {len(soft_missing)} missing player/label/subgenre/mood")
 
     print("Engineering features...")
     X, y, feature_names, common_subgenres, common_labels = engineer_features(tracks)
@@ -1623,9 +1685,14 @@ def main():
     audio_cols = [c for c in X.columns if any(k in c for k in AUDIO_FEATURE_KEYS)]
     X_full, feature_names_full = X, feature_names          # kept for viz (correlations)
     X = X.drop(columns=audio_cols)                         # model trains without audio
-    feature_names = [f for f in feature_names if f not in audio_cols]
+    encoding_cols = [c for c in X.columns if c in TARGET_ENCODING_KEYS]
+    quality_cols = [c for c in X.columns if c in DATA_QUALITY_KEYS]
+    X = X.drop(columns=encoding_cols + quality_cols)       # see TARGET_ENCODING_KEYS
+    feature_names = [f for f in feature_names
+                     if f not in audio_cols and f not in encoding_cols and f not in quality_cols]
     print(f"Feature matrix: {X.shape[0]} samples x {X.shape[1]} features "
-          f"(pruned {len(audio_cols)} audio-derived; kept for viz)")
+          f"(pruned {len(audio_cols)} audio-derived + {len(encoding_cols)} rating-derived "
+          f"+ {len(quality_cols)} data-quality flags; all kept for the correlation panel)")
     print(f"Common subgenres ({len(common_subgenres)}): {common_subgenres}")
     print(f"Common labels ({len(common_labels)}): {common_labels}")
 
@@ -1634,6 +1701,36 @@ def main():
     print(f"Ridge — R²: {model_results['ridge']['r_squared']}, RMSE: {model_results['ridge']['rmse']}")
     print(f"Random Forest — R²: {model_results['random_forest']['r_squared']}, RMSE: {model_results['random_forest']['rmse']}")
     print(f"Best model: {model_results['best_model']}")
+
+    print("\nEvaluating on albums the model has never seen...")
+    holdouts, holdout_preds, holdout_truth, _ = album_holdout(
+        tracks, feature_names, return_preds=True
+    )
+    for name, metrics in holdouts.items():
+        print(f"  {name:18s} R² {metrics['r_squared']:+.3f}  Spearman {metrics['spearman']:+.3f}  "
+              f"top-decile lift {metrics['top_decile_lift']:+.2f}")
+    # The deployed model is chosen by out-of-sample ranking, not by in-sample R².
+    deployed = max(holdouts, key=lambda k: (holdouts[k]["spearman"], holdouts[k]["top_decile_lift"]))
+    holdout = holdouts[deployed]
+    print(f"  deployed model: {deployed} (chosen on unseen-album ranking)")
+    by_source = {}
+    rated_positions = [i for i, t in enumerate(tracks) if t.get("rating") is not None]
+    buckets = {}
+    for pos, i in enumerate(rated_positions):
+        buckets.setdefault(tracks[i].get("discovered_from") or "unknown", []).append(pos)
+    for source, positions in buckets.items():
+        if len(positions) < 12:
+            continue
+        metrics = _rank_metrics(holdout_truth[positions], holdout_preds[deployed][positions])
+        metrics["n"] = len(positions)
+        by_source[source] = metrics
+    for source, metrics in sorted(by_source.items(), key=lambda kv: -kv[1]["n"]):
+        print(f"  {source:22s} n={metrics['n']:<4d} Spearman {metrics['spearman']:+.3f}")
+    loo_rank = _rank_metrics(y, model_results["rf_preds"] if model_results["best_model"] != "ridge"
+                             else model_results["ridge_preds"])
+    if holdout["spearman"] < 0.15:
+        print("  NOTE: ranking on unseen albums is weak. Treat predicted scores as a "
+              "rough sort, not an absolute verdict.")
 
     print("\nComputing feature importance...")
     importance = get_feature_importance(model_results, feature_names)
@@ -1678,6 +1775,10 @@ def main():
         "ridge_rmse": model_results["ridge"]["rmse"],
         "rf_r_squared": model_results["random_forest"]["r_squared"],
         "rf_rmse": model_results["random_forest"]["rmse"],
+        "unseen_album_r_squared": holdout["r_squared"],
+        "unseen_album_spearman": holdout["spearman"],
+        "challengers": holdouts,
+        "deployed_model": deployed,
     })
 
     manifest = load_versions()
@@ -1692,7 +1793,37 @@ def main():
             "total_albums": len(albums),
             "subgenre_threshold": SUBGENRE_THRESHOLD,
             "best_model": best,
+            "deployed_model": deployed,
             "feature_count": X.shape[1],
+            "evaluation": {
+                "trust_this": "unseen_album",
+                "unseen_album": holdout,
+                "challengers": holdouts,
+                "by_source": by_source,
+                "in_sample_loo": {
+                    "r_squared": model_results["ridge"]["r_squared"]
+                    if model_results["best_model"] == "ridge"
+                    else model_results["random_forest"]["r_squared"],
+                    "rmse": model_results["ridge"]["rmse"]
+                    if model_results["best_model"] == "ridge"
+                    else model_results["random_forest"]["rmse"],
+                    **loo_rank,
+                    "note": "Leave-one-out over tracks. Not the number to quote: the row still "
+                            "comes from an album the fit has seen siblings for, and the score "
+                            "is in-sample on scale. Use unseen_album.",
+                },
+            },
+            "data_quality": {
+                "missing_era": sum(1 for t in tracks if not t.get("era")),
+                "missing_primary_instrument": sum(1 for t in tracks if not t.get("primary_instrument")),
+                "missing_key_players": sum(1 for t in tracks if not t.get("key_players")),
+                "needs_enrichment": sum(1 for t in tracks if t.get("needs_enrichment")),
+                "excluded_for_metadata": len(critical_missing),
+                "excluded_tracks": [
+                    {"title": t.get("title"), "artist": t.get("artist")}
+                    for t in critical_missing[:20]
+                ],
+            },
         },
         "models": {
             "ridge": model_results["ridge"],
@@ -1728,28 +1859,32 @@ def main():
     print(f"History entries: {len(history)}")
 
     scaler = model_results["scaler"]
-    # Persist the ACTUAL best model (previously this always saved Ridge regardless of
-    # best_model — so predict.py silently scored on Ridge, not the winning tree model).
-    if best == "ridge":
-        best_est = RidgeCV(alphas=[0.01, 0.1, 1.0, 10.0, 100.0])
-        best_est.fit(scaler.transform(X), y)
+    # Persist the model that won the honest holdout. In-sample R² picks a model
+    # that memorises the training albums; ranking unseen records is the job.
+    if deployed == "ridge":
+        deployed_est = RidgeCV(alphas=[0.01, 0.1, 1.0, 10.0, 100.0])
+        deployed_est.fit(scaler.transform(X), y)
+    elif deployed == "gradient_boosting":
+        deployed_est = model_results["fitted_model"]   # already fit on scaler.transform(X)
     else:
-        best_est = model_results["fitted_model"]   # GBM, already fit on scaler.transform(X)
+        deployed_est = model_factories()[deployed]().fit(scaler.transform(X), y)
 
     eras = sorted(set(t.get("era", "Unknown") for t in tracks))
     joblib.dump({
-        "model": best_est,
+        "model": deployed_est,
+        "model_type": deployed,
         "scaler": scaler,
         "feature_names": feature_names,
         "common_subgenres": common_subgenres,
         "common_labels": common_labels,
         "eras": eras,
     }, MODEL_PATH)
-    print(f"Model saved to {MODEL_PATH} (best={best})")
+    print(f"Model saved to {MODEL_PATH} (deployed={deployed}, in-sample best={best})")
 
     metrics_summary = {
         "dataset_size": len(tracks),
         "best_model": best,
+        "deployed_model": deployed,
         "r_squared": best_metrics["r_squared"],
         "rmse": best_metrics["rmse"],
         "mae": best_metrics["mae"],
@@ -1759,6 +1894,9 @@ def main():
         "ridge_rmse": model_results["ridge"]["rmse"],
         "rf_r_squared": model_results["random_forest"]["r_squared"],
         "rf_rmse": model_results["random_forest"]["rmse"],
+        "unseen_album_r_squared": holdout["r_squared"],
+        "unseen_album_spearman": holdout["spearman"],
+        "deployed_model": deployed,
     }
     save_version_artifacts(new_version, manifest, metrics_summary,
                            is_major=args.major, name=args.name, notes=args.notes,

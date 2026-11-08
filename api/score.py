@@ -28,7 +28,7 @@ import enrich  # noqa: E402
 import genre_bridge  # noqa: E402
 
 db.init_schema()
-from predict import predict_track, predict_tracks  # noqa: E402
+from predict import load_model, predict_track, predict_tracks  # noqa: E402
 from score import (  # noqa: E402
     build_candidate,
     clean_title,
@@ -62,7 +62,11 @@ def get_user_token():
     now = time.time()
     if _playback_token_cache.get("token") and _playback_token_cache.get("expires_at", 0) > now + 60:
         return _playback_token_cache["token"]
-    resp = requests.get(PLAYBACK_TOKEN_URL, timeout=20)
+    headers = {}
+    broker_secret = os.environ.get("BROKER_SECRET", "")
+    if broker_secret:
+        headers["x-broker-secret"] = broker_secret
+    resp = requests.get(PLAYBACK_TOKEN_URL, timeout=20, headers=headers or None)
     if resp.status_code != 200:
         raise RuntimeError(f"token broker returned {resp.status_code}")
     data = resp.json()
@@ -344,12 +348,17 @@ def build_taste_profile(tracks):
 
 
 def ask_openrouter(kind, prompt, count, profile, reject=None):
-    shape = '{"recommendations":[{"title":"...","artist":"...","reason":"...","key_players":["Name - instrument"],"confidence":"high|medium|low","spotify_query":"..."}]}'
+    shape = ('{"recommendations":[{"title":"...","artist":"...","reason":"...",'
+             '"key_players":["Name - instrument"],"era":"...","primary_instrument":"...",'
+             '"subgenres":["..."],"moods":["..."],"instrumentation":["..."],'
+             '"tempo":"slow|medium|medium-fast|fast","harmonic_complexity":"low|medium|high",'
+             '"confidence":"high|medium|low","spotify_query":"..."}]}')
     kind_rule = {
         "track": "Every recommendation must be ONE TRACK. title is the track title, artist is the performing artist. Never return an album or playlist.",
         "album": "Every recommendation must be ONE ALBUM. title is the album title, artist is the album artist. Never return a single track.",
         "playlist": "Every recommendation must be ONE PLAYLIST. title is a short playlist name, artist is the curator or vibe, and spotify_query must be a Spotify playlist search phrase.",
     }[kind]
+    era_vocab = ", ".join(sorted(load_model().get("eras") or []))
     system = (
         "You are Justin's jazz concierge. You know his taste model and his library. "
         "Recommend jazz recordings only unless the request explicitly asks for another genre. "
@@ -364,6 +373,11 @@ def ask_openrouter(kind, prompt, count, profile, reject=None):
         "For every track recommendation, include the actual performing band in key_players, "
         "using strings like 'Name - instrument' (leader plus sidemen). Do not invent personnel: "
         "return [] if you are not sure. Mention the band in the reason when it helps. "
+        f"Also tag each track for his taste model: era must be one of {era_vocab}; "
+        "primary_instrument uses the leader's main horn/voice/piano; subgenres and moods are "
+        "lowercase tags; tempo is slow/medium/medium-fast/fast; harmonic_complexity is "
+        "low/medium/high; instrumentation lists the instruments you are confident about. "
+        "Use \"Unknown\" / [] when you genuinely do not know rather than guessing. "
         "spotify_query must be the exact search phrase that will find that item on Spotify. "
         f"Return JSON only, exactly this shape: {shape}"
     )
@@ -453,7 +467,7 @@ def resolve_track_recommendation(rec, token, all_tracks=None):
         return None
     sfa = fetch_spotify_audio(token, track["id"])
     recco = fetch_reccobeats(track["id"])
-    candidate = build_candidate(track, sfa, recco)
+    candidate = build_candidate(track, sfa, recco, extra=rec)
     score = predict_track(candidate)
     all_tracks = all_tracks if all_tracks is not None else db.fetch_tracks()
     existing = db.match_review(candidate["title"], candidate["artist"], all_tracks)
@@ -471,11 +485,21 @@ def resolve_track_recommendation(rec, token, all_tracks=None):
         "spotify_id": track["id"],
         "score": score,
         "reason": rec.get("reason"),
+        "tags": {
+            "era": candidate.get("era"),
+            "primary_instrument": candidate.get("primary_instrument"),
+            "subgenres": candidate.get("subgenres"),
+            "moods": candidate.get("moods"),
+            "instrumentation": candidate.get("instrumentation"),
+            "tempo": candidate.get("tempo"),
+            "harmonic_complexity": candidate.get("harmonic_complexity"),
+        },
         "key_players": (existing.get("key_players") or []) if existing.get("key_players") else [
             p for p in (rec.get("key_players") or []) if isinstance(p, str) and " - " in p
         ][:20],
         "confidence": rec.get("confidence"),
         "reviewed": bool(existing),
+        "source": "llm",
         "rating": existing.get("rating"),
         "notes": existing.get("notes"),
         "liked": bool(existing.get("liked")),
@@ -588,6 +612,7 @@ def fill_unreviewed_from_spotify(token, all_tracks, profile, wanted, exclude=Non
             reason = f"Unrated pick from {source}, ranked by your taste model."
             scored.append({
                 "kind": "track",
+                "source": "fallback",
                 "title": candidate["title"],
                 "artist": candidate["artist"],
                 "album": (tr.get("album") or {}).get("name"),
@@ -924,6 +949,11 @@ class handler(BaseHTTPRequestHandler):
             # the first three the language model happened to name.
             out.sort(key=lambda r: r.get("score") or 0, reverse=True)
         out = out[:count]
+        if out:
+            try:
+                db.log_recommendations(out, kind, prompt=prompt, model_type=load_model().get("model_type"))
+            except Exception:  # noqa: BLE001
+                pass
         self._json(200, {
             "kind": kind,
             "prompt": prompt,
