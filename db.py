@@ -32,6 +32,27 @@ CREATE TABLE IF NOT EXISTS pending_reviews (
     data JSONB NOT NULL,
     created_at TIMESTAMPTZ DEFAULT now()
 );
+
+-- What the recommender showed, as it showed it. Without this there is no way
+-- to measure live precision or calibrate the displayed score.
+CREATE TABLE IF NOT EXISTS recommendations (
+    id BIGSERIAL PRIMARY KEY,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+    kind TEXT NOT NULL,
+    title TEXT NOT NULL,
+    artist TEXT,
+    spotify_id TEXT,
+    score REAL,
+    model_type TEXT,
+    source TEXT,
+    prompt TEXT,
+    tags JSONB
+);
+
+ALTER TABLE recommendations ADD COLUMN IF NOT EXISTS tags JSONB;
+
+CREATE INDEX IF NOT EXISTS recommendations_created_idx
+    ON recommendations (created_at);
 """
 
 
@@ -117,6 +138,42 @@ def bulk_upsert(tracks):
             rows,
         )
     return len(rows)
+
+
+def log_recommendations(items, kind, prompt=None, model_type=None):
+    """Best-effort log of what the recommender returned. Never raise: logging a
+    recommendation must not break serving one."""
+    rows = []
+    for item in items or []:
+        title = (item.get("title") or item.get("name") or "").strip()
+        if not title:
+            continue
+        rows.append((
+            kind,
+            title,
+            (item.get("artist") or "").strip() or None,
+            item.get("spotify_id"),
+            item.get("score"),
+            model_type,
+            item.get("source") or "model",
+            (prompt or "")[:2000] or None,
+            Json(item.get("tags")) if item.get("tags") else None,
+        ))
+    if not rows:
+        return 0
+    try:
+        with get_conn() as conn, conn.cursor() as cur:
+            cur.executemany(
+                """
+                INSERT INTO recommendations
+                    (kind, title, artist, spotify_id, score, model_type, source, prompt, tags)
+                VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)
+                """,
+                rows,
+            )
+        return len(rows)
+    except Exception:  # noqa: BLE001
+        return 0
 
 
 def _norm(s):

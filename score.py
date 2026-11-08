@@ -159,7 +159,23 @@ def tempo_label(bpm):
 
 def clean_title(name):
     # "So What (feat. John Coltrane, Cannonball Adderley & Bill Evans)" -> "So What"
-    return re.sub(r"\s*[\(\[].*?(?:feat\.|ft\.|with ).*?[\)\]]", "", name, flags=re.IGNORECASE).strip()
+    cleaned = re.sub(r"\s*[\(\[].*?(?:feat\.|ft\.|with ).*?[\)\]]", "", name, flags=re.IGNORECASE).strip()
+    # Packaging noise, not part of the title: "- Remastered 2000/Rudy Van Gelder
+    # Edition", "- Mono", "(2014 Remaster)". Live takes are left alone because a
+    # live performance is a different recording.
+    cleaned = re.sub(
+        r"\s*[-–]\s*(?:\d{4}\s*)?(?:digital\s+)?remaster(?:ed)?\b.*$",
+        "", cleaned, flags=re.IGNORECASE,
+    )
+    cleaned = re.sub(
+        r"\s*[-–]\s*(?:rudy van gelder\b.*|mono|stereo|album version|single version)\s*$",
+        "", cleaned, flags=re.IGNORECASE,
+    )
+    cleaned = re.sub(
+        r"\s*[\(\[](?:[^\)\]]*(?:remaster|mono|stereo|album version|single version)[^\)\]]*)[\)\]]\s*$",
+        "", cleaned, flags=re.IGNORECASE,
+    )
+    return cleaned.strip()
 
 
 def track_image(track):
@@ -177,7 +193,19 @@ def track_url(track):
     return track.get("external_urls", {}).get("spotify")
 
 
-def build_candidate(track, sfa, recco):
+TAG_FIELDS = ("era", "primary_instrument", "moods", "subgenres", "instrumentation",
+              "key_players", "tempo", "harmonic_complexity", "label")
+
+
+def build_candidate(track, sfa, recco, extra=None):
+    """Spotify facts + whatever tags the recommender supplied.
+
+    Without tags every group-mean feature falls back to the global average and
+    the taste score collapses to ~5 for every candidate (measured: Spearman
+    +0.01 vs actual ratings). `extra` is the recommendation dict, whose tags are
+    model-inferred rather than curated, but they let the model actually score
+    the track instead of a wall of defaults.
+    """
     title = clean_title(track["name"])
     artist = track["artists"][0]["name"] if track.get("artists") else "Unknown"
     album = track.get("album", {})
@@ -199,7 +227,7 @@ def build_candidate(track, sfa, recco):
     if recco:
         audio_features.update(recco)
 
-    return {
+    candidate = {
         "title": title,
         "artist": artist,
         "year": year,
@@ -214,6 +242,11 @@ def build_candidate(track, sfa, recco):
         "instrumentation": [],
         "key_players": [],
     }
+    for field in TAG_FIELDS:
+        value = (extra or {}).get(field)
+        if value:
+            candidate[field] = value
+    return candidate
 
 
 def display(candidate, score):

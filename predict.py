@@ -5,8 +5,9 @@ Score a candidate jazz track against the trained taste model.
 Scoring reuses the model's OWN feature pipeline (train.engineer_features), so the
 Bayesian collaborator/era/label averages the model actually depends on are computed
 exactly as they were at train time. A candidate that already exists in the dataset
-is scored in place (leave-one-out); a genuinely new candidate is appended with a
-neutral placeholder rating and scored via the same LOO encoding.
+is scored in place; a genuinely new candidate is appended unrated. Both paths see
+the same encodings (self and same-album siblings excluded), so the score does not
+depend on where the candidate was inserted.
 
 Usage:
   Interactive:  python3 predict.py
@@ -17,6 +18,7 @@ Usage:
 import json
 import sys
 import argparse
+from functools import lru_cache
 from pathlib import Path
 
 import numpy as np
@@ -30,6 +32,11 @@ VERSIONS_DIR = SCRIPT_DIR / "versions"
 TRAINING_PATH = SCRIPT_DIR / "training-data.json"
 
 
+@lru_cache(maxsize=8)
+def _load_model_file(path_str):
+    return joblib.load(path_str)
+
+
 def load_model(version=None):
     if version:
         model_path = VERSIONS_DIR / f"v{version}" / "model.joblib"
@@ -38,17 +45,16 @@ def load_model(version=None):
     if not model_path.exists():
         print(f"No model found at {model_path}. Run `python3 train.py` first.")
         sys.exit(1)
-    return joblib.load(model_path)
+    # Cached: the recommender scores a batch of candidates per request and each
+    # predict_track() used to reload the joblib from disk.
+    return _load_model_file(str(model_path))
 
 
 def _load_training_tracks():
     # Prefer the live Postgres dataset (when DATABASE_URL is set), else fall back
     # to the local JSON snapshot. Mirrors the album filter used at train time.
-    # Exclude rows that can't be scored: albums, and incomplete tracks without a
-    # rating key (feature engineering reads t["rating"] directly — one stray row
-    # would KeyError the entire prediction pipeline).
     tracks = _load_from_db() or _load_from_json()
-    return [t for t in tracks if t.get("entity_type") != "album" and "rating" in t]
+    return [t for t in tracks if t.get("entity_type") != "album"]
 
 
 def _load_from_db():
@@ -82,27 +88,111 @@ def _match_index(candidate, tracks):
     return None
 
 
+def _norm_lookup(value, vocabulary):
+    """Map free-text metadata onto the vocabulary the model was trained on."""
+    if not value:
+        return None
+    v = str(value).strip().lower()
+    exact = {str(x).lower(): x for x in vocabulary or []}
+    if v in exact:
+        return exact[v]
+    for k, original in exact.items():
+        if v in k or k in v:
+            return original
+    return None
+
+
+def normalize_candidate(track, model_data):
+    """Coerce a candidate's tags into the exact values train.py saw.
+
+    The live recommender supplies tags from a language model, not from the
+    curated dataset, so "hard bop" / "tenor sax" / "medium fast" would miss
+    every one-hot column and every group-mean lookup. This maps them onto the
+    trained vocabulary and fills instrumentation from key_players when absent,
+    so the score reflects the track instead of a wall of fallback defaults.
+    """
+    c = dict(track)
+
+    era = _norm_lookup(c.get("era"), model_data.get("eras"))
+    c["era"] = era or "Unknown"
+
+    instrument = str(c.get("primary_instrument") or "").strip().lower()
+    instrument = {
+        "tenor sax": "tenor saxophone",
+        "alto sax": "alto saxophone",
+        "soprano sax": "soprano saxophone",
+        "bari sax": "baritone saxophone",
+        "baritone sax": "baritone saxophone",
+        "sax": "saxophone",
+        "acoustic bass": "bass",
+        "upright bass": "bass",
+        "double bass": "bass",
+        "drums": "drums",
+        "voice": "vocals",
+    }.get(instrument, instrument)
+    c["primary_instrument"] = instrument or "Unknown"
+
+    if isinstance(c.get("subgenres"), list):
+        common = model_data.get("common_subgenres") or []
+        mapped = []
+        for sg in c["subgenres"]:
+            hit = _norm_lookup(sg, common)
+            mapped.append(hit or str(sg).strip().lower())
+        c["subgenres"] = sorted(set(m for m in mapped if m))
+
+    tempo = str(c.get("tempo") or "").strip().lower().replace("-", " ")
+    c["tempo"] = {
+        "medium fast": "medium-fast",
+        "mid": "medium",
+        "mid tempo": "medium",
+        "midtempo": "medium",
+        "up": "fast",
+        "up tempo": "fast",
+        "uptempo": "fast",
+        "ballad": "slow",
+    }.get(tempo, tempo.replace(" ", "-"))
+    if c["tempo"] not in train.TEMPO_MAP:
+        c["tempo"] = "medium"
+
+    complexity = str(c.get("harmonic_complexity") or "").strip().lower()
+    c["harmonic_complexity"] = complexity if complexity in train.COMPLEXITY_MAP else "medium"
+
+    if not c.get("instrumentation"):
+        derived = []
+        for kp in c.get("key_players") or []:
+            if isinstance(kp, str) and " - " in kp:
+                derived.append(kp.split(" - ", 1)[1].strip().lower())
+        if derived:
+            c["instrumentation"] = sorted(set(derived))
+
+    return c
+
+
 def predict_tracks(candidates, version=None):
     """Score a list of candidate track dicts. Returns a list of floats (1-10),
-    aligned with the input order."""
+    aligned with the input order.
+
+    Candidates are appended unrated. Every target encoding in train.py skips
+    unrated rows and ignores same-album siblings, so a candidate's features are
+    the same whether it already exists in the dataset or not. There is no
+    placeholder rating and no dependence on where the row lands in the list.
+    """
     model_data = load_model(version)
     model = model_data["model"]
     scaler = model_data["scaler"]
     feature_names = model_data["feature_names"]
 
     train_tracks = _load_training_tracks()
-    rated = [t["rating"] for t in train_tracks if t.get("rating") is not None]
-    global_mean = int(round(float(np.mean(rated)))) if rated else 6
 
     combined = list(train_tracks)
     positions = []
     for c in candidates:
         idx = _match_index(c, train_tracks)
         if idx is not None:
-            positions.append(idx)                     # score in place (LOO excludes self)
+            positions.append(idx)                     # score in place (self/siblings excluded)
         else:
-            cc = dict(c)
-            cc.setdefault("rating", global_mean)       # neutral placeholder; LOO ignores it for its own row
+            cc = normalize_candidate(c, model_data)
+            cc.pop("rating", None)                    # a candidate has no rating
             positions.append(len(combined))
             combined.append(cc)
 
