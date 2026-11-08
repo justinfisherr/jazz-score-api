@@ -20,11 +20,6 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 24
-      - name: Install uv (Vercel Python runtime needs it during prebuild)
-        run: |
-          curl -LsSf https://astral.sh/uv/install.sh | sh
-          echo "$HOME/.local/bin" >> $GITHUB_PATH
       - run: npm i -g vercel@latest
-      - run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
-      - run: vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
-      - run: vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }}
+      # builds on Vercel: local prebuild packs the python deps past the 225MB function limit
+      - run: vercel deploy --prod --yes --token=${{ secrets.VERCEL_TOKEN }}
