@@ -45,7 +45,7 @@ from score import (  # noqa: E402
 
 SPOTIFY_API = "https://api.spotify.com/v1"
 RECCOBEATS_URL = "https://api.reccobeats.com/v1/audio-features"
-APP_PASSWORD = os.environ.get("APP_PASSWORD", "4416")
+APP_PASSWORD = os.environ.get("APP_PASSWORD", "")
 GH_TOKEN = os.environ.get("GH_WORKFLOW_TOKEN", "")
 GH_REPO = os.environ.get("GH_REPO", "justinfisherr/claude-metrics")
 GH_WORKFLOW = os.environ.get("GH_WORKFLOW", "train.yml")
@@ -722,7 +722,7 @@ class handler(BaseHTTPRequestHandler):
         if path.startswith("/api/auth"):
             self._auth_check()
             return
-        if self.headers.get("x-app-password") != APP_PASSWORD:
+        if not APP_PASSWORD or self.headers.get("x-app-password") != APP_PASSWORD:
             self._json(401, {"error": "unauthorized"})
             return
         if path.startswith("/api/spotify-playback-token"):
@@ -752,7 +752,7 @@ class handler(BaseHTTPRequestHandler):
             body = json.loads(self.rfile.read(length) or b"{}")
         except json.JSONDecodeError:
             body = {}
-        if body.get("password") == APP_PASSWORD:
+        if APP_PASSWORD and body.get("password") == APP_PASSWORD:
             self._json(200, {"ok": True})
         else:
             self._json(401, {"error": "wrong password"})
